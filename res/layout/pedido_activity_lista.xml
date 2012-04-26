@@ -6,7 +6,6 @@
     android:padding="6dip"
     style="@style/ListItem">
     	
-    	
     	<LinearLayout
         android:orientation="vertical"
         android:layout_width="0dip"
