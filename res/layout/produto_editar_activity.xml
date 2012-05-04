@@ -3,7 +3,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" 
 	android:layout_width="fill_parent"
-	android:layout_height="fill_parent" 
+	android:layout_height="fill_parent"
 	android:background="@color/fundo_branco">
 	<LinearLayout style="@style/Titulo_Barra">
 		<ImageButton style="@style/Titulo_Barra_Acao"
@@ -17,14 +17,14 @@
 			android:src="@drawable/btn_retornar"
 			android:onClick="onRetornarClick" />		  
 	</LinearLayout>
-			<TextView android:id="@+id/txtNome" 
+			<TextView android:id="@+id/txtNome"
 					  android:text="Nome"
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtNome" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 			<TextView android:id="@+id/txtNumero" 
@@ -32,9 +32,9 @@
 					  android:textColor="#000000"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent" 
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtNumero"
-			          style="@style/SessionSubtitle"
+			          style="@style/SubTitulo"
 			          android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 			<TextView android:id="@+id/txtPreco" 
@@ -42,9 +42,9 @@
 					  android:textColor="#000000"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent" 
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtPreco"  
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 </LinearLayout>

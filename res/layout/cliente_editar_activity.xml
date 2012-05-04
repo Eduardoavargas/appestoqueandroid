@@ -34,9 +34,9 @@
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtCnpj" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 			<TextView android:id="@+id/txtNome" 
@@ -44,9 +44,9 @@
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtNome" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 			<TextView android:id="@+id/txtEndereco" 
@@ -54,9 +54,9 @@
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtEndereco" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>	 	  
 			<TextView android:id="@+id/txtNumero" 
@@ -64,9 +64,9 @@
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtNumero" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>	 	  
 			<TextView android:id="@+id/txtCep" 
@@ -74,9 +74,9 @@
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtCep" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 			<TextView android:id="@+id/txtComplemento" 
@@ -84,9 +84,9 @@
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtComplemento" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 			<TextView android:id="@+id/txtBairro" 
@@ -94,9 +94,9 @@
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtBairro" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 			<TextView android:id="@+id/txtCidade" 
@@ -104,9 +104,9 @@
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"
-					  style="@style/SessionTitle"/>
+					  style="@style/Titulo"/>
 			<TextView android:id="@+id/edtCidade" 
-					  style="@style/SessionSubtitle"
+					  style="@style/SubTitulo"
 					  android:layout_height="wrap_content" 
 				 	  android:layout_width="fill_parent"/>
 				 	  
