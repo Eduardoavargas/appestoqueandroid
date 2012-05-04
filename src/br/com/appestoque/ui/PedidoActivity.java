@@ -3,10 +3,12 @@ package br.com.appestoque.ui;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.http.HttpStatus;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,6 +16,8 @@ import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -37,12 +41,27 @@ import br.com.appestoque.dominio.faturamento.Pedido;
 public class PedidoActivity extends BaseListaAtividade{
 
 	private PedidoDAO pedidoDAO;
+	private ItemDAO itemDAO;
+	private ProgressDialog progressDialog;
+	private Long idPedido;
+	private String uuid;
+	
+	private Handler handler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);	
+			progressDialog.dismiss();
+		}
+	};
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();		
 		setContentView(R.layout.pedido_activity);
+		if(itemDAO==null){
+			itemDAO = new ItemDAO(this);
+		}	
 		if(pedidoDAO==null){
 			pedidoDAO = new PedidoDAO(this);
 		}
@@ -96,35 +115,57 @@ public class PedidoActivity extends BaseListaAtividade{
 		AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
 		switch (item.getItemId()) {
 			case R.id.item_menu_sincronizar:
-				if(pedidoDAO==null){
-					pedidoDAO = new PedidoDAO(this);
-				}
-				Pedido pedido = pedidoDAO.pesquisar(info.id);
-				ItemDAO itemDAO = new ItemDAO(this);
-				List<Item> itens = itemDAO.listar(pedido);
-				JSONObject pedidoJSON = new JSONObject();
-				JSONArray itms = new JSONArray();
-				try {
-					pedidoJSON.put("numero",pedido.getNumero());
-					pedidoJSON.put("data",pedido.getData().getTime());
-					pedidoJSON.put("idCliente",pedido.getCliente().getId());
-					pedidoJSON.put("obs",pedido.getObs());
-					for(Item itm :itens){
-						JSONObject itemJSON = new JSONObject();
-						itemJSON.put("idProduto", itm.getProduto().getId());
-						itemJSON.put("quantidade", itm.getQuantidade());
-						itemJSON.put("valor", itm.getValor());
-						itms.put(itemJSON);
-					}
-					pedidoJSON.put("itens", itms);
-				}catch(JSONException e){
-					Util.dialogo(this, e.getMessage());
-				}
+				this.idPedido = info.id;
+				progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);	
+				
 				SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-				String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-				JSONObject jsonObjRecv = HttpCliente.SendHttpPost(Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO + "?uuid=" + uuid,pedidoJSON);
-				pedido.setSincronizado(new Short("1"));
-				long retorno = pedidoDAO.atualizar(pedido);
+				this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+				int statusCode = HttpCliente.StatusCode(Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO + "?uuid=" + uuid, PedidoActivity.this);
+				if(statusCode==HttpStatus.SC_OK){
+				
+					this.runOnUiThread(new Runnable() {
+						public void run() {
+								
+								Pedido pedido = pedidoDAO.pesquisar(idPedido);
+								List<Item> itens = itemDAO.listar(pedido);
+								JSONObject pedidoJSON = new JSONObject();
+								JSONArray itms = new JSONArray();
+								try {
+									pedidoJSON.put("numero",pedido.getNumero());
+									pedidoJSON.put("data",pedido.getData().getTime());
+									pedidoJSON.put("idCliente",pedido.getCliente().getId());
+									pedidoJSON.put("obs",pedido.getObs());
+									for(Item itm :itens){
+										JSONObject itemJSON = new JSONObject();
+										itemJSON.put("idProduto", itm.getProduto().getId());
+										itemJSON.put("quantidade", itm.getQuantidade());
+										itemJSON.put("valor", itm.getValor());
+										itms.put(itemJSON);
+									}
+									pedidoJSON.put("itens", itms);
+								}catch(JSONException e){
+									Util.dialogo(PedidoActivity.this, e.getMessage());
+								}
+								JSONObject jsonObjRecv = HttpCliente.SendHttpPost(Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO + "?uuid=" + uuid,pedidoJSON);
+								if(jsonObjRecv!=null){
+									pedido.setSincronizado(new Short("1"));
+									long retorno = pedidoDAO.atualizar(pedido);
+									Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_9));
+								}else{
+									Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_10));
+								}
+							
+							handler.sendEmptyMessage(0);
+						
+						}
+						
+					});
+				
+				}else{
+					Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
+					handler.sendEmptyMessage(0);
+				}
+				
 				return true;
 			case R.id.item_menu_visualizar:
 				Intent intent = new Intent(this, PedidoItemEditarActivity.class);
@@ -141,6 +182,9 @@ public class PedidoActivity extends BaseListaAtividade{
     	super.onDestroy();
     	if(pedidoDAO!=null){
     		pedidoDAO.fechar();
+    	}
+    	if(itemDAO!=null){
+    		itemDAO.fechar();
     	}
     }
 	

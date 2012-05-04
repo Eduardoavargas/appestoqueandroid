@@ -258,14 +258,28 @@ public class HttpCliente {
 			}
 			
 		} catch (ClientProtocolException e) {
-			Util.dialogo(context, String.valueOf(R.string.mensagem_clientProtocolException));
+			Util.dialogo(context,e.getMessage());
 		} catch (IOException e) {
-			Util.dialogo(context,String.valueOf(R.string.mensagem_ioexception));
+			Util.dialogo(context,e.getMessage());
 		} catch (JSONException e) {
-			Util.dialogo(context,String.valueOf(R.string.mensagem_jsonexception));
+			Util.dialogo(context,e.getMessage());
 		}
 		return objetos;
 		
+	}
+	
+	public static int StatusCode(String URL, Context context) {
+		try{
+			HttpClient httpclient = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet(URL);
+			HttpResponse httpResponse = httpclient.execute(httpGet);
+			return httpResponse.getStatusLine().getStatusCode();
+		} catch (ClientProtocolException e) {
+			Util.dialogo(context,e.getMessage());
+		} catch (IOException e) {
+			Util.dialogo(context,e.getMessage());
+		} 
+		return 0;
 	}
 	
 }
