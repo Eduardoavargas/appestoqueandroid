@@ -15,10 +15,6 @@
 	-->
 	
 	
-	<string name="mensagem_clientProtocolException">Desculpe, mas ocorreu uma exceção referente ao protocolo cliente.</string>
-	<string name="mensagem_ioexception">Desculpe, mas ocorreu uma exceção referente ao entrada e saida de arquivo.</string>
-	<string name="mensagem_jsonexception">Desculpe, mas ocorreu uma exceção referente a anotação de objetos javascript.</string>
-	
 	<string name="mensagem_sincronismo">Buscando informações. Aguarde...</string>
 	<string name="mensagem_sincronismo_conclusao">Processo de sincronismo concluido</string>
 	
@@ -30,7 +26,10 @@
 	<string name="mensagem_6">Nenhuma produto foi retornado</string>
 	<string name="mensagem_7">Nenhuma cliente foi retornado</string>
 	<string name="mensagem_8">Não foi encontrado um produto com o número informado.</string>
+	<string name="mensagem_9">Pedido sincronizado com sucesso.</string>
+	<string name="mensagem_10">Pedido não sincronizado.</string>
 	
+	<string name="mensagem_servidor_nao_responde">Servidor não está respondendo.</string>
 	
 	<string name="empty_sessions">No sessions found</string>
 	<string name="no_notes">No Notes Yet</string>
