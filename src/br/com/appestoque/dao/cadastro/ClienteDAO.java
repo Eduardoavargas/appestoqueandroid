@@ -95,7 +95,7 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
     	return objeto;
 	}
 	
-    public Cursor pesquisar(String cnpj) {
+    public Cursor pesquisar(String nome) {
     	SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
     	Cursor cursor = db.query(TABELA, new String[] {	CLIENTE_CHAVE_ID, 
 														CLIENTE_CHAVE_NOME, 
@@ -106,7 +106,7 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 														CLIENTE_CHAVE_COMPLEMENTO, 
 														CLIENTE_CHAVE_BAIRRO, 
 														CLIENTE_CHAVE_CIDADE}, 
-														CLIENTE_CHAVE_CNPJ + " like '" + cnpj + "%'" , 
+														CLIENTE_CHAVE_NOME + " like '" + nome + "%'" , 
 														null, null, null, null);
     	return cursor;
     }

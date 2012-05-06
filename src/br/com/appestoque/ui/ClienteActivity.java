@@ -39,10 +39,9 @@ public class ClienteActivity extends BaseListaAtividade{
 	
 	private ClienteDAO clienteDAO;
 	private ProgressDialog progressDialog;
-
+	private List <NameValuePair> parametros;
 	private String uuid;
 	private String url;
-	private List <NameValuePair> parametros;
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -94,24 +93,25 @@ public class ClienteActivity extends BaseListaAtividade{
 	}
 	
     public void onAtualizarClick(View v) {
-    	
 		clienteDAO = new ClienteDAO(this);
-
 		Context context = getApplicationContext();
 		ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		
 		if (connectivity != null) {
 			NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
 			if (networkInfo != null && networkInfo.isConnected()) {
+				SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+				this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
 				url = Constantes.SERVIDOR + Constantes.RESTFUL_CLIENTE;
 				parametros = new ArrayList <NameValuePair>();
 				parametros.add(new BasicNameValuePair("uuid",uuid));
 				progressDialog = ProgressDialog.show(this,"",getString(R.string.mensagem_conexao),true);
 				if(HttpCliente.checarServidor(url,parametros,ClienteActivity.this)){
+					progressDialog.dismiss();
 					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
 					this.runOnUiThread(new Runnable() {
 						public void run() {
 							try {
+								parametros.add(new BasicNameValuePair("sincronismo","true"));
 								JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ClienteActivity.this);
 								if (objetos != null) {
 									clienteDAO.limpar();
@@ -146,8 +146,8 @@ public class ClienteActivity extends BaseListaAtividade{
 						}
 					});
 				}else{
-					Util.dialogo(ClienteActivity.this,getString(R.string.mensagem_servidor_nao_responde));
 					progressDialog.dismiss();
+					Util.dialogo(ClienteActivity.this,getString(R.string.mensagem_servidor_nao_responde));
 				}
 			} else {
 				Util.dialogo(ClienteActivity.this,getString(R.string.mensagem_2));

@@ -100,7 +100,11 @@ public class PedidoActivity extends BaseListaAtividade{
             numero.setText(cursor.getString(1));
             data.setText(Util.millisegundosDate(cursor.getLong(2)));
             ClienteDAO clienteDAO = new ClienteDAO(getApplicationContext());
-            cliente.setText(clienteDAO.pesquisar(cursor.getLong(4)).getNome());
+            try{
+            	cliente.setText(clienteDAO.pesquisar(cursor.getLong(4)).getNome());
+            }catch(Exception e){
+            	Util.dialogo(PedidoActivity.this, e.getMessage());
+            }
             final View iconView = view.findViewById(android.R.id.icon1);
             LayerDrawable iconDrawable = (LayerDrawable) iconView.getBackground();
             iconDrawable.getDrawable(0).setColorFilter(cursor.getLong(5)==0?Constantes.COR_VERMELHO_1:Constantes.COR_AZUL_1, PorterDuff.Mode.SRC_ATOP);

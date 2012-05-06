@@ -38,9 +38,7 @@ public class ProdutoActivity extends BaseListaAtividade{
 	
 	private ProdutoDAO produtoDAO;
 	private ProgressDialog progressDialog;
-	
 	private List <NameValuePair> parametros;
-	
 	private String uuid;
 	private String url;
 	
