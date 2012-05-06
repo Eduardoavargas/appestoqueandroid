@@ -11,13 +11,21 @@
         android:layout_width="0dip"
         android:layout_weight="1"
         android:layout_height="fill_parent">
-	        <TextView
-        	android:id="@+id/data"
+	    <TextView
+        	android:id="@+id/numero"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
             android:gravity="center_vertical"
             style="@style/SessionTitle"/>
+	    <TextView  
+        	android:id="@+id/data"
+            android:layout_width="fill_parent"
+            android:layout_height="0dip"
+            android:layout_weight="1" 
+            android:singleLine="true"
+            android:ellipsize="marquee"
+            style="@style/SessionSubtitle"/>
         <TextView  
         	android:id="@+id/cliente"
             android:layout_width="fill_parent"
@@ -27,7 +35,6 @@
             android:ellipsize="marquee"
             style="@style/SessionSubtitle"/>
         </LinearLayout>
-        
         
         <View
 	        android:id="@android:id/icon1"

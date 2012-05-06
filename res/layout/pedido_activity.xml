@@ -18,10 +18,12 @@
 			android:src="@drawable/btn_buscar"
 			android:onClick="onBuscarClick" />
 		<ImageView style="@style/Titulo_Barra_Separador" />
+		<!--  
         <ImageButton style="@style/Titulo_Barra_Acao"
             android:id="@+id/btn_atualizar"
             android:src="@drawable/ic_title_refresh"
-            android:onClick="onAtualizarClick" />	
+            android:onClick="onAtualizarClick" />
+        -->    	
 	</LinearLayout>
 
 	 <ListView
