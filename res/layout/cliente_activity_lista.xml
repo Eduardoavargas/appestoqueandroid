@@ -9,14 +9,14 @@
         android:layout_weight="1"
         android:layout_height="fill_parent">
         <TextView
-        	android:id="@+id/cnpj"
+        	android:id="@+id/nome"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1"
             android:gravity="center_vertical"
             style="@style/SessionTitle"/>
         <TextView  
-        	android:id="@+id/nome"
+        	android:id="@+id/cnpj"
             android:layout_width="fill_parent"
             android:layout_height="0dip"
             android:layout_weight="1" 
