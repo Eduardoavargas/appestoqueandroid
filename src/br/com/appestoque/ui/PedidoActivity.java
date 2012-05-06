@@ -1,5 +1,6 @@
 package br.com.appestoque.ui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -36,6 +37,9 @@ import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
 import br.com.appestoque.dominio.faturamento.Item;
 import br.com.appestoque.dominio.faturamento.Pedido;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 
 @SuppressWarnings("unused")
 public class PedidoActivity extends BaseListaAtividade{
@@ -120,7 +124,10 @@ public class PedidoActivity extends BaseListaAtividade{
 				
 				SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
 				this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-				int statusCode = HttpCliente.StatusCode(Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO + "?uuid=" + uuid, PedidoActivity.this);
+				List <NameValuePair> parametros = new ArrayList <NameValuePair>();
+				parametros.add(new BasicNameValuePair("uuid",uuid));
+				String url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
+				int statusCode = HttpCliente.StatusCode(url,parametros,PedidoActivity.this);
 				if(statusCode==HttpStatus.SC_OK){
 				
 					this.runOnUiThread(new Runnable() {
@@ -146,11 +153,23 @@ public class PedidoActivity extends BaseListaAtividade{
 								}catch(JSONException e){
 									Util.dialogo(PedidoActivity.this, e.getMessage());
 								}
-								JSONObject jsonObjRecv = HttpCliente.SendHttpPost(Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO + "?uuid=" + uuid,pedidoJSON);
-								if(jsonObjRecv!=null){
+								
+								List <NameValuePair> parametros = new ArrayList <NameValuePair>();
+								parametros.add(new BasicNameValuePair("uuid",uuid));
+								parametros.add(new BasicNameValuePair("json",pedidoJSON.toString()));
+								
+								JSONObject json = HttpCliente.SendHttpPost(Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO, parametros, PedidoActivity.this);
+								
+								if(json!=null&&!json.isNull("id")){
 									pedido.setSincronizado(new Short("1"));
 									long retorno = pedidoDAO.atualizar(pedido);
 									Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_9));
+								}else if(json!=null&&!json.isNull("erro")){
+									try {
+										Util.dialogo(PedidoActivity.this,json.getString("erro"));
+									} catch (JSONException e) {
+										Util.dialogo(PedidoActivity.this,e.getMessage());
+									}
 								}else{
 									Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_10));
 								}
