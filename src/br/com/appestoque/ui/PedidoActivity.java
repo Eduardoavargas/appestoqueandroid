@@ -10,6 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.ProgressDialog;
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -49,6 +50,10 @@ public class PedidoActivity extends BaseListaAtividade{
 	private ProgressDialog progressDialog;
 	private Long idPedido;
 	private String uuid;
+	private String url;
+	private List <NameValuePair> parametros;
+	
+	private Pedido pedido;
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -71,8 +76,8 @@ public class PedidoActivity extends BaseListaAtividade{
 		}
 		Cursor cursor = null;
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-	        //String query = intent.getStringExtra(SearchManager.QUERY);
-	        //cursor = pedidoDAO.pesquisar(query);
+	        String query = intent.getStringExtra(SearchManager.QUERY);
+	        cursor = pedidoDAO.pesquisar(query);
 	    }else{
 	    	cursor = pedidoDAO.listar();
 	    }
@@ -89,8 +94,10 @@ public class PedidoActivity extends BaseListaAtividade{
 
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
+			final TextView numero = (TextView) view.findViewById(R.id.numero);
 			final TextView data = (TextView) view.findViewById(R.id.data);
             final TextView cliente = (TextView) view.findViewById(R.id.cliente);
+            numero.setText(cursor.getString(1));
             data.setText(Util.millisegundosDate(cursor.getLong(2)));
             ClienteDAO clienteDAO = new ClienteDAO(getApplicationContext());
             cliente.setText(clienteDAO.pesquisar(cursor.getLong(4)).getNome());
@@ -120,71 +127,74 @@ public class PedidoActivity extends BaseListaAtividade{
 		switch (item.getItemId()) {
 			case R.id.item_menu_sincronizar:
 				this.idPedido = info.id;
-				progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);	
+				pedido = pedidoDAO.pesquisar(idPedido);
 				
-				SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-				this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-				List <NameValuePair> parametros = new ArrayList <NameValuePair>();
-				parametros.add(new BasicNameValuePair("uuid",uuid));
-				String url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
-				int statusCode = HttpCliente.StatusCode(url,parametros,PedidoActivity.this);
-				if(statusCode==HttpStatus.SC_OK){
+				if(!pedido.getSincronizado()){
+					
+					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
 				
-					this.runOnUiThread(new Runnable() {
-						public void run() {
-								
-								Pedido pedido = pedidoDAO.pesquisar(idPedido);
-								List<Item> itens = itemDAO.listar(pedido);
-								JSONObject pedidoJSON = new JSONObject();
-								JSONArray itms = new JSONArray();
-								try {
-									pedidoJSON.put("numero",pedido.getNumero());
-									pedidoJSON.put("data",pedido.getData().getTime());
-									pedidoJSON.put("idCliente",pedido.getCliente().getId());
-									pedidoJSON.put("obs",pedido.getObs());
-									for(Item itm :itens){
-										JSONObject itemJSON = new JSONObject();
-										itemJSON.put("idProduto", itm.getProduto().getId());
-										itemJSON.put("quantidade", itm.getQuantidade());
-										itemJSON.put("valor", itm.getValor());
-										itms.put(itemJSON);
-									}
-									pedidoJSON.put("itens", itms);
-								}catch(JSONException e){
-									Util.dialogo(PedidoActivity.this, e.getMessage());
-								}
-								
-								List <NameValuePair> parametros = new ArrayList <NameValuePair>();
-								parametros.add(new BasicNameValuePair("uuid",uuid));
-								parametros.add(new BasicNameValuePair("json",pedidoJSON.toString()));
-								
-								JSONObject json = HttpCliente.SendHttpPost(Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO, parametros, PedidoActivity.this);
-								
-								if(json!=null&&!json.isNull("id")){
-									pedido.setSincronizado(new Short("1"));
-									long retorno = pedidoDAO.atualizar(pedido);
-									Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_9));
-								}else if(json!=null&&!json.isNull("erro")){
+					SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+					this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+					url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
+					parametros = new ArrayList <NameValuePair>();
+					parametros.add(new BasicNameValuePair("uuid",uuid));
+					
+					if(HttpCliente.checarServidor(url,parametros,PedidoActivity.this)){
+						
+						this.runOnUiThread(new Runnable() {
+							public void run() {
+									
+									List<Item> itens = itemDAO.listar(pedido);
+									JSONObject pedidoJSON = new JSONObject();
+									JSONArray itms = new JSONArray();
 									try {
-										Util.dialogo(PedidoActivity.this,json.getString("erro"));
-									} catch (JSONException e) {
-										Util.dialogo(PedidoActivity.this,e.getMessage());
+										pedidoJSON.put("numero",pedido.getNumero());
+										pedidoJSON.put("data",pedido.getData().getTime());
+										pedidoJSON.put("idCliente",pedido.getCliente().getId());
+										pedidoJSON.put("obs",pedido.getObs());
+										for(Item itm :itens){
+											JSONObject itemJSON = new JSONObject();
+											itemJSON.put("idProduto", itm.getProduto().getId());
+											itemJSON.put("quantidade", itm.getQuantidade());
+											itemJSON.put("valor", itm.getValor());
+											itms.put(itemJSON);
+										}
+										pedidoJSON.put("itens", itms);
+									}catch(JSONException e){
+										Util.dialogo(PedidoActivity.this, e.getMessage());
 									}
-								}else{
-									Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_10));
-								}
+									
+									parametros.add(new BasicNameValuePair("json",pedidoJSON.toString()));
+									
+									JSONObject json = HttpCliente.SendHttpPost(url,parametros,PedidoActivity.this);
+									
+									if(json!=null&&!json.isNull("id")){
+										pedido.setSincronizado(new Short("1"));
+										long retorno = pedidoDAO.atualizar(pedido);
+										Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_9));
+									}else if(json!=null&&!json.isNull("erro")){
+										try {
+											Util.dialogo(PedidoActivity.this,json.getString("erro"));
+										} catch (JSONException e) {
+											Util.dialogo(PedidoActivity.this,e.getMessage());
+										}
+									}else{
+										Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_10));
+									}
+								
+								handler.sendEmptyMessage(0);
 							
-							handler.sendEmptyMessage(0);
-						
-						}
-						
-					});
-				
+							}
+							
+						});
+					
+					}else{
+						Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
+						progressDialog.dismiss();
+					}
 				}else{
-					Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
-					handler.sendEmptyMessage(0);
+					Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_pedido_sincronizao));
 				}
-				
 				return true;
 			case R.id.item_menu_visualizar:
 				Intent intent = new Intent(this, PedidoItemEditarActivity.class);

@@ -65,6 +65,18 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
         return ret;
     }
 	
+    public Cursor pesquisar(String numero) {
+    	SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
+    	Cursor cursor = db.query(TABELA, new String[] {	PEDIDO_CHAVE_ID,
+														PEDIDO_CHAVE_NUMERO,
+														PEDIDO_CHAVE_DATA,
+														PEDIDO_CHAVE_OBS,
+														PEDIDO_CHAVE_CLIENTE,
+														PEDIDO_CHAVE_SINCRONIZADO}, PEDIDO_CHAVE_NUMERO + " like '" + numero + "%'" , 
+								null, null, null, null);
+    	return cursor;
+    }
+	
 	@Override
 	public Pedido pesquisar(long id) {
     	SQLiteDatabase db = databaseHelper.getReadableDatabase();
@@ -85,6 +97,7 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
     		pedido.setData(new Date(cursor.getLong(2)));
     		pedido.setObs(cursor.getString(3));
     		pedido.getCliente().setId(cursor.getLong(4));
+    		pedido.setSincronizado(cursor.getShort(5));
     		return pedido;
     	}else{
     		return null;

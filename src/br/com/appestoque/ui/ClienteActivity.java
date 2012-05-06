@@ -1,7 +1,11 @@
 package br.com.appestoque.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 
 import android.app.ProgressDialog;
@@ -35,6 +39,10 @@ public class ClienteActivity extends BaseListaAtividade{
 	
 	private ClienteDAO clienteDAO;
 	private ProgressDialog progressDialog;
+
+	private String uuid;
+	private String url;
+	private List <NameValuePair> parametros;
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -95,52 +103,52 @@ public class ClienteActivity extends BaseListaAtividade{
 		if (connectivity != null) {
 			NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
 			if (networkInfo != null && networkInfo.isConnected()) {
-				
-				progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
-				
-				this.runOnUiThread(new Runnable() {
-					public void run() {
-						
-						SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-						String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-						
-						try {
-							JSONArray objetos = HttpCliente
-									.ReceiveHttpPost(Constantes.SERVIDOR
-											+ Constantes.RESTFUL_CLIENTE
-											+ "?uuid=" + uuid, ClienteActivity.this);
-							if (objetos != null) {
-								clienteDAO.limpar();
-								Long id = null;
-								String nome = null;
-								String cnpj = null;
-								String endereco = null;
-								Long numero = null;
-								String cep = null;
-								String complemento = null;
-								String bairro = null;
-								String cidade = null;
-								for (int i = 0; i <= objetos.length() - 1; ++i) {
-									id = objetos.getJSONObject(i).getLong(ClienteDAO.CLIENTE_CHAVE_ID);
-									nome = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_NOME);
-									cnpj = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_CNPJ);
-									endereco = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_ENDERECO);
-									numero = objetos.getJSONObject(i).getLong(ClienteDAO.CLIENTE_CHAVE_NUMERO);
-									cep = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_CEP);
-									complemento = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_COMPLEMENTO);
-									bairro = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_BAIRRO);
-									cidade = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_CIDADE);
-									clienteDAO.criar(id, nome, cnpj, endereco, numero, cep, complemento, bairro, cidade);
-								}
-							}else{
-								Util.dialogo(ClienteActivity.this,getString(R.string.mensagem_6));
-							}						
-						} catch (Exception e) {
-							Util.dialogo(ClienteActivity.this,e.getMessage());
+				url = Constantes.SERVIDOR + Constantes.RESTFUL_CLIENTE;
+				parametros = new ArrayList <NameValuePair>();
+				parametros.add(new BasicNameValuePair("uuid",uuid));
+				progressDialog = ProgressDialog.show(this,"",getString(R.string.mensagem_conexao),true);
+				if(HttpCliente.checarServidor(url,parametros,ClienteActivity.this)){
+					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
+					this.runOnUiThread(new Runnable() {
+						public void run() {
+							try {
+								JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ClienteActivity.this);
+								if (objetos != null) {
+									clienteDAO.limpar();
+									Long id = null;
+									String nome = null;
+									String cnpj = null;
+									String endereco = null;
+									Long numero = null;
+									String cep = null;
+									String complemento = null;
+									String bairro = null;
+									String cidade = null;
+									for (int i = 0; i <= objetos.length() - 1; ++i) {
+										id = objetos.getJSONObject(i).getLong(ClienteDAO.CLIENTE_CHAVE_ID);
+										nome = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_NOME);
+										cnpj = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_CNPJ);
+										endereco = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_ENDERECO);
+										numero = objetos.getJSONObject(i).getLong(ClienteDAO.CLIENTE_CHAVE_NUMERO);
+										cep = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_CEP);
+										complemento = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_COMPLEMENTO);
+										bairro = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_BAIRRO);
+										cidade = objetos.getJSONObject(i).getString(ClienteDAO.CLIENTE_CHAVE_CIDADE);
+										clienteDAO.criar(id, nome, cnpj, endereco, numero, cep, complemento, bairro, cidade);
+									}
+								}else{
+									Util.dialogo(ClienteActivity.this,getString(R.string.mensagem_6));
+								}						
+							} catch (Exception e) {
+								Util.dialogo(ClienteActivity.this,e.getMessage());
+							}
+							handler.sendEmptyMessage(0);
 						}
-						handler.sendEmptyMessage(0);
-					}
-				});	
+					});
+				}else{
+					Util.dialogo(ClienteActivity.this,getString(R.string.mensagem_servidor_nao_responde));
+					progressDialog.dismiss();
+				}
 			} else {
 				Util.dialogo(ClienteActivity.this,getString(R.string.mensagem_2));
 			}

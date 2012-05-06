@@ -1,7 +1,11 @@
 package br.com.appestoque.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import br.com.appestoque.Constantes;
 import br.com.appestoque.HttpCliente;
@@ -34,6 +38,11 @@ public class ProdutoActivity extends BaseListaAtividade{
 	
 	private ProdutoDAO produtoDAO;
 	private ProgressDialog progressDialog;
+	
+	private List <NameValuePair> parametros;
+	
+	private String uuid;
+	private String url;
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -95,43 +104,44 @@ public class ProdutoActivity extends BaseListaAtividade{
 		if (connectivity != null) {
 			NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
 			if (networkInfo != null && networkInfo.isConnected()) {
-				
-				progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
-				
-				this.runOnUiThread(new Runnable() {
-					public void run() {
-						
-						SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-						String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-						
-						try {
-							JSONArray objetos = HttpCliente
-									.ReceiveHttpPost(Constantes.SERVIDOR
-											+ Constantes.RESTFUL_PRODUTO
-											+ "?uuid=" + uuid, ProdutoActivity.this);
-							if (objetos != null) {
-								produtoDAO.limpar();
-								Long id;
-								String nome = null;
-								String numero = null;
-								Double preco = null;
-								for (int i = 0; i <= objetos.length() - 1; ++i) {
-									id = objetos.getJSONObject(i).getLong(ProdutoDAO.PRODUTO_CHAVE_ID);
-									nome = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NOME);
-									numero = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NUMERO);
-									preco = objetos.getJSONObject(i).getDouble(ProdutoDAO.PRODUTO_CHAVE_VALOR);
-									produtoDAO.criar(id, nome, numero, preco);
+				SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+				this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+				url = Constantes.SERVIDOR + Constantes.RESTFUL_PRODUTO;
+				parametros = new ArrayList <NameValuePair>();
+				parametros.add(new BasicNameValuePair("uuid",uuid));
+				progressDialog = ProgressDialog.show(this,"",getString(R.string.mensagem_conexao),true);
+				if(HttpCliente.checarServidor(url,parametros,ProdutoActivity.this)){
+					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
+					this.runOnUiThread(new Runnable() {
+						public void run() {
+							try {
+								JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ProdutoActivity.this);
+								if (objetos != null) {
+									produtoDAO.limpar();
+									Long id;
+									String nome = null;
+									String numero = null;
+									Double preco = null;
+									for (int i = 0; i <= objetos.length() - 1; ++i) {
+										id = objetos.getJSONObject(i).getLong(ProdutoDAO.PRODUTO_CHAVE_ID);
+										nome = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NOME);
+										numero = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NUMERO);
+										preco = objetos.getJSONObject(i).getDouble(ProdutoDAO.PRODUTO_CHAVE_VALOR);
+										produtoDAO.criar(id, nome, numero, preco);
+									}
+								}else{
+									Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_5));
 								}
-							}else{
-								Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_5));
+							} catch (Exception e) {
+								Util.dialogo(ProdutoActivity.this,e.getMessage());
 							}
-						} catch (Exception e) {
-							Util.dialogo(ProdutoActivity.this,e.getMessage());
+							handler.sendEmptyMessage(0);
 						}
-						handler.sendEmptyMessage(0);
-					}
-				});
-				
+					});
+				}else{
+					Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
+					progressDialog.dismiss();
+				}
 			} else {
 				Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_2));
 			}

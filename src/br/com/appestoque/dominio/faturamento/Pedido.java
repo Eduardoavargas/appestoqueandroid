@@ -69,8 +69,8 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 
-	public Short getSincronizado() {
-		return sincronizado;
+	public boolean getSincronizado() {
+		return sincronizado.equals(new Short("1"));
 	}
 
 	public void setSincronizado(Short sincronizado) {
