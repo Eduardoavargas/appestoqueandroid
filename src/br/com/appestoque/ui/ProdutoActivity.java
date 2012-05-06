@@ -95,12 +95,9 @@ public class ProdutoActivity extends BaseListaAtividade{
 	}
     
     public void onAtualizarClick(View v) {
-    	
 		produtoDAO = new ProdutoDAO(this);
-
 		Context context = getApplicationContext();
 		ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		
 		if (connectivity != null) {
 			NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
 			if (networkInfo != null && networkInfo.isConnected()) {
@@ -111,10 +108,12 @@ public class ProdutoActivity extends BaseListaAtividade{
 				parametros.add(new BasicNameValuePair("uuid",uuid));
 				progressDialog = ProgressDialog.show(this,"",getString(R.string.mensagem_conexao),true);
 				if(HttpCliente.checarServidor(url,parametros,ProdutoActivity.this)){
+					progressDialog.dismiss();
 					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
 					this.runOnUiThread(new Runnable() {
 						public void run() {
 							try {
+								parametros.add(new BasicNameValuePair("sincronismo","true"));
 								JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ProdutoActivity.this);
 								if (objetos != null) {
 									produtoDAO.limpar();
@@ -139,8 +138,8 @@ public class ProdutoActivity extends BaseListaAtividade{
 						}
 					});
 				}else{
-					Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
 					progressDialog.dismiss();
+					Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
 				}
 			} else {
 				Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_2));

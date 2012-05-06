@@ -53,6 +53,7 @@ public class HttpCliente {
 		try{
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(URL);
+			httpPost.setEntity(new UrlEncodedFormEntity(parametros,HTTP.UTF_8));
 			httpPost.setHeader("Accept-Encoding", "gzip");
 			httpPost.setHeader("Accept-Charset", "utf-8");
 			HttpResponse httpResponse = (HttpResponse) httpClient.execute(httpPost);
