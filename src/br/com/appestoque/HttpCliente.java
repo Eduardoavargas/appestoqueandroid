@@ -24,7 +24,10 @@ import org.json.JSONObject;
 
 import org.apache.http.NameValuePair;
 
+import com.google.gson.stream.JsonReader;
+
 import android.content.Context;
+import android.util.Log;
 
 public class HttpCliente {
 
@@ -54,14 +57,68 @@ public class HttpCliente {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpPost httpPost = new HttpPost(URL);
 			httpPost.setEntity(new UrlEncodedFormEntity(parametros,HTTP.UTF_8));
-			httpPost.setHeader("Accept-Encoding", "gzip");
+			httpPost.setHeader("Content-Encoding", "gzip");
 			httpPost.setHeader("Accept-Charset", "utf-8");
 			HttpResponse httpResponse = (HttpResponse) httpClient.execute(httpPost);
 			HttpEntity httpEntity = httpResponse.getEntity();
-			InputStream inputStream = httpEntity.getContent();
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-			String data = bufferedReader.readLine();
-			objetos = new JSONArray(data);
+			
+			if (httpEntity != null) {
+				
+//				InputStream instream = httpEntity.getContent();
+//				Header contentEncoding = httpResponse.getFirstHeader("Content-Encoding");
+//				if (contentEncoding != null && contentEncoding.getValue().equalsIgnoreCase("gzip")) {
+//					instream = new GZIPInputStream(instream);
+//				}
+//				String resultString= convertStreamToString(instream);
+//				instream.close();
+//				resultString = resultString.substring(1,resultString.length()-1); // remove wrapping "[" and "]"
+//				objetos = new JSONArray(resultString);
+				
+//				InputStream inputStream = httpEntity.getContent();
+//				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//				String data = bufferedReader.readLine();
+//				objetos = new JSONArray(data);
+				
+				InputStream inputStream = httpEntity.getContent();
+				JsonReader reader = new JsonReader(new InputStreamReader(inputStream, "UTF-8"));
+				try {
+					Long id = null;
+					String nome = null;
+					String numero = null;
+					Double valor = null, estoque = null;
+					
+					reader.beginArray();
+				     while (reader.hasNext()) {
+				    	 reader.beginObject();
+				         while (reader.hasNext()) {
+					           String name = reader.nextName();
+					           if (name.equals("_id")) {
+					        	   id = reader.nextLong();
+					           } else if (name.equals("nome")) {
+					        	   nome = reader.nextString();
+					           } else if (name.equals("numero") ) {
+					        	   numero = reader.nextString();
+					           } else if (name.equals("valor")) {
+					        	   valor = reader.nextDouble();
+					           } else if (name.equals("estoque")) {
+					        	   estoque = reader.nextDouble();
+						       } else {
+					             reader.skipValue();
+					           }
+				         }
+				         reader.endObject();
+				         Log.v("APPESTOQUE", "Produto = " + nome);
+				     }
+				     reader.endArray();
+				}finally {
+					reader.close();
+				}
+				
+				objetos = new JSONArray("");
+				
+			} 
+
+			
 			
 //			switch(httpResponse.getStatusLine().getStatusCode()){
 //				case HttpStatus.SC_ACCEPTED:
@@ -245,5 +302,35 @@ public class HttpCliente {
 		} 
 		return ret;
 	}
+	
+	private static String convertStreamToString(InputStream is) {
+		/*
+		 * To convert the InputStream to String we use the BufferedReader.readLine()
+		 * method. We iterate until the BufferedReader return null which means
+		 * there's no more data to read. Each line will appended to a StringBuilder
+		 * and returned as String.
+		 * 
+		 * (c) public domain: http://senior.ceng.metu.edu.tr/2009/praeda/2009/01/11/a-simple-restful-client-at-android/
+		 */
+		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+		StringBuilder sb = new StringBuilder();
+
+		String line = null;
+		try {
+			while ((line = reader.readLine()) != null) {
+				sb.append(line + "\n");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return sb.toString();
+	}
+
 	
 }

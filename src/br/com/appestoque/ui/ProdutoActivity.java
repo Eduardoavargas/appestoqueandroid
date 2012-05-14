@@ -108,33 +108,37 @@ public class ProdutoActivity extends BaseListaAtividade{
 				if(HttpCliente.checarServidor(url,parametros,ProdutoActivity.this)){
 					progressDialog.dismiss();
 					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
-					this.runOnUiThread(new Runnable() {
-						public void run() {
-							try {
-								parametros.add(new BasicNameValuePair("sincronismo","true"));
-								JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ProdutoActivity.this);
-								if (objetos != null) {
-									produtoDAO.limpar();
-									Long id;
-									String nome = null;
-									String numero = null;
-									Double preco = null;
-									for (int i = 0; i <= objetos.length() - 1; ++i) {
-										id = objetos.getJSONObject(i).getLong(ProdutoDAO.PRODUTO_CHAVE_ID);
-										nome = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NOME);
-										numero = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NUMERO);
-										preco = objetos.getJSONObject(i).getDouble(ProdutoDAO.PRODUTO_CHAVE_VALOR);
-										produtoDAO.criar(id, nome, numero, preco);
-									}
-								}else{
-									Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_5));
-								}
-							} catch (Exception e) {
-								Util.dialogo(ProdutoActivity.this,e.getMessage());
-							}
-							handler.sendEmptyMessage(0);
-						}
-					});
+					parametros.add(new BasicNameValuePair("sincronismo","true"));
+					JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ProdutoActivity.this);
+
+//					this.runOnUiThread(new Runnable() {
+//						public void run() {
+//							try {
+//								parametros.add(new BasicNameValuePair("sincronismo","true"));
+//								JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ProdutoActivity.this);
+//								if (objetos != null) {
+//									produtoDAO.limpar();
+//									Long id;
+//									String nome = null;
+//									String numero = null;
+//									Double preco = null;
+//									for (int i = 0; i <= objetos.length() - 1; ++i) {
+//										id = objetos.getJSONObject(i).getLong(ProdutoDAO.PRODUTO_CHAVE_ID);
+//										nome = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NOME);
+//										numero = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NUMERO);
+//										preco = objetos.getJSONObject(i).getDouble(ProdutoDAO.PRODUTO_CHAVE_VALOR);
+//										produtoDAO.criar(id, nome, numero, preco);
+//									}
+//								}else{
+//									Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_5));
+//								}
+//							} catch (Exception e) {
+//								Util.dialogo(ProdutoActivity.this,e.getMessage());
+//							}
+//							handler.sendEmptyMessage(0);
+//						}
+//					});
+					
 				}else{
 					progressDialog.dismiss();
 					Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
