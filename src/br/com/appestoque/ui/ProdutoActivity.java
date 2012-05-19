@@ -1,12 +1,18 @@
 package br.com.appestoque.ui;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
+
+import com.google.gson.stream.JsonReader;
+
 import br.com.appestoque.Constantes;
 import br.com.appestoque.HttpCliente;
 import br.com.appestoque.R;
@@ -34,18 +40,66 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 
-public class ProdutoActivity extends BaseListaAtividade{
+public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 	
 	private ProdutoDAO produtoDAO;
 	private ProgressDialog progressDialog;
 	private List <NameValuePair> parametros;
-	private String uuid;
-	private String url;
+	
+	public void run() {
+		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+		String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+		String url = Constantes.SERVIDOR + Constantes.RESTFUL_PRODUTO;
+		parametros = new ArrayList<NameValuePair>();
+		parametros.add(new BasicNameValuePair("uuid", uuid));
+		parametros.add(new BasicNameValuePair("sincronismo","true"));
+		InputStream inputStream = HttpCliente.recebeDados(url, parametros, ProdutoActivity.this);
+		if (inputStream != null) {
+			try{
+				JsonReader reader = new JsonReader(new InputStreamReader(inputStream,"UTF-8"));
+				Long id = null;
+				String nome = null;
+				String numero = null;
+				Double preco = null;
+				try {
+					produtoDAO.limpar();
+					reader.beginArray();
+				     while (reader.hasNext()) {
+				    	 reader.beginObject();
+				         while (reader.hasNext()) {
+					           String name = reader.nextName();
+					           if (name.equals("_id")) {
+					        	   id = reader.nextLong();
+					           } else if (name.equals("nome")) {
+					        	   nome = reader.nextString();
+					           } else if (name.equals("numero") ) {
+					        	   numero = reader.nextString();
+					           } else if (name.equals("preco")) {
+					        	   preco = reader.nextDouble();
+					           } else {
+					        	   reader.skipValue();
+					           }
+				         }
+				         reader.endObject();
+				         produtoDAO.criar(id, nome, numero, preco);
+				     }
+				     reader.endArray();
+				}finally {
+					reader.close();
+				}
+			} catch (ClientProtocolException e) {
+				Util.dialogo(ProdutoActivity.this,e.getMessage());
+			} catch (IOException e) {
+				Util.dialogo(ProdutoActivity.this,e.getMessage());
+			}
+			
+		}
+		handler.sendEmptyMessage(0);
+	}
 	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			super.handleMessage(msg);	
 			progressDialog.dismiss();
 		}
 	};
@@ -55,7 +109,7 @@ public class ProdutoActivity extends BaseListaAtividade{
 		public ProdutosAdapter(Context context, Cursor cursor) {
 			super(context, cursor);
 		}
-
+		
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
 			final TextView numero = (TextView) view.findViewById(R.id.numero);
@@ -89,7 +143,9 @@ public class ProdutoActivity extends BaseListaAtividade{
 	    }
 	    startManagingCursor(cursor);	    
 		setListAdapter(new ProdutosAdapter(this,cursor));
+		
 		registerForContextMenu(getListView());
+		
 	}
     
     public void onAtualizarClick(View v) {
@@ -99,50 +155,9 @@ public class ProdutoActivity extends BaseListaAtividade{
 		if (connectivity != null) {
 			NetworkInfo networkInfo = connectivity.getActiveNetworkInfo();
 			if (networkInfo != null && networkInfo.isConnected()) {
-				SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-				this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-				url = Constantes.SERVIDOR + Constantes.RESTFUL_PRODUTO;
-				parametros = new ArrayList <NameValuePair>();
-				parametros.add(new BasicNameValuePair("uuid",uuid));
-				progressDialog = ProgressDialog.show(this,"",getString(R.string.mensagem_conexao),true);
-				if(HttpCliente.checarServidor(url,parametros,ProdutoActivity.this)){
-					progressDialog.dismiss();
-					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
-					parametros.add(new BasicNameValuePair("sincronismo","true"));
-					JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ProdutoActivity.this);
-
-//					this.runOnUiThread(new Runnable() {
-//						public void run() {
-//							try {
-//								parametros.add(new BasicNameValuePair("sincronismo","true"));
-//								JSONArray objetos = HttpCliente.ReceiveHttpPost(url,parametros,ProdutoActivity.this);
-//								if (objetos != null) {
-//									produtoDAO.limpar();
-//									Long id;
-//									String nome = null;
-//									String numero = null;
-//									Double preco = null;
-//									for (int i = 0; i <= objetos.length() - 1; ++i) {
-//										id = objetos.getJSONObject(i).getLong(ProdutoDAO.PRODUTO_CHAVE_ID);
-//										nome = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NOME);
-//										numero = objetos.getJSONObject(i).getString(ProdutoDAO.PRODUTO_CHAVE_NUMERO);
-//										preco = objetos.getJSONObject(i).getDouble(ProdutoDAO.PRODUTO_CHAVE_VALOR);
-//										produtoDAO.criar(id, nome, numero, preco);
-//									}
-//								}else{
-//									Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_5));
-//								}
-//							} catch (Exception e) {
-//								Util.dialogo(ProdutoActivity.this,e.getMessage());
-//							}
-//							handler.sendEmptyMessage(0);
-//						}
-//					});
-					
-				}else{
-					progressDialog.dismiss();
-					Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
-				}
+				progressDialog = ProgressDialog.show(this, "",getString(R.string.mensagem_1), true);
+				Thread thread = new Thread(this);
+				thread.start();
 			} else {
 				Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_2));
 			}
@@ -180,8 +195,8 @@ public class ProdutoActivity extends BaseListaAtividade{
     
     @Override
     protected void onDestroy(){
-    	super.onDestroy();
     	produtoDAO.fechar();
+    	super.onDestroy();
     }
 	
 }
