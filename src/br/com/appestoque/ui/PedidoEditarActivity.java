@@ -41,5 +41,12 @@ public class PedidoEditarActivity extends BaseAtividade{
 			((TextView) findViewById(R.id.edtObs)).setText(pedido.getObs());
 		}
 	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		pedidoDAO.fechar();
+		clienteDAO.fechar();
+	}
 
 }

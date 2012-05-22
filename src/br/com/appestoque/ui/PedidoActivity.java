@@ -28,6 +28,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import br.com.appestoque.Constantes;
 import br.com.appestoque.HttpCliente;
@@ -36,6 +37,8 @@ import br.com.appestoque.Util;
 import br.com.appestoque.dao.cadastro.ClienteDAO;
 import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
+import br.com.appestoque.dao.suprimento.ProdutoDAO;
+import br.com.appestoque.dominio.cadastro.Cliente;
 import br.com.appestoque.dominio.faturamento.Item;
 import br.com.appestoque.dominio.faturamento.Pedido;
 
@@ -47,6 +50,7 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 
 	private PedidoDAO pedidoDAO;
 	private ItemDAO itemDAO;
+	private ClienteDAO clienteDAO;
 	private ProgressDialog progressDialog;
 	private Long idPedido;
 	private String uuid;
@@ -129,12 +133,19 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();		
 		setContentView(R.layout.pedido_activity);
+		
 		if(itemDAO==null){
 			itemDAO = new ItemDAO(this);
-		}	
+		}
+		
 		if(pedidoDAO==null){
 			pedidoDAO = new PedidoDAO(this);
 		}
+		
+		if(clienteDAO==null){
+			clienteDAO = new ClienteDAO(this);
+		}
+		
 		Cursor cursor = null;
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	        String query = intent.getStringExtra(SearchManager.QUERY);
@@ -160,9 +171,9 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
             final TextView cliente = (TextView) view.findViewById(R.id.cliente);
             numero.setText(cursor.getString(1));
             data.setText(Util.millisegundosDate(cursor.getLong(2)));
-            ClienteDAO clienteDAO = new ClienteDAO(getApplicationContext());
             try{
-            	cliente.setText(clienteDAO.pesquisar(cursor.getLong(4)).getNome());
+            	Cliente objeto = clienteDAO.pesquisar(cursor.getLong(4));
+            	cliente.setText(objeto!=null?objeto.getNome():"");
             }catch(Exception e){
             	Util.dialogo(PedidoActivity.this, e.getMessage());
             }
@@ -208,6 +219,21 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 			default:
 				return super.onContextItemSelected(item);
 		}
+	}
+	
+	public void onListItemClick(ListView listView, View view, int position, long itemId){
+		super.onListItemClick(listView, view, position, itemId);
+		Intent intent = new Intent(this, PedidoItemEditarActivity.class);
+    	intent.putExtra(PedidoDAO.PEDIDO_CHAVE_ID, itemId);
+    	startActivity(intent);
+	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		pedidoDAO.fechar();
+		itemDAO.fechar();
+		clienteDAO.fechar();
 	}
 	
 }
