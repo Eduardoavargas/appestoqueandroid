@@ -22,8 +22,14 @@ public class PedidoIncluirActivity extends BaseAtividade {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.pedido_incluir_activity);
 		Bundle extras = getIntent().getExtras();
+		if(pedidoDAO==null){
+			pedidoDAO = new PedidoDAO(this);
+		}
+		
+		if(clienteDAO==null){
+			clienteDAO = new ClienteDAO(this);
+		}
 		if(extras!=null){
-	    	clienteDAO = new ClienteDAO(this);
 			Cliente cliente = clienteDAO.pesquisar(extras.getLong(ClienteDAO.CLIENTE_CHAVE_ID));
 			((TextView) findViewById(R.id.edtCliente)).setText(cliente.getNome());
 			((TextView) findViewById(R.id.edtId)).setText(cliente.getId().toString());
@@ -35,7 +41,7 @@ public class PedidoIncluirActivity extends BaseAtividade {
 		final EditText numero = (EditText) findViewById(R.id.edtNumero);
 		final DatePicker data = (DatePicker) findViewById(R.id.dtpData);
 		final EditText obs = (EditText) findViewById(R.id.edtObs);
-		pedidoDAO = new PedidoDAO(this);
+		
 		long chave = pedidoDAO.criar(numero.getText().toString(), Util.dateMillisegundos(data.getYear(),data.getMonth(),data.getDayOfMonth()), obs.getText().toString(), new Long(id.getText().toString()) );
 		setResult(RESULT_OK);
 		Intent intent = new Intent(this, PedidoItemEditarActivity.class);
@@ -47,6 +53,13 @@ public class PedidoIncluirActivity extends BaseAtividade {
 	public void onCancelarClick(View v) {
 		setResult(RESULT_CANCELED);
 		this.finish();
+	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		pedidoDAO.fechar();
+		clienteDAO.fechar();
 	}
 	
 }
