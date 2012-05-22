@@ -48,6 +48,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 	private List <NameValuePair> parametros;
 	
 	public void run() {
+		Message message = new Message();
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
 		String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
 		String url = Constantes.SERVIDOR + Constantes.RESTFUL_PRODUTO;
@@ -88,20 +89,38 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				}finally {
 					reader.close();
 				}
+				message.what = Constantes.SUCESSO;
 			} catch (ClientProtocolException e) {
-				Util.dialogo(ProdutoActivity.this,e.getMessage());
+				message.what = Constantes.FALHA;
+				Bundle bundle = new Bundle();
+				bundle.putString("mensagem", e.getMessage());
+				message.setData(bundle);
 			} catch (IOException e) {
-				Util.dialogo(ProdutoActivity.this,e.getMessage());
+				message.what = Constantes.FALHA;
+				Bundle bundle = new Bundle();
+				bundle.putString("mensagem", e.getMessage());
+				message.setData(bundle);
 			}
 			
 		}
-		handler.sendEmptyMessage(0);
+		handler.sendMessage(message);
 	}
 	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			progressDialog.dismiss();
+			switch (msg.what) {
+				case Constantes.SUCESSO:
+					Util.dialogo(ProdutoActivity.this,getString(R.string.mensagem_sincronismo_conclusao));
+					break;
+				case Constantes.FALHA:
+					Util.dialogo(ProdutoActivity.this, msg.getData().getString("mensagem"));
+					break;	
+				default:
+					break;
+			}
+			
 		}
 	};
 
