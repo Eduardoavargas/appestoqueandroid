@@ -224,6 +224,7 @@ public class HttpCliente {
 		return inputStream;
 	}
 	
+	@SuppressWarnings("unused")
 	public static JSONArray ReceiveHttpPost(String URL, List<NameValuePair> parametros, Context context) {
 		JSONArray objetos = null;
 		try{
@@ -318,35 +319,5 @@ public class HttpCliente {
 		} 
 		return ret;
 	}
-	
-	private static String convertStreamToString(InputStream is) {
-		/*
-		 * To convert the InputStream to String we use the BufferedReader.readLine()
-		 * method. We iterate until the BufferedReader return null which means
-		 * there's no more data to read. Each line will appended to a StringBuilder
-		 * and returned as String.
-		 * 
-		 * (c) public domain: http://senior.ceng.metu.edu.tr/2009/praeda/2009/01/11/a-simple-restful-client-at-android/
-		 */
-		BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-		StringBuilder sb = new StringBuilder();
-
-		String line = null;
-		try {
-			while ((line = reader.readLine()) != null) {
-				sb.append(line + "\n");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				is.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-		return sb.toString();
-	}
-
 	
 }
