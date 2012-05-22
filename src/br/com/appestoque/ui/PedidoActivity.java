@@ -63,13 +63,15 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what){
-				case Constantes.FALHA:
-					break;
 				case Constantes.SUCESSO:
 					final View iconView = findViewById(android.R.id.icon1);
 		            LayerDrawable iconDrawable = (LayerDrawable) iconView.getBackground();
 		            iconDrawable.getDrawable(0).setColorFilter(Constantes.COR_AZUL_1, PorterDuff.Mode.SRC_ATOP);
+		            Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_sincronismo_conclusao));
 					break;
+				case Constantes.FALHA:
+					Util.dialogo(PedidoActivity.this, msg.getData().getString("mensagem"));
+					break;	
 				default:break;
 			}
 			progressDialog.dismiss();
