@@ -109,13 +109,6 @@ public class ItemDAO implements IDAO<Item,Long>{
     	db.delete(TABELA, null, null);
 	}
 	
-	@Override
-	public void fechar() {
-		if(databaseHelper!=null){
-    		databaseHelper.close();
-    	}
-	}
-	
 	public List<Item> listar(Pedido pedido) {
 		SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
 		Cursor cursor = db.query(TABELA, new String[] {	ITEM_CHAVE_ID,
@@ -132,7 +125,6 @@ public class ItemDAO implements IDAO<Item,Long>{
     			Item item = new Item(cursor.getLong(0),cursor.getDouble(2),cursor.getDouble(1),pedido, produto);
     			itens.add(item);
     		}    		
-    		produtoDAO.fechar();
 		}	
     	return itens;
 	}

@@ -119,10 +119,4 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     	}
     }
     
-    public void fechar(){
-    	if(databaseHelper!=null){
-    		databaseHelper.close();
-    	}
-    }
-
 }

@@ -43,7 +43,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
 @SuppressWarnings("unused")
-public class PedidoActivity extends BaseListaAtividade{
+public class PedidoActivity extends BaseListaAtividade implements Runnable{
 
 	private PedidoDAO pedidoDAO;
 	private ItemDAO itemDAO;
@@ -53,15 +53,76 @@ public class PedidoActivity extends BaseListaAtividade{
 	private String url;
 	private List <NameValuePair> parametros;
 	
+	protected static final int SUCESSO = 0;
+	
 	private Pedido pedido;
 	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
-			super.handleMessage(msg);	
+			switch (msg.what){
+				case SUCESSO:
+					final View iconView = findViewById(android.R.id.icon1);
+		            LayerDrawable iconDrawable = (LayerDrawable) iconView.getBackground();
+		            iconDrawable.getDrawable(0).setColorFilter(Constantes.COR_AZUL_1, PorterDuff.Mode.SRC_ATOP);
+					break;
+				default:break;
+			}
 			progressDialog.dismiss();
 		}
 	};
+	
+	public void run() {
+		
+		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+		this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+		url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
+		parametros = new ArrayList <NameValuePair>();
+		parametros.add(new BasicNameValuePair("uuid",uuid));
+		
+		List<Item> itens = itemDAO.listar(pedido);
+		JSONObject pedidoJSON = new JSONObject();
+		JSONArray itms = new JSONArray();
+		try {
+			pedidoJSON.put("numero",pedido.getNumero());
+			pedidoJSON.put("data",pedido.getData().getTime());
+			pedidoJSON.put("idCliente",pedido.getCliente().getId());
+			pedidoJSON.put("obs",pedido.getObs());
+			for(Item itm :itens){
+				JSONObject itemJSON = new JSONObject();
+				itemJSON.put("idProduto", itm.getProduto().getId());
+				itemJSON.put("quantidade", itm.getQuantidade());
+				itemJSON.put("valor", itm.getValor());
+				itms.put(itemJSON);
+			}
+			pedidoJSON.put("itens", itms);
+		}catch(JSONException e){
+			Util.dialogo(PedidoActivity.this, e.getMessage());
+		}
+		
+		parametros.add(new BasicNameValuePair("json",pedidoJSON.toString()));
+		
+		JSONObject json = HttpCliente.SendHttpPost(url,parametros,PedidoActivity.this);
+		
+		if(json!=null&&!json.isNull("id")){
+			pedido.setSincronizado(new Short("1"));
+			long retorno = pedidoDAO.atualizar(pedido);
+			handler.sendEmptyMessage(SUCESSO);
+			//Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_9));
+		}else if(json!=null&&!json.isNull("erro")){
+			handler.sendEmptyMessage(0);
+//			try {
+//				Util.dialogo(PedidoActivity.this,json.getString("erro"));
+//			} catch (JSONException e) {
+//				Util.dialogo(PedidoActivity.this,e.getMessage());
+//			}
+		}else{
+			handler.sendEmptyMessage(0);
+			//Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_10));
+		}
+		
+		
+	}
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +169,6 @@ public class PedidoActivity extends BaseListaAtividade{
             final View iconView = view.findViewById(android.R.id.icon1);
             LayerDrawable iconDrawable = (LayerDrawable) iconView.getBackground();
             iconDrawable.getDrawable(0).setColorFilter(cursor.getLong(5)==0?Constantes.COR_VERMELHO_1:Constantes.COR_AZUL_1, PorterDuff.Mode.SRC_ATOP);
-            clienteDAO.fechar();
 		}
 
 		@Override
@@ -132,70 +192,10 @@ public class PedidoActivity extends BaseListaAtividade{
 			case R.id.item_menu_sincronizar:
 				this.idPedido = info.id;
 				pedido = pedidoDAO.pesquisar(idPedido);
-				
 				if(!pedido.getSincronizado()){
-					
 					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
-				
-					SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-					this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-					url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
-					parametros = new ArrayList <NameValuePair>();
-					parametros.add(new BasicNameValuePair("uuid",uuid));
-					
-					if(HttpCliente.checarServidor(url,parametros,PedidoActivity.this)){
-						
-						this.runOnUiThread(new Runnable() {
-							public void run() {
-									
-									List<Item> itens = itemDAO.listar(pedido);
-									JSONObject pedidoJSON = new JSONObject();
-									JSONArray itms = new JSONArray();
-									try {
-										pedidoJSON.put("numero",pedido.getNumero());
-										pedidoJSON.put("data",pedido.getData().getTime());
-										pedidoJSON.put("idCliente",pedido.getCliente().getId());
-										pedidoJSON.put("obs",pedido.getObs());
-										for(Item itm :itens){
-											JSONObject itemJSON = new JSONObject();
-											itemJSON.put("idProduto", itm.getProduto().getId());
-											itemJSON.put("quantidade", itm.getQuantidade());
-											itemJSON.put("valor", itm.getValor());
-											itms.put(itemJSON);
-										}
-										pedidoJSON.put("itens", itms);
-									}catch(JSONException e){
-										Util.dialogo(PedidoActivity.this, e.getMessage());
-									}
-									
-									parametros.add(new BasicNameValuePair("json",pedidoJSON.toString()));
-									
-									JSONObject json = HttpCliente.SendHttpPost(url,parametros,PedidoActivity.this);
-									
-									if(json!=null&&!json.isNull("id")){
-										pedido.setSincronizado(new Short("1"));
-										long retorno = pedidoDAO.atualizar(pedido);
-										Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_9));
-									}else if(json!=null&&!json.isNull("erro")){
-										try {
-											Util.dialogo(PedidoActivity.this,json.getString("erro"));
-										} catch (JSONException e) {
-											Util.dialogo(PedidoActivity.this,e.getMessage());
-										}
-									}else{
-										Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_10));
-									}
-								
-								handler.sendEmptyMessage(0);
-							
-							}
-							
-						});
-					
-					}else{
-						Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_servidor_nao_responde));
-						progressDialog.dismiss();
-					}
+					Thread thread = new Thread(this);
+					thread.start();
 				}else{
 					Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_pedido_sincronizao));
 				}
@@ -209,16 +209,5 @@ public class PedidoActivity extends BaseListaAtividade{
 				return super.onContextItemSelected(item);
 		}
 	}
-	
-    @Override
-    protected void onDestroy(){
-    	super.onDestroy();
-    	if(pedidoDAO!=null){
-    		pedidoDAO.fechar();
-    	}
-    	if(itemDAO!=null){
-    		itemDAO.fechar();
-    	}
-    }
 	
 }

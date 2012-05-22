@@ -7,5 +7,4 @@ public interface IDAO<T, PK extends Serializable> {
 	Cursor listar();
 	T pesquisar(long id);
 	void limpar();
-	void fechar();
 }

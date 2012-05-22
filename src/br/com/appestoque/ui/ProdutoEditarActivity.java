@@ -26,10 +26,4 @@ public class ProdutoEditarActivity extends BaseAtividade {
 		}
 	}
 	
-    @Override
-    protected void onDestroy(){
-    	super.onPause();
-    	produtoDAO.fechar();
-    }
-    
 }

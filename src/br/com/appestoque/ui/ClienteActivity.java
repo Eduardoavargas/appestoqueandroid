@@ -32,6 +32,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import br.com.appestoque.Constantes;
@@ -211,11 +212,12 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 				return super.onContextItemSelected(item);
 		}
 	}
+	
+	public void onListItemClick(ListView listView, View view, int position, long itemId){
+		super.onListItemClick(listView, view, position, itemId);
+		Intent intent = new Intent(this, ClienteEditarActivity.class);
+    	intent.putExtra(ClienteDAO.CLIENTE_CHAVE_ID, itemId);
+    	startActivity(intent);
+	}
     
-    @Override
-    protected void onDestroy(){
-    	clienteDAO.fechar();
-    	super.onDestroy();
-    }
-
 }

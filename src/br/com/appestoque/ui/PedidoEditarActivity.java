@@ -42,11 +42,4 @@ public class PedidoEditarActivity extends BaseAtividade{
 		}
 	}
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		clienteDAO.fechar();
-		pedidoDAO.fechar();
-	}
-
 }

@@ -36,6 +36,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.AdapterContextMenuInfo;
@@ -192,11 +193,12 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				return super.onContextItemSelected(item);
 		}
 	}
-    
-    @Override
-    protected void onDestroy(){
-    	produtoDAO.fechar();
-    	super.onDestroy();
-    }
 	
+	public void onListItemClick(ListView listView, View view, int position, long itemId){
+		super.onListItemClick(listView, view, position, itemId);
+		Intent intent = new Intent(this, ProdutoEditarActivity.class);
+    	intent.putExtra(ProdutoDAO.PRODUTO_CHAVE_ID, itemId);
+    	startActivity(intent);
+	}
+    
 }

@@ -69,10 +69,4 @@ public class ItemActivity extends BaseListaAtividade{
     	startActivity(intent);
     }
     
-    @Override
-    protected void onDestroy(){
-    	super.onDestroy();
-    	itemDAO.fechar();
-    }
-	
 }

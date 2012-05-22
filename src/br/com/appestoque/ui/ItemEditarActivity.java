@@ -20,7 +20,6 @@ public class ItemEditarActivity extends BaseAtividade {
 
 	private ItemDAO itemDAO;
 	private ProdutoDAO produtoDAO;
-	private PedidoDAO pedidoDAO;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,21 +73,4 @@ public class ItemEditarActivity extends BaseAtividade {
 		finish();    	
 	}
 	
-    @Override
-    protected void onDestroy(){
-    	super.onDestroy();
-    	
-    	if(itemDAO!=null){
-    		itemDAO.fechar();
-    	}
-    	
-    	if(produtoDAO!=null){
-    		produtoDAO.fechar();
-    	}
-    	
-    	if(pedidoDAO!=null){
-    		pedidoDAO.fechar();
-    	}
-    }
-    
 }
