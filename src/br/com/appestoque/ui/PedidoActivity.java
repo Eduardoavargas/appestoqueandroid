@@ -57,15 +57,15 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	private String url;
 	private List <NameValuePair> parametros;
 	
-	protected static final int SUCESSO = 0;
-	
 	private Pedido pedido;
 	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what){
-				case SUCESSO:
+				case Constantes.FALHA:
+					break;
+				case Constantes.SUCESSO:
 					final View iconView = findViewById(android.R.id.icon1);
 		            LayerDrawable iconDrawable = (LayerDrawable) iconView.getBackground();
 		            iconDrawable.getDrawable(0).setColorFilter(Constantes.COR_AZUL_1, PorterDuff.Mode.SRC_ATOP);
@@ -108,24 +108,24 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		
 		JSONObject json = HttpCliente.SendHttpPost(url,parametros,PedidoActivity.this);
 		
+		Message message = new Message();
+		Bundle bundle = new Bundle();
+		
 		if(json!=null&&!json.isNull("id")){
 			pedido.setSincronizado(new Short("1"));
 			long retorno = pedidoDAO.atualizar(pedido);
-			handler.sendEmptyMessage(SUCESSO);
-			//Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_9));
-		}else if(json!=null&&!json.isNull("erro")){
-			handler.sendEmptyMessage(0);
-//			try {
-//				Util.dialogo(PedidoActivity.this,json.getString("erro"));
-//			} catch (JSONException e) {
-//				Util.dialogo(PedidoActivity.this,e.getMessage());
-//			}
+			message.what = Constantes.SUCESSO;
+		}else if(json!=null&&!json.isNull("erro")){			
+			try {
+				bundle.putString("mensagem",json.getString("erro"));
+			} catch (JSONException e) {
+				bundle.putString("mensagem",e.getMessage());
+			}
 		}else{
-			handler.sendEmptyMessage(0);
-			//Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_10));
+			bundle.putString("mensagem",getString(R.string.mensagem_10));
 		}
-		
-		
+		message.setData(bundle);
+		handler.sendMessage(message);
 	}
 	
 	@Override
