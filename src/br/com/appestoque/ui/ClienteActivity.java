@@ -43,9 +43,10 @@ import br.com.appestoque.dao.cadastro.ClienteDAO;
 
 public class ClienteActivity extends BaseListaAtividade implements Runnable{
 	
-	private ClienteDAO clienteDAO;
 	private ProgressDialog progressDialog;
 	private List <NameValuePair> parametros;
+	
+	private ClienteDAO clienteDAO;
 	
 	public void run() {
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
@@ -68,6 +69,7 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 				String bairro = null;
 				String cidade = null;
 				try {
+					clienteDAO = new ClienteDAO(this); 
 					clienteDAO.limpar();
 					reader.beginArray();
 				     while (reader.hasNext()) {
@@ -104,7 +106,7 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 				     reader.endArray();
 				}finally {
 					reader.close();
-				}
+				}				
 			} catch (ClientProtocolException e) {
 				Util.dialogo(ClienteActivity.this,e.getMessage());
 			} catch (IOException e) {
@@ -164,7 +166,6 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 	}
 	
     public void onAtualizarClick(View v) {
-		clienteDAO = new ClienteDAO(this);
 		Context context = getApplicationContext();
 		ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connectivity != null) {
@@ -218,6 +219,12 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 		Intent intent = new Intent(this, ClienteEditarActivity.class);
     	intent.putExtra(ClienteDAO.CLIENTE_CHAVE_ID, itemId);
     	startActivity(intent);
+	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		clienteDAO.fechar();
 	}
     
 }

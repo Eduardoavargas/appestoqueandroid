@@ -200,5 +200,11 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
     	intent.putExtra(ProdutoDAO.PRODUTO_CHAVE_ID, itemId);
     	startActivity(intent);
 	}
+	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		produtoDAO.fechar();
+	}
     
 }

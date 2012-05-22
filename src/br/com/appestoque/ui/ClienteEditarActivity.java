@@ -31,4 +31,10 @@ public class ClienteEditarActivity extends BaseAtividade {
 		}
 	}
 	
+	@Override
+	protected void onDestroy(){
+		super.onDestroy();
+		clienteDAO.fechar();
+	}
+	
 }

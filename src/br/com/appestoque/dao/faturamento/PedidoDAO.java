@@ -120,5 +120,11 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 		SQLiteDatabase db = databaseHelper.getWritableDatabase();
     	db.delete(TABELA, null, null);
 	}
+
+	@Override
+	public void fechar() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
