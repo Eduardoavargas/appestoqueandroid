@@ -66,27 +66,27 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				try {
 					produtoDAO.limpar();
 					reader.beginArray();
-				     while (reader.hasNext()) {
-				    	 reader.beginObject();
-				         while (reader.hasNext()) {
-					           String name = reader.nextName();
-					           if (name.equals("_id")) {
-					        	   id = reader.nextLong();
-					           } else if (name.equals("nome")) {
-					        	   nome = reader.nextString();
-					           } else if (name.equals("numero") ) {
-					        	   numero = reader.nextString();
-					           } else if (name.equals("preco")) {
-					        	   preco = reader.nextDouble();
-					           } else {
-					        	   reader.skipValue();
-					           }
-				         }
-				         reader.endObject();
-				         produtoDAO.criar(id, nome, numero, preco);
-				     }
-				     reader.endArray();
-				}finally {
+					while (reader.hasNext()) {
+						reader.beginObject();
+						while (reader.hasNext()) {
+							String name = reader.nextName();
+							if (name.equals("_id")) {
+								id = reader.nextLong();
+							} else if (name.equals("nome")) {
+								nome = reader.nextString();
+							} else if (name.equals("numero")) {
+								numero = reader.nextString();
+							} else if (name.equals("preco")) {
+								preco = reader.nextDouble();
+							} else {
+								reader.skipValue();
+							}
+						}
+						reader.endObject();
+						produtoDAO.criar(id, nome, numero, preco);
+					}
+					reader.endArray();
+				} finally {
 					reader.close();
 				}
 				message.what = Constantes.SUCESSO;
