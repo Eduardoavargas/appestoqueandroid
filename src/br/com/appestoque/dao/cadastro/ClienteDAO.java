@@ -42,11 +42,7 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 				CLIENTE_CHAVE_CIDADE }, null, null, null, null, null);
 		return cursor;
 	}
-	
-	public void fechar() {
-		db.close();
-	}
-	
+
 	public long criar(	Long id,
 						String nome, 
 						String cnpj, 
@@ -111,6 +107,9 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 	public void limpar() {
 		SQLiteDatabase db = databaseHelper.getWritableDatabase();
     	db.delete(TABELA, null, null);
+	}
+	
+	public void fechar() {
 	}
 
 }

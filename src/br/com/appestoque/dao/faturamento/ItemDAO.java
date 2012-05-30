@@ -132,7 +132,6 @@ public class ItemDAO implements IDAO<Item,Long>{
 	@Override
 	public void fechar() {
 		// TODO Auto-generated method stub
-		
 	}
 
 }
