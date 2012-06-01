@@ -128,10 +128,9 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 			return null;
 		}
     }
-
-	@Override
-	public void fechar() {
-		db.close();
-	}
     
+    public void fechar(){
+    	this.databaseHelper.close();
+    }
+
 }

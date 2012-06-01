@@ -58,8 +58,6 @@ public class PedidoIncluirActivity extends BaseAtividade {
 	@Override
 	protected void onDestroy(){
 		super.onDestroy();
-		pedidoDAO.fechar();
-		clienteDAO.fechar();
 	}
 	
 }

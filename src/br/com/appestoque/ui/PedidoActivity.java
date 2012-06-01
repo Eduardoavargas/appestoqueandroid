@@ -233,9 +233,6 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	@Override
 	protected void onDestroy(){
 		super.onDestroy();
-		pedidoDAO.fechar();
-		itemDAO.fechar();
-		clienteDAO.fechar();
 	}
 	
 }

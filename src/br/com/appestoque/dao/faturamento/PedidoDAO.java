@@ -121,10 +121,4 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
     	db.delete(TABELA, null, null);
 	}
 
-	@Override
-	public void fechar() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

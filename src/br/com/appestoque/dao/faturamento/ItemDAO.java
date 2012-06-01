@@ -129,9 +129,4 @@ public class ItemDAO implements IDAO<Item,Long>{
     	return itens;
 	}
 
-	@Override
-	public void fechar() {
-		// TODO Auto-generated method stub
-	}
-
 }

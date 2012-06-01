@@ -165,9 +165,14 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 		setListAdapter(new ProdutosAdapter(this,cursor));
 		
 		registerForContextMenu(getListView());
-		
 	}
-    
+	
+	@Override
+	protected void onStop(){
+		produtoDAO.fechar();
+		super.onStop();
+	}
+	
     public void onAtualizarClick(View v) {
 		produtoDAO = new ProdutoDAO(this);
 		Context context = getApplicationContext();
@@ -223,7 +228,6 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 	@Override
 	protected void onDestroy(){
 		super.onDestroy();
-		produtoDAO.fechar();
 	}
     
 }
