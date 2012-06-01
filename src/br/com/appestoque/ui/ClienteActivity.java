@@ -184,7 +184,19 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 		registerForContextMenu(getListView());
 	}
 	
-    public void onAtualizarClick(View v) {
+	@Override
+	protected void onPause(){
+		clienteDAO.fechar();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onStop(){
+		clienteDAO.fechar();
+		super.onStop();
+	}
+
+	public void onAtualizarClick(View v) {
 		Context context = getApplicationContext();
 		ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connectivity != null) {

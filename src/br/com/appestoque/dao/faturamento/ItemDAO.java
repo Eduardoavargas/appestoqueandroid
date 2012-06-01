@@ -128,5 +128,9 @@ public class ItemDAO implements IDAO<Item,Long>{
 		}	
     	return itens;
 	}
+	
+    public void fechar(){
+    	this.databaseHelper.close();
+    }
 
 }

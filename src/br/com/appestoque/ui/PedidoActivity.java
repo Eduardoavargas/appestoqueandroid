@@ -160,6 +160,22 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		registerForContextMenu(getListView());
 	}
 
+	@Override
+	protected void onPause(){
+		itemDAO.fechar();
+		pedidoDAO.fechar();
+		clienteDAO.fechar();
+		super.onPause();
+	}
+	
+	@Override
+	protected void onStop(){
+		itemDAO.fechar();
+		pedidoDAO.fechar();
+		clienteDAO.fechar();
+		super.onStop();
+	}
+	
 	private class PedidoAdapter extends CursorAdapter {
 
 		public PedidoAdapter(Context context, Cursor cursor) {

@@ -29,6 +29,7 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -147,6 +148,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 	
 	@Override
     protected void onCreate(Bundle savedInstanceState) {
+		Log.i("appestoque", "ONCREATE RODANDO");
 		super.onCreate(savedInstanceState);
 		
 		Intent intent = getIntent();		
@@ -166,13 +168,19 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 		
 		registerForContextMenu(getListView());
 	}
+
+	@Override
+	protected void onPause(){
+		produtoDAO.fechar();
+		super.onPause();
+	}
 	
 	@Override
 	protected void onStop(){
 		produtoDAO.fechar();
 		super.onStop();
 	}
-	
+
     public void onAtualizarClick(View v) {
 		produtoDAO = new ProdutoDAO(this);
 		Context context = getApplicationContext();
@@ -225,9 +233,4 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
     	startActivity(intent);
 	}
 	
-	@Override
-	protected void onDestroy(){
-		super.onDestroy();
-	}
-    
 }
