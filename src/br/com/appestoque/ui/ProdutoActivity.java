@@ -147,15 +147,13 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 	}
 	
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-		Log.i("appestoque", "ONCREATE RODANDO");
-		super.onCreate(savedInstanceState);
-		
+	protected void onResume(){
 		Intent intent = getIntent();		
 		setContentView(R.layout.produto_activity);
 		if(produtoDAO==null){
 			produtoDAO = new ProdutoDAO(this);
-		}
+		}	
+		produtoDAO.abrir();
 		Cursor cursor = null;
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	        String query = intent.getStringExtra(SearchManager.QUERY);
@@ -163,24 +161,18 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 	    }else{
 	    	cursor = produtoDAO.listar();
 	    }
-	    startManagingCursor(cursor);	    
 		setListAdapter(new ProdutosAdapter(this,cursor));
-		
 		registerForContextMenu(getListView());
-	}
-
-	@Override
-	protected void onPause(){
-		produtoDAO.fechar();
-		super.onPause();
+		super.onResume();
 	}
 	
 	@Override
-	protected void onStop(){
+	protected void onPause(){
 		produtoDAO.fechar();
-		super.onStop();
+		Log.d("appestoque","onPause");
+		super.onPause();
 	}
-
+	
     public void onAtualizarClick(View v) {
 		produtoDAO = new ProdutoDAO(this);
 		Context context = getApplicationContext();
@@ -217,7 +209,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				Toast.makeText(getApplicationContext(), "Sincronizar", Toast.LENGTH_SHORT).show();
 				return true;
 			case R.id.item_menu_visualizar:
-				intent = new Intent(this, ProdutoEditarActivity.class);
+				intent = new Intent(this,ProdutoEditarActivity.class);
 		    	intent.putExtra(ProdutoDAO.PRODUTO_CHAVE_ID, info.id);
 		    	startActivity(intent);				
 				return true;

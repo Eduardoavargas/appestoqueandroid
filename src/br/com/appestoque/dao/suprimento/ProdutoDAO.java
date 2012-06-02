@@ -30,7 +30,6 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     }
 	
 	public Cursor listar() {		
-		db = databaseHelper.getReadableDatabase();
 		cursor = db.query(TABELA,
 				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
 						PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR }, null,
@@ -39,7 +38,6 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     }
 	
 	public List<Produto> produtos() {		
-		db = databaseHelper.getReadableDatabase();
 		cursor = db.query(TABELA,
 				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
 						PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR }, null,
@@ -65,7 +63,6 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     }
 	
     public long criar(Long id, String nome, String numero, double valor) {
-		db = databaseHelper.getWritableDatabase();
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(PRODUTO_CHAVE_ID, id);
 		initialValues.put(PRODUTO_CHAVE_NOME, nome);
@@ -76,7 +73,6 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     }
     
     public Cursor pesquisar(String numero) {
-		db = databaseHelper.getReadableDatabase();
 		cursor = db.query(TABELA,
 				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
 						PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR },
@@ -86,12 +82,10 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     }
     
     public void limpar(){
-    	SQLiteDatabase db = databaseHelper.getWritableDatabase();
     	db.delete(TABELA, null, null);
     }
     
     public Produto pesquisar(long id){
-		db = databaseHelper.getReadableDatabase();
 		cursor = db.query(TABELA,
 				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
 						PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR },
@@ -110,7 +104,6 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     }
     
     public Produto consultar(String numero){
-		db = databaseHelper.getReadableDatabase();
 		cursor = db.query(TABELA,
 				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
 						PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR },
@@ -131,6 +124,10 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     
     public void fechar(){
     	this.databaseHelper.close();
+    }
+    
+    public void abrir(){
+    	db = databaseHelper.getReadableDatabase();
     }
 
 }
