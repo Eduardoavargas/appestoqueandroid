@@ -43,7 +43,7 @@
 			  style="@style/SessionTitle" />
 	<EditText android:id="@+id/edtNumero" 
 	          android:layout_height="wrap_content"
-			  android:layout_width="100dip"/>
+	          android:layout_width="120dp"/>
 			
 			<TextView android:id="@+id/txtData" 
 			  android:text="Data"
@@ -61,9 +61,14 @@
 		      android:layout_height="wrap_content"
 			  android:layout_width="fill_parent" 
 			  style="@style/SessionTitle" />
-			<EditText android:id="@+id/edtObs"
-        			  android:layout_height="fill_parent" 
-			  		  android:layout_width="fill_parent"/>	
+
+			<EditText
+			    android:id="@+id/edtObs"
+			    android:layout_width="fill_parent"
+			    android:layout_height="115dp"
+			    android:ems="10"
+			    android:inputType="textMultiLine" />
+	
 		</LinearLayout>
 	</ScrollView>
 
@@ -78,5 +83,5 @@
 			android:layout_weight="1" android:onClick="onCancelarClick"
 			android:text="@string/botao_cancelar" />
 	</LinearLayout>
-    	
+
 </LinearLayout>
