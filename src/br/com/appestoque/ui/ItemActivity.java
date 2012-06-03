@@ -48,8 +48,7 @@ public class ItemActivity extends BaseListaAtividade{
 	}
 	
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    protected void onResume() {
 		setContentView(R.layout.item_activity);
 		itemDAO = new ItemDAO(this);
 		produtoDAO = new ProdutoDAO(this);
@@ -58,9 +57,15 @@ public class ItemActivity extends BaseListaAtividade{
 		if(extras!=null){
 	        cursor = itemDAO.listar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
 	    }
-	    startManagingCursor(cursor);	    
 		setListAdapter(new ItensAdapter(this,cursor));
 		registerForContextMenu(getListView());
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause(){
+		produtoDAO.fechar();
+		super.onPause();
 	}
 	
 	public void onAdicionarClick(View v) {

@@ -15,19 +15,20 @@ public class PedidoEditarActivity extends BaseAtividade{
 	private ClienteDAO clienteDAO;
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onResume() {
 		setContentView(R.layout.pedido_editar_activity);
 		Bundle extras = getIntent().getExtras();
 		if (extras != null) {
 			if (pedidoDAO == null){
 				pedidoDAO = new PedidoDAO(this);
 			}	
+			pedidoDAO.abrir();
 			Pedido pedido = pedidoDAO.pesquisar(extras
 					.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
 			if(clienteDAO==null){
 				clienteDAO = new ClienteDAO(this);
 			}
+			clienteDAO.abrir();
 			Cliente cliente = clienteDAO.pesquisar(pedido.getCliente().getId());
 			pedido.setCliente(cliente);
 			((TextView) findViewById(R.id.edtNumero)).setText(pedido
@@ -40,11 +41,14 @@ public class PedidoEditarActivity extends BaseAtividade{
 					.getCliente().getNome());
 			((TextView) findViewById(R.id.edtObs)).setText(pedido.getObs());
 		}
+		super.onResume();
 	}
 	
 	@Override
-	protected void onDestroy(){
-		super.onDestroy();
+	protected void onPause(){
+		pedidoDAO.fechar();
+		clienteDAO.fechar();
+		super.onPause();
 	}
 
 }

@@ -22,17 +22,17 @@ public class ItemEditarActivity extends BaseAtividade {
 	private ProdutoDAO produtoDAO;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		
-		super.onCreate(savedInstanceState);
+	public void onResume() {
 		setContentView(R.layout.item_editar_activity);		
 		if(itemDAO==null){
 			itemDAO = new ItemDAO(this);
 		}
+		itemDAO.abrir();
 		
 		if(produtoDAO==null){
 			produtoDAO = new ProdutoDAO(this);
 		}
+		produtoDAO.abrir();
 		
 		List<Produto> lista = produtoDAO.produtos();
 		String[] produtos = new String[lista.size()];
@@ -44,7 +44,14 @@ public class ItemEditarActivity extends BaseAtividade {
 		AutoCompleteTextView txtProduto = (AutoCompleteTextView) findViewById(R.id.edtProduto);
 	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.produto_listar, produtos);
 	    txtProduto.setAdapter(adapter);
-		
+	    super.onResume();
+	}
+	
+	@Override
+	protected void onPause(){
+		produtoDAO.fechar();
+		itemDAO.fechar();
+		super.onPause();
 	}
 	
 	public void onSalvarClick(View view) {
