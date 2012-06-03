@@ -61,22 +61,28 @@ public class ItemEditarActivity extends BaseAtividade {
 		final EditText valor = (EditText) findViewById(R.id.edtValor);
 		Produto produto = produtoDAO.consultar(numero.getText().toString());
 		if(produto!=null){
-			Item item = new Item();
-			item.setQuantidade(new Double(qtd.getText().toString()));
-			item.setValor(new Double(valor.getText().toString()));
-			item.setProduto(produto);
-			PedidoDAO pedidoDAO = new PedidoDAO(this);
-			Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
-			item.setPedido(pedido);
-			itemDAO.adicionar(item);
-			finish();
+			
+			if(!qtd.getText().toString().equals("")&&valor.getText().toString().equals("")){
+				Item item = new Item();
+				item.setQuantidade(new Double(qtd.getText().toString()));
+				item.setValor(new Double(valor.getText().toString()));
+				item.setProduto(produto);
+				PedidoDAO pedidoDAO = new PedidoDAO(this);
+				pedidoDAO.abrir();
+				Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+				pedidoDAO.fechar();
+				item.setPedido(pedido);
+				itemDAO.adicionar(item);
+				finish();
+			}else{
+				Util.dialogo(this,"Desculpe, mas é necessário informar a quantidade e o valor do item.");
+			}
 		}else{
 			Util.dialogo(this,getString(R.string.mensagem_8));
 		}
 	}
 	
 	public void onCancelarClick(View view) {
-		//setResult(RESULT_CANCELED);
 		finish();    	
 	}
 	

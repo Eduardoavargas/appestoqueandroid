@@ -51,7 +51,9 @@ public class ItemActivity extends BaseListaAtividade{
     protected void onResume() {
 		setContentView(R.layout.item_activity);
 		itemDAO = new ItemDAO(this);
+		itemDAO.abrir();
 		produtoDAO = new ProdutoDAO(this);
+		produtoDAO.abrir();
 		Cursor cursor = null;
 		Bundle extras = getIntent().getExtras();
 		if(extras!=null){
@@ -64,6 +66,7 @@ public class ItemActivity extends BaseListaAtividade{
 
 	@Override
 	protected void onPause(){
+		itemDAO.fechar();
 		produtoDAO.fechar();
 		super.onPause();
 	}
