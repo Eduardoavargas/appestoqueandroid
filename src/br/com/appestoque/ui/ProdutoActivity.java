@@ -29,7 +29,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -65,6 +64,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				String numero = null;
 				Double preco = null;
 				try {
+					produtoDAO.abrir();
 					produtoDAO.limpar();
 					reader.beginArray();
 					while (reader.hasNext()) {
@@ -87,6 +87,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 						produtoDAO.criar(id, nome, numero, preco);
 					}
 					reader.endArray();
+					produtoDAO.fechar();
 				} finally {
 					reader.close();
 				}
@@ -169,7 +170,6 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 	@Override
 	protected void onPause(){
 		produtoDAO.fechar();
-		Log.d("appestoque","onPause");
 		super.onPause();
 	}
 	

@@ -19,6 +19,7 @@ public class ClienteEditarActivity extends BaseAtividade {
 			if(clienteDAO==null){
 				clienteDAO = new ClienteDAO(this);
 			}
+			clienteDAO.abrir();
 			Cliente cliente = clienteDAO.pesquisar(extras.getLong(ClienteDAO.CLIENTE_CHAVE_ID));
 			((TextView) findViewById(R.id.edtCnpj)).setText(cliente.getCnpj());
 			((TextView) findViewById(R.id.edtNome)).setText(cliente.getNome());
@@ -32,9 +33,9 @@ public class ClienteEditarActivity extends BaseAtividade {
 	}
 	
 	@Override
-	protected void onDestroy(){
-		super.onDestroy();
+	protected void onPause(){
 		clienteDAO.fechar();
+		super.onPause();
 	}
 	
 }

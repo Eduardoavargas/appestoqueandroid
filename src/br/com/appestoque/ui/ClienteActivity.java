@@ -70,7 +70,7 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 				String bairro = null;
 				String cidade = null;
 				try {
-					clienteDAO = new ClienteDAO(this); 
+					clienteDAO.abrir();
 					clienteDAO.limpar();
 					reader.beginArray();
 				     while (reader.hasNext()) {
@@ -105,6 +105,7 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 				         clienteDAO.criar(id, nome, cnpj, endereco, numero, cep, complemento, bairro, cidade);
 				     }
 				     reader.endArray();
+				     clienteDAO.fechar();
 				}finally {
 					reader.close();
 				}			
@@ -165,13 +166,13 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 	}
 	
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void onResume(){
 		Intent intent = getIntent();		
 		setContentView(R.layout.cliente_activity);
 		if(clienteDAO==null){
 			clienteDAO = new ClienteDAO(this);
 		}
+		clienteDAO.abrir();
 		Cursor cursor = null;
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	        String query = intent.getStringExtra(SearchManager.QUERY);
@@ -179,9 +180,9 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 	    }else{
 	    	cursor = clienteDAO.listar();
 	    }
-	    startManagingCursor(cursor);	    
 		setListAdapter(new ClientesAdapter(this,cursor));
 		registerForContextMenu(getListView());
+		super.onResume();
 	}
 	
 	@Override

@@ -34,7 +34,6 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 	@Override
 	public Cursor listar() {
 		cursor = null;
-		db = databaseHelper.getReadableDatabase();
 		cursor = db.query(TABELA, new String[] { CLIENTE_CHAVE_ID,
 				CLIENTE_CHAVE_NOME, CLIENTE_CHAVE_CNPJ, CLIENTE_CHAVE_ENDERECO,
 				CLIENTE_CHAVE_NUMERO, CLIENTE_CHAVE_CEP,
@@ -53,7 +52,6 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 						String bairro,
 						String cidade) {
 		long identificador = 0;
-		db = databaseHelper.getWritableDatabase();
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(CLIENTE_CHAVE_ID, id);
 		initialValues.put(CLIENTE_CHAVE_NOME, nome);
@@ -72,7 +70,6 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 	public Cliente pesquisar(long id) {
 		Cliente objeto = null;
 		cursor = null;
-		db = databaseHelper.getReadableDatabase();
 		cursor = db.query(TABELA, new String[] { CLIENTE_CHAVE_ID,
 				CLIENTE_CHAVE_NOME, CLIENTE_CHAVE_CNPJ, CLIENTE_CHAVE_ENDERECO,
 				CLIENTE_CHAVE_NUMERO, CLIENTE_CHAVE_CEP,
@@ -93,7 +90,6 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 	
     public Cursor pesquisar(String nome) {
 		cursor = null;
-		db = databaseHelper.getReadableDatabase();
 		cursor = db.query(TABELA, new String[] { CLIENTE_CHAVE_ID,
 				CLIENTE_CHAVE_NOME, CLIENTE_CHAVE_CNPJ, CLIENTE_CHAVE_ENDERECO,
 				CLIENTE_CHAVE_NUMERO, CLIENTE_CHAVE_CEP,
@@ -105,11 +101,16 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 
 	@Override
 	public void limpar() {
-		SQLiteDatabase db = databaseHelper.getWritableDatabase();
     	db.delete(TABELA, null, null);
 	}
 	
-	public void fechar() {
-	}
+    public void fechar(){
+    	this.databaseHelper.close();
+    }
+    
+    public void abrir(){
+    	db = databaseHelper.getReadableDatabase();
+    }
+
 
 }
