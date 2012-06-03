@@ -24,13 +24,14 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	
 	private DatabaseHelper databaseHelper;
 	
+	private SQLiteDatabase db;
+	
 	public PedidoDAO(Context context) {
 		this.databaseHelper = new DatabaseHelper(context);
     }
 	
 	@Override
 	public Cursor listar() {
-		SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
 		Cursor cursor = db.query(TABELA, new String[] {	PEDIDO_CHAVE_ID,
 														PEDIDO_CHAVE_NUMERO,
 														PEDIDO_CHAVE_DATA,
@@ -42,7 +43,6 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	}
 	
 	public Cursor listar(long id) {
-		SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
 		Cursor cursor = db.query(TABELA, new String[] {	PEDIDO_CHAVE_ID,
 														PEDIDO_CHAVE_NUMERO,
 														PEDIDO_CHAVE_DATA,
@@ -54,7 +54,6 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	}
 	
 	public long criar(String numero, long data, String obs, Long idCliente) {
-    	SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues initialValues = new ContentValues();
         initialValues.put(PEDIDO_CHAVE_NUMERO,numero);
         initialValues.put(PEDIDO_CHAVE_DATA,data);
@@ -66,7 +65,6 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
     }
 	
     public Cursor pesquisar(String numero) {
-    	SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
     	Cursor cursor = db.query(TABELA, new String[] {	PEDIDO_CHAVE_ID,
 														PEDIDO_CHAVE_NUMERO,
 														PEDIDO_CHAVE_DATA,
@@ -79,7 +77,6 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	
 	@Override
 	public Pedido pesquisar(long id) {
-    	SQLiteDatabase db = databaseHelper.getReadableDatabase();
     	Cursor cursor =  db.query(TABELA, new String[] {PEDIDO_CHAVE_ID,
 														PEDIDO_CHAVE_NUMERO,
 														PEDIDO_CHAVE_DATA,
@@ -105,7 +102,6 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	}
 	
 	public long atualizar(Pedido pedido){
-		SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(PEDIDO_CHAVE_NUMERO,pedido.getNumero());
         initialValues.put(PEDIDO_CHAVE_DATA,pedido.getData().getTime());
@@ -123,6 +119,10 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	
     public void fechar(){
     	this.databaseHelper.close();
+    }
+    
+    public void abrir(){
+    	db = databaseHelper.getReadableDatabase();
     }
 
 }

@@ -18,22 +18,32 @@ public class PedidoIncluirActivity extends BaseAtividade {
 	private PedidoDAO pedidoDAO;
 	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	public void onResume() {
 		setContentView(R.layout.pedido_incluir_activity);
 		Bundle extras = getIntent().getExtras();
 		if(pedidoDAO==null){
 			pedidoDAO = new PedidoDAO(this);
 		}
+		pedidoDAO.abrir();
 		
 		if(clienteDAO==null){
 			clienteDAO = new ClienteDAO(this);
 		}
+		clienteDAO.abrir();
+		
 		if(extras!=null){
 			Cliente cliente = clienteDAO.pesquisar(extras.getLong(ClienteDAO.CLIENTE_CHAVE_ID));
 			((TextView) findViewById(R.id.edtCliente)).setText(cliente.getNome());
 			((TextView) findViewById(R.id.edtId)).setText(cliente.getId().toString());
 		}
+		super.onResume();
+	}
+	
+	@Override
+	protected void onPause(){
+		pedidoDAO.fechar();
+		clienteDAO.fechar();
+		super.onPause();
 	}
 	
 	public void onSalvarClick(View view) {
@@ -53,11 +63,6 @@ public class PedidoIncluirActivity extends BaseAtividade {
 	public void onCancelarClick(View v) {
 		setResult(RESULT_CANCELED);
 		this.finish();
-	}
-	
-	@Override
-	protected void onDestroy(){
-		super.onDestroy();
 	}
 	
 }

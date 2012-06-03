@@ -112,5 +112,4 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
     	db = databaseHelper.getReadableDatabase();
     }
 
-
 }

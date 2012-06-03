@@ -25,6 +25,9 @@ public class ItemDAO implements IDAO<Item,Long>{
 	public static final String TABELA = "itens";
 	
 	private DatabaseHelper databaseHelper;
+	
+	private SQLiteDatabase db;
+	
 	private Context context;
 	
 	public ItemDAO(Context context) {
@@ -34,7 +37,6 @@ public class ItemDAO implements IDAO<Item,Long>{
 	
 	@Override
 	public Cursor listar() {
-		SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
 		Cursor cursor = db.query(TABELA, new String[] {	ITEM_CHAVE_ID,
 														ITEM_CHAVE_QUANTIDADE,
 														ITEM_CHAVE_VALOR,
@@ -45,7 +47,6 @@ public class ItemDAO implements IDAO<Item,Long>{
 	}
 	
 	public Cursor listar(long id) {
-		SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
 		Cursor cursor = db.query(TABELA, new String[] {	ITEM_CHAVE_ID,
 														ITEM_CHAVE_QUANTIDADE,
 														ITEM_CHAVE_VALOR,
@@ -56,21 +57,17 @@ public class ItemDAO implements IDAO<Item,Long>{
 	}
 	
 	public long adicionar(Item item) {
-    	SQLiteDatabase db = databaseHelper.getWritableDatabase();
         ContentValues initialValues = new ContentValues();
-        
         initialValues.put(ITEM_CHAVE_QUANTIDADE,item.getQuantidade());
         initialValues.put(ITEM_CHAVE_VALOR,item.getValor());
         initialValues.put(ITEM_CHAVE_PRODUTO,item.getProduto().getId());
         initialValues.put(ITEM_CHAVE_PEDIDO,item.getPedido().getId());
-        
         long ret = db.insert(TABELA, null,initialValues);
         return ret;
     }
 	
 	@Override
 	public Item pesquisar(long id) {
-    	SQLiteDatabase db = databaseHelper.getReadableDatabase();
     	Cursor cursor =  db.query(TABELA, new String[] {ITEM_CHAVE_ID,
 														ITEM_CHAVE_QUANTIDADE,
 														ITEM_CHAVE_VALOR,
@@ -94,7 +91,6 @@ public class ItemDAO implements IDAO<Item,Long>{
 	}
 	
 	public long atualizar(Item item){
-		SQLiteDatabase db = databaseHelper.getWritableDatabase();
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(ITEM_CHAVE_QUANTIDADE,item.getQuantidade());
         initialValues.put(ITEM_CHAVE_VALOR,item.getValor());
@@ -105,12 +101,10 @@ public class ItemDAO implements IDAO<Item,Long>{
 	
 	@Override
 	public void limpar() {
-		SQLiteDatabase db = databaseHelper.getWritableDatabase();
     	db.delete(TABELA, null, null);
 	}
 	
 	public List<Item> listar(Pedido pedido) {
-		SQLiteDatabase db = databaseHelper.getReadableDatabase(); 
 		Cursor cursor = db.query(TABELA, new String[] {	ITEM_CHAVE_ID,
 														ITEM_CHAVE_QUANTIDADE,
 														ITEM_CHAVE_VALOR,
@@ -131,6 +125,10 @@ public class ItemDAO implements IDAO<Item,Long>{
 	
     public void fechar(){
     	this.databaseHelper.close();
+    }
+    
+    public void abrir(){
+    	db = databaseHelper.getReadableDatabase();
     }
 
 }

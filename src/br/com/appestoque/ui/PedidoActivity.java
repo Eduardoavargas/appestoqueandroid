@@ -131,22 +131,24 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	}
 	
 	@Override
-    protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    protected void onResume() {
 		Intent intent = getIntent();		
 		setContentView(R.layout.pedido_activity);
 		
 		if(itemDAO==null){
 			itemDAO = new ItemDAO(this);
 		}
+		itemDAO.abrir();
 		
 		if(pedidoDAO==null){
 			pedidoDAO = new PedidoDAO(this);
 		}
+		pedidoDAO.abrir();
 		
 		if(clienteDAO==null){
 			clienteDAO = new ClienteDAO(this);
 		}
+		clienteDAO.abrir();
 		
 		Cursor cursor = null;
 	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -155,9 +157,9 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	    }else{
 	    	cursor = pedidoDAO.listar();
 	    }
-	    startManagingCursor(cursor);	    
 		setListAdapter(new PedidoAdapter(this,cursor));
 		registerForContextMenu(getListView());
+		super.onResume();
 	}
 
 	@Override
@@ -166,14 +168,6 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		pedidoDAO.fechar();
 		clienteDAO.fechar();
 		super.onPause();
-	}
-	
-	@Override
-	protected void onStop(){
-		itemDAO.fechar();
-		pedidoDAO.fechar();
-		clienteDAO.fechar();
-		super.onStop();
 	}
 	
 	private class PedidoAdapter extends CursorAdapter {
@@ -244,11 +238,6 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		Intent intent = new Intent(this, PedidoItemEditarActivity.class);
     	intent.putExtra(PedidoDAO.PEDIDO_CHAVE_ID, itemId);
     	startActivity(intent);
-	}
-	
-	@Override
-	protected void onDestroy(){
-		super.onDestroy();
 	}
 	
 }
