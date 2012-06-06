@@ -61,8 +61,7 @@ public class ItemEditarActivity extends BaseAtividade {
 		final EditText valor = (EditText) findViewById(R.id.edtValor);
 		Produto produto = produtoDAO.consultar(numero.getText().toString());
 		if(produto!=null){
-			
-			if(!qtd.getText().toString().equals("")&&valor.getText().toString().equals("")){
+			if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
 				Item item = new Item();
 				item.setQuantidade(new Double(qtd.getText().toString()));
 				item.setValor(new Double(valor.getText().toString()));

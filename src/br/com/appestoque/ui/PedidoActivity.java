@@ -85,8 +85,9 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
 		parametros = new ArrayList <NameValuePair>();
 		parametros.add(new BasicNameValuePair("uuid",uuid));
-		
+		itemDAO.abrir();
 		List<Item> itens = itemDAO.listar(pedido);
+		itemDAO.fechar();
 		JSONObject pedidoJSON = new JSONObject();
 		JSONArray itms = new JSONArray();
 		try {
@@ -115,7 +116,9 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		
 		if(json!=null&&!json.isNull("id")){
 			pedido.setSincronizado(new Short("1"));
+			pedidoDAO.abrir();
 			long retorno = pedidoDAO.atualizar(pedido);
+			pedidoDAO.fechar();
 			message.what = Constantes.SUCESSO;
 		}else if(json!=null&&!json.isNull("erro")){			
 			try {

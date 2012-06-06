@@ -23,6 +23,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -49,6 +50,7 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 	private ClienteDAO clienteDAO;
 	
 	public void run() {
+		Looper.prepare();
 		Message message = new Message();
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
 		String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
@@ -124,6 +126,7 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 			
 		}
 		handler.sendMessage(message);
+		Looper.loop();
 	}
 	
 	private Handler handler = new Handler() {

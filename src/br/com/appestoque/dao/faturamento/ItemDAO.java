@@ -114,11 +114,13 @@ public class ItemDAO implements IDAO<Item,Long>{
 		List<Item> itens = new ArrayList<Item>();
 		if(cursor.getCount()>0){	
 			ProdutoDAO produtoDAO = new ProdutoDAO(this.context);
+			produtoDAO.abrir();
     		while(cursor.moveToNext()){
     			Produto produto = produtoDAO.pesquisar(cursor.getLong(3)); 
     			Item item = new Item(cursor.getLong(0),cursor.getDouble(2),cursor.getDouble(1),pedido, produto);
     			itens.add(item);
     		}    		
+    		produtoDAO.fechar();
 		}	
     	return itens;
 	}
