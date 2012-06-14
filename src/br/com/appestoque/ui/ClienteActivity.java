@@ -57,7 +57,7 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 		String url = Constantes.SERVIDOR + Constantes.RESTFUL_CLIENTE;
 		parametros = new ArrayList<NameValuePair>();
 		parametros.add(new BasicNameValuePair("uuid", uuid));
-		parametros.add(new BasicNameValuePair("sincronismo","true"));
+		//parametros.add(new BasicNameValuePair("sincronismo","true"));
 		InputStream inputStream = HttpCliente.recebeDados(url, parametros,ClienteActivity.this);
 		if (inputStream != null) {
 			try{
