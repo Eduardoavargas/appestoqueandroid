@@ -12,5 +12,8 @@
     <color name="background3">#ffe3e8f1</color>
     
     <color name="texto">#000</color>
+    
+    
+    <color name="transparent">#00000000</color>
         
 </resources>
