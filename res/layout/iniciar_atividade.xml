@@ -8,18 +8,6 @@
     <LinearLayout style="@style/Titulo_Barra">
         <TextView style="@style/Titulo_Barra_Texto" 
         		  android:text="@string/titulo_menu"/>
-        <!--  
-        <ImageView style="@style/Titulo_Barra_Separador" />
-        <ImageButton style="@style/Titulo_Barra_Acao"
-            android:id="@+id/btn_exportar"
-            android:src="@drawable/ic_title_export"
-            android:onClick="onExportarClick" />		  
-        <ImageView style="@style/Titulo_Barra_Separador" />
-        <ImageButton style="@style/Titulo_Barra_Acao"
-            android:id="@+id/btn_atualizar"
-            android:src="@drawable/ic_title_refresh"
-            android:onClick="onAtualizarClick" />
-         -->   
     </LinearLayout>
     
     <LinearLayout android:orientation="horizontal"

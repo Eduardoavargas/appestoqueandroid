@@ -7,7 +7,9 @@
 	<Button android:text="@string/botao_adicionar" 
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content" 
-			android:onClick="onAdicionarClick"/>
+			android:onClick="onAdicionarClick"
+			android:background="@drawable/btn_green"
+			style="@style/ButtonText"/>
 			
 	<ListView android:id="@android:id/list" 
 			  android:layout_width="fill_parent"

@@ -75,13 +75,18 @@
 	<LinearLayout android:orientation="horizontal"
 				  android:layout_width="fill_parent" 
 				  android:layout_height="wrap_content"
+				  android:background="#ffffffff"
 			      style="@android:style/ButtonBar">
 		<Button android:layout_width="0dip" android:layout_height="wrap_content"
 			android:layout_weight="1" android:onClick="onSalvarClick"
-			android:text="@string/botao_salvar" />
+			android:text="@string/botao_salvar" 
+			android:background="@drawable/btn_green"
+			    style="@style/ButtonText"/>
 		<Button android:layout_width="0dip" android:layout_height="wrap_content"
 			android:layout_weight="1" android:onClick="onCancelarClick"
-			android:text="@string/botao_cancelar" />
+			android:text="@string/botao_cancelar" 
+			android:background="@drawable/btn_green"
+			    style="@style/ButtonText"/>
 	</LinearLayout>
 
 </LinearLayout>
