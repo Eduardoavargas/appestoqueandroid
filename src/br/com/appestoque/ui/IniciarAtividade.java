@@ -28,7 +28,7 @@ public class IniciarAtividade extends BaseAtividade {
 	public void onPreferenciaClick(View v) {
 		startActivity(new Intent(this, PreferenciaActivity.class));
 	}
-
+	
 	@Override
     protected void onDestroy(){
     	super.onDestroy();
