@@ -3,9 +3,12 @@ package br.com.appestoque.ui;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -18,6 +21,7 @@ import br.com.appestoque.HttpCliente;
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.suprimento.ProdutoDAO;
+import br.com.appestoque.seguranca.Criptografia;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -52,11 +56,23 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 		Looper.prepare();
 		Message message = new Message();
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-		String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+		String email = preferencias.getString("email", null);
+		String senha = preferencias.getString("senha", null);
 		String url = Constantes.SERVIDOR + Constantes.RESTFUL_PRODUTO;
+		Criptografia criptografia = new Criptografia();
 		parametros = new ArrayList<NameValuePair>();
-		parametros.add(new BasicNameValuePair("uuid", uuid));
-		//parametros.add(new BasicNameValuePair("sincronismo","true"));
+		parametros.add(new BasicNameValuePair("email", email));
+		try {
+			parametros.add(new BasicNameValuePair("senha", new String(criptografia.criptografar(senha))));
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		InputStream inputStream = HttpCliente.recebeDados(url, parametros, ProdutoActivity.this);
 		if (inputStream != null) {
 			try{

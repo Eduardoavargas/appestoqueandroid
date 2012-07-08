@@ -1,7 +1,5 @@
 package br.com.appestoque.ui;
 
-import java.util.UUID;
-
 import br.com.appestoque.Constantes;
 import br.com.appestoque.R;
 
@@ -9,26 +7,21 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class PreferenciaActivity extends BaseAtividade{
 	
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.preferencia_editar_activity);
-		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-		String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-		if(uuid.equals("")){
-			uuid = UUID.randomUUID().toString();
-		}
-		((TextView) findViewById(R.id.edtUUID)).setText(uuid);
 	}
 	
 	public void onSalvarClick(View view) {
-		final EditText uuid = (EditText) findViewById(R.id.edtUUID);
+		final EditText edtEmail = (EditText) findViewById(R.id.edtEmail);
+		final EditText edtSenha = (EditText) findViewById(R.id.edtSenha);
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
 		SharedPreferences.Editor editor = preferencias.edit();
-		editor.putString("UUID", uuid.getText().toString());
+		editor.putString("email", edtEmail.getText().toString());
+		editor.putString("senha", edtSenha.getText().toString());
 		editor.commit();
 		this.finish();
 	}
