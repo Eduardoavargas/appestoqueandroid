@@ -56,7 +56,8 @@
 		
 		<string name="titulo_preferencia">Preferência</string>
 		<string name="edt_uuid">Identificador</string>
-		
+		<string name="edtEmail">E-mail</string>
+		<string name="edtSenha">Senha</string>
 		
 		<string name="titulo_menu">Menu</string>	
 		<string name="texto_busca">Pesquisar por Código</string>
