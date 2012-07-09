@@ -13,6 +13,9 @@ public class PreferenciaActivity extends BaseAtividade{
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.preferencia_editar_activity);
+		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+		((EditText) findViewById(R.id.edtEmail)).setText(preferencias.getString("email", null));
+		((EditText) findViewById(R.id.edtSenha)).setText(preferencias.getString("senha", null));
 	}
 	
 	public void onSalvarClick(View view) {

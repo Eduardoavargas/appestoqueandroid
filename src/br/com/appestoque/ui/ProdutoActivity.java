@@ -56,6 +56,8 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 		Looper.prepare();
 		Message message = new Message();
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+		String cripto = null;
+		String decripto = null;
 		String email = preferencias.getString("email", null);
 		String senha = preferencias.getString("senha", null);
 		String url = Constantes.SERVIDOR + Constantes.RESTFUL_PRODUTO;
@@ -63,7 +65,9 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 		parametros = new ArrayList<NameValuePair>();
 		parametros.add(new BasicNameValuePair("email", email));
 		try {
-			parametros.add(new BasicNameValuePair("senha", new String(criptografia.criptografar(senha))));
+			cripto = criptografia.criptografar("46e9dbd3-8f61-434e-ac53-f635d9d36761");
+			decripto = criptografia.descriptografar("ä‘‚fk¥s—Ìxâ2ß∑2û‡m)z«gªüºÓzﬁ≈å–ÙÄ—;ì¬T‰–");
+			parametros.add(new BasicNameValuePair("senha",cripto));
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
