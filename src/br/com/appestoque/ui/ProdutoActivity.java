@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -65,9 +66,27 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 		parametros = new ArrayList<NameValuePair>();
 		parametros.add(new BasicNameValuePair("email", email));
 		try {
-			cripto = criptografia.criptografar("46e9dbd3-8f61-434e-ac53-f635d9d36761");
-			decripto = criptografia.descriptografar("ä‘‚fk¥s—Ìxâ2ß∑2û‡m)z«gªüºÓzﬁ≈å–ÙÄ—;ì¬T‰–");
-			parametros.add(new BasicNameValuePair("senha",cripto));
+			byte[] cifra = criptografia.cifrar(senha);
+			
+			StringBuffer strbuf = new StringBuffer();
+			for (int i = 0; i < cifra.length; i++) {
+				if(i!=0){
+					strbuf.append(",");
+				}
+				strbuf.append(Long.toString(cifra[i]));				
+			}
+			System.out.println(strbuf.toString());
+			
+			StringTokenizer st = new StringTokenizer(strbuf.toString(),",");
+			byte[] b = new byte[st.countTokens()];
+			int i = 0;
+			while (st.hasMoreElements()) {
+				b[i] = new Byte(st.nextToken());
+				++i;
+			}
+			
+			String ret = criptografia.decifrar(b);
+			parametros.add(new BasicNameValuePair("senha",null));
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
