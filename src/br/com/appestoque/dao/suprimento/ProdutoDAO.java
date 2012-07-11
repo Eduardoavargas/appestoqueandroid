@@ -72,6 +72,15 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 		return ret;
     }
     
+    public void atualizar(Produto produto) {
+		ContentValues initialValues = new ContentValues();
+		initialValues.put(PRODUTO_CHAVE_ID, produto.getId());
+		initialValues.put(PRODUTO_CHAVE_NOME, produto.getNome());
+		initialValues.put(PRODUTO_CHAVE_NUMERO, produto.getNumero());
+		initialValues.put(PRODUTO_CHAVE_VALOR, produto.getValor());
+		db.update(TABELA, initialValues, PRODUTO_CHAVE_ID+"="+produto.getId(), null);
+    }
+    
     public Cursor pesquisar(String numero) {
 		cursor = db.query(TABELA,
 				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,

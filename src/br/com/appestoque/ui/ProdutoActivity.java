@@ -6,7 +6,6 @@ import java.io.InputStreamReader;
 import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -22,7 +21,9 @@ import br.com.appestoque.HttpCliente;
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.suprimento.ProdutoDAO;
+import br.com.appestoque.dominio.suprimento.Produto;
 import br.com.appestoque.seguranca.Criptografia;
+import br.com.appestoque.util.Conversor;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
@@ -57,8 +58,6 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 		Looper.prepare();
 		Message message = new Message();
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-		String cripto = null;
-		String decripto = null;
 		String email = preferencias.getString("email", null);
 		String senha = preferencias.getString("senha", null);
 		String url = Constantes.SERVIDOR + Constantes.RESTFUL_PRODUTO;
@@ -66,27 +65,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 		parametros = new ArrayList<NameValuePair>();
 		parametros.add(new BasicNameValuePair("email", email));
 		try {
-			byte[] cifra = criptografia.cifrar(senha);
-			
-			StringBuffer strbuf = new StringBuffer();
-			for (int i = 0; i < cifra.length; i++) {
-				if(i!=0){
-					strbuf.append(",");
-				}
-				strbuf.append(Long.toString(cifra[i]));				
-			}
-			System.out.println(strbuf.toString());
-			
-			StringTokenizer st = new StringTokenizer(strbuf.toString(),",");
-			byte[] b = new byte[st.countTokens()];
-			int i = 0;
-			while (st.hasMoreElements()) {
-				b[i] = new Byte(st.nextToken());
-				++i;
-			}
-			
-			String ret = criptografia.decifrar(b);
-			parametros.add(new BasicNameValuePair("senha",null));
+			parametros.add(new BasicNameValuePair("senha",Conversor.byteToString(criptografia.cifrar(senha),br.com.appestoque.util.Constantes.DELIMITADOR)));
 		} catch (InvalidKeyException e) {
 			e.printStackTrace();
 		} catch (BadPaddingException e) {
@@ -106,7 +85,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				Double preco = null;
 				try {
 					produtoDAO.abrir();
-					produtoDAO.limpar();
+					//produtoDAO.limpar();
 					reader.beginArray();
 					while (reader.hasNext()) {
 						reader.beginObject();
@@ -125,7 +104,12 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 							}
 						}
 						reader.endObject();
-						produtoDAO.criar(id, nome, numero, preco);
+						Produto produto = produtoDAO.consultar(numero);
+						if(produto==null){
+							produtoDAO.criar(id, nome, numero, preco);
+						}else if(!produto.getNome().equals(nome)||!produto.getValor().equals(preco)){
+							produtoDAO.atualizar(produto);
+						}
 					}
 					reader.endArray();
 					produtoDAO.fechar();
