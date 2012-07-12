@@ -72,13 +72,15 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 		return ret;
     }
     
-    public void atualizar(Produto produto) {
+    public boolean atualizar(Produto produto) {
 		ContentValues initialValues = new ContentValues();
-		initialValues.put(PRODUTO_CHAVE_ID, produto.getId());
-		initialValues.put(PRODUTO_CHAVE_NOME, produto.getNome());
-		initialValues.put(PRODUTO_CHAVE_NUMERO, produto.getNumero());
-		initialValues.put(PRODUTO_CHAVE_VALOR, produto.getValor());
-		db.update(TABELA, initialValues, PRODUTO_CHAVE_ID+"="+produto.getId(), null);
+		if(produto.getNome()!=null){
+			initialValues.put(PRODUTO_CHAVE_NOME, produto.getNome());
+		}
+		if(produto.getValor()!=null){
+			initialValues.put(PRODUTO_CHAVE_VALOR, produto.getValor());
+		}
+		return db.update(TABELA, initialValues, PRODUTO_CHAVE_ID+"="+produto.getId(), null)>0;
     }
     
     public Cursor pesquisar(String numero) {
@@ -125,6 +127,7 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 			produto.setNome(cursor.getString(1));
 			produto.setNumero(cursor.getString(2));
 			produto.setValor(cursor.getDouble(3));
+			cursor.close();
 			return produto;
 		} else {
 			return null;

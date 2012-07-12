@@ -85,7 +85,6 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				Double preco = null;
 				try {
 					produtoDAO.abrir();
-					//produtoDAO.limpar();
 					reader.beginArray();
 					while (reader.hasNext()) {
 						reader.beginObject();
@@ -108,7 +107,9 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 						if(produto==null){
 							produtoDAO.criar(id, nome, numero, preco);
 						}else if(!produto.getNome().equals(nome)||!produto.getValor().equals(preco)){
-							produtoDAO.atualizar(produto);
+							produto.setNome(!produto.getNome().equals(nome)?nome:null);
+							produto.setValor(!produto.getValor().equals(preco)?preco:null);
+							produtoDAO.atualizar(produto);							
 						}
 					}
 					reader.endArray();
