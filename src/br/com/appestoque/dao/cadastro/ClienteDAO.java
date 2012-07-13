@@ -65,6 +65,35 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 		identificador = db.insert(TABELA, null, initialValues);
 		return identificador;
     }
+	
+    public boolean atualizar(Cliente cliente) {
+		ContentValues initialValues = new ContentValues();
+		if(cliente.getNome()!=null){
+			initialValues.put(CLIENTE_CHAVE_NOME, cliente.getNome());
+		}
+		if(cliente.getCnpj()!=null){
+			initialValues.put(CLIENTE_CHAVE_CNPJ, cliente.getCnpj());
+		}
+		if(cliente.getEndereco()!=null){
+			initialValues.put(CLIENTE_CHAVE_ENDERECO, cliente.getEndereco());
+		}
+		if(cliente.getNumero()!=null){
+			initialValues.put(CLIENTE_CHAVE_NUMERO, cliente.getNumero());
+		}
+		if(cliente.getCep()!=null){
+			initialValues.put(CLIENTE_CHAVE_CEP, cliente.getCep());
+		}
+		if(cliente.getComplemento()!=null){
+			initialValues.put(CLIENTE_CHAVE_COMPLEMENTO, cliente.getComplemento());
+		}
+		if(cliente.getBairro()!=null){
+			initialValues.put(CLIENTE_CHAVE_BAIRRO, cliente.getBairro());
+		}
+		if(cliente.getCidade()!=null){
+			initialValues.put(CLIENTE_CHAVE_CIDADE, cliente.getCidade());
+		}
+		return db.update(TABELA, initialValues, CLIENTE_CHAVE_ID+"="+cliente.getId(), null)>0;
+    }
 
 	@Override
 	public Cliente pesquisar(long id) {
@@ -83,7 +112,7 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 					cursor.getLong(4), cursor.getString(5),
 					cursor.getString(6), cursor.getString(7),
 					cursor.getString(8));
-
+			cursor.close();
 		}
 		return objeto;
 	}

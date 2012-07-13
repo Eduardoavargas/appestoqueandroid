@@ -103,7 +103,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 							}
 						}
 						reader.endObject();
-						Produto produto = produtoDAO.consultar(numero);
+						Produto produto = produtoDAO.pesquisar(id);
 						if(produto==null){
 							produtoDAO.criar(id, nome, numero, preco);
 						}else if(!produto.getNome().equals(nome)||!produto.getValor().equals(preco)){

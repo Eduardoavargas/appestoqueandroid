@@ -3,9 +3,12 @@ package br.com.appestoque.ui;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -41,6 +44,9 @@ import br.com.appestoque.HttpCliente;
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.cadastro.ClienteDAO;
+import br.com.appestoque.dominio.cadastro.Cliente;
+import br.com.appestoque.seguranca.Criptografia;
+import br.com.appestoque.util.Conversor;
 
 public class ClienteActivity extends BaseListaAtividade implements Runnable{
 	
@@ -53,11 +59,23 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 		Looper.prepare();
 		Message message = new Message();
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-		String uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+		String email = preferencias.getString("email", null);
+		String senha = preferencias.getString("senha", null);
 		String url = Constantes.SERVIDOR + Constantes.RESTFUL_CLIENTE;
+		Criptografia criptografia = new Criptografia();
 		parametros = new ArrayList<NameValuePair>();
-		parametros.add(new BasicNameValuePair("uuid", uuid));
-		//parametros.add(new BasicNameValuePair("sincronismo","true"));
+		parametros.add(new BasicNameValuePair("email", email));
+		try {
+			parametros.add(new BasicNameValuePair("senha",Conversor.byteToString(criptografia.cifrar(senha),br.com.appestoque.util.Constantes.DELIMITADOR)));
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		InputStream inputStream = HttpCliente.recebeDados(url, parametros,ClienteActivity.this);
 		if (inputStream != null) {
 			try{
@@ -104,7 +122,24 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 					           }
 				         }
 				         reader.endObject();
-				         clienteDAO.criar(id, nome, cnpj, endereco, numero, cep, complemento, bairro, cidade);
+				         Cliente cliente = clienteDAO.pesquisar(id);
+				         if(cliente==null){
+				        	 clienteDAO.criar(id, nome, cnpj, endereco, numero, cep, complemento, bairro, cidade);
+				         }else if(!cliente.getNome().equals(nome)||!cliente.getCnpj().equals(cnpj)||!cliente.getEndereco().equals(endereco)
+				        		 ||!cliente.getNumero().equals(numero)||!cliente.getCep().equals(cep)
+				        		 ||!cliente.getComplemento().equals(complemento)||!cliente.getBairro().equals(bairro)
+				        		 ||!cliente.getCidade().equals(cidade)){
+				        	 cliente.setNome(!cliente.getNome().equals(nome)?nome:null);
+				        	 cliente.setCnpj(!cliente.getCnpj().equals(cnpj)?cnpj:null);
+				        	 cliente.setEndereco(!cliente.getEndereco().equals(endereco)?endereco:null);
+				        	 cliente.setNumero(!cliente.getNumero().equals(numero)?numero:null);
+				        	 cliente.setCep(!cliente.getCep().equals(cep)?cep:null);
+				        	 cliente.setComplemento(!cliente.getComplemento().equals(complemento)?complemento:null);
+				        	 cliente.setBairro(!cliente.getBairro().equals(bairro)?bairro:null);
+				        	 cliente.setCidade(!cliente.getCidade().equals(cidade)?cidade:null);
+				        	 clienteDAO.atualizar(cliente);
+				         }
+				         
 				     }
 				     reader.endArray();
 				     clienteDAO.fechar();

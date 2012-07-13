@@ -108,6 +108,7 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 			produto.setNome(cursor.getString(1));
 			produto.setNumero(cursor.getString(2));
 			produto.setValor(cursor.getDouble(3));
+			cursor.close();
 			return produto;
 		} else {
 			return null;
