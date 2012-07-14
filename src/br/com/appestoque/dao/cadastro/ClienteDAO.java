@@ -113,8 +113,12 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 					cursor.getString(6), cursor.getString(7),
 					cursor.getString(8));
 			cursor.close();
+			return objeto;
+		}else{
+			cursor.close();
+			return null;
 		}
-		return objeto;
+		
 	}
 	
     public Cursor pesquisar(String nome) {

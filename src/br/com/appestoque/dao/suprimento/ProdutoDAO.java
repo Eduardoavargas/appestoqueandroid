@@ -111,6 +111,7 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 			cursor.close();
 			return produto;
 		} else {
+			cursor.close();
 			return null;
 		}
     }
