@@ -1,8 +1,12 @@
 package br.com.appestoque.ui;
 
+import java.security.InvalidKeyException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
 
 import org.apache.http.HttpStatus;
 import org.json.JSONArray;
@@ -41,6 +45,8 @@ import br.com.appestoque.dao.suprimento.ProdutoDAO;
 import br.com.appestoque.dominio.cadastro.Cliente;
 import br.com.appestoque.dominio.faturamento.Item;
 import br.com.appestoque.dominio.faturamento.Pedido;
+import br.com.appestoque.seguranca.Criptografia;
+import br.com.appestoque.util.Conversor;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -80,11 +86,33 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	
 	public void run() {
 		
+		//SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+		//this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+		
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-		this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
+		String email = preferencias.getString("email", null);
+		String senha = preferencias.getString("senha", null);
+		
 		url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
 		parametros = new ArrayList <NameValuePair>();
-		parametros.add(new BasicNameValuePair("uuid",uuid));
+		
+		//parametros.add(new BasicNameValuePair("uuid",uuid));
+		
+		Criptografia criptografia = new Criptografia();
+		parametros = new ArrayList<NameValuePair>();
+		parametros.add(new BasicNameValuePair("email", email));
+		try {
+			parametros.add(new BasicNameValuePair("senha",Conversor.byteToString(criptografia.cifrar(senha),br.com.appestoque.util.Constantes.DELIMITADOR)));
+		} catch (InvalidKeyException e) {
+			e.printStackTrace();
+		} catch (BadPaddingException e) {
+			e.printStackTrace();
+		} catch (IllegalBlockSizeException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		itemDAO.abrir();
 		List<Item> itens = itemDAO.listar(pedido);
 		itemDAO.fechar();
