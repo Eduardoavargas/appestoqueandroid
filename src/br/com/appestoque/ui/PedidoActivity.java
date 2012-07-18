@@ -21,9 +21,13 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -63,7 +67,26 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	private String url;
 	private List <NameValuePair> parametros;
 	
+	private Double latitude; 
+	private Double longitude;
+	
 	private Pedido pedido;
+	
+	private LocationListener locationListener = new LocationListener() {
+		
+	    public void onLocationChanged(Location location) {
+	    	latitude = location.getLatitude();
+			longitude = location.getLongitude();
+			Log.e("Appestoque", "Latitude: " + location.getLatitude());
+			Log.e("Appestoque", "Longitude: " + location.getLongitude());
+	    }
+
+	    public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+	    public void onProviderEnabled(String provider) {}
+
+	    public void onProviderDisabled(String provider) {}
+	  };
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -86,17 +109,12 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	
 	public void run() {
 		
-		//SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
-		//this.uuid = preferencias.getString("UUID", UUID.randomUUID().toString());
-		
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
 		String email = preferencias.getString("email", null);
 		String senha = preferencias.getString("senha", null);
 		
 		url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
 		parametros = new ArrayList <NameValuePair>();
-		
-		//parametros.add(new BasicNameValuePair("uuid",uuid));
 		
 		Criptografia criptografia = new Criptografia();
 		parametros = new ArrayList<NameValuePair>();
@@ -122,6 +140,8 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 			pedidoJSON.put("numero",pedido.getNumero());
 			pedidoJSON.put("data",pedido.getData().getTime());
 			pedidoJSON.put("idCliente",pedido.getCliente().getId());
+			pedidoJSON.put("latitude",this.latitude);
+			pedidoJSON.put("longitude",this.longitude);
 			pedidoJSON.put("obs",pedido.getObs());
 			for(Item itm :itens){
 				JSONObject itemJSON = new JSONObject();
@@ -190,6 +210,10 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	    }
 		setListAdapter(new PedidoAdapter(this,cursor));
 		registerForContextMenu(getListView());
+		
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+		
 		super.onResume();
 	}
 
