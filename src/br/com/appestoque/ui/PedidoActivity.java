@@ -67,26 +67,7 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	private String url;
 	private List <NameValuePair> parametros;
 	
-	private Double latitude; 
-	private Double longitude;
-	
 	private Pedido pedido;
-	
-	private LocationListener locationListener = new LocationListener() {
-		
-	    public void onLocationChanged(Location location) {
-	    	latitude = location.getLatitude();
-			longitude = location.getLongitude();
-			Log.e("Appestoque", "Latitude: " + location.getLatitude());
-			Log.e("Appestoque", "Longitude: " + location.getLongitude());
-	    }
-
-	    public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-	    public void onProviderEnabled(String provider) {}
-
-	    public void onProviderDisabled(String provider) {}
-	  };
 	
 	private Handler handler = new Handler() {
 		@Override
@@ -110,8 +91,11 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	public void run() {
 		
 		SharedPreferences preferencias = getSharedPreferences(Constantes.PREFERENCIAS, 0);
+		
 		String email = preferencias.getString("email", null);
 		String senha = preferencias.getString("senha", null);
+		
+		Double latitude = new Double(preferencias.getString("latitude",null)), longitude = new Double(preferencias.getString("longitude",null));
 		
 		url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
 		parametros = new ArrayList <NameValuePair>();
@@ -140,8 +124,8 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 			pedidoJSON.put("numero",pedido.getNumero());
 			pedidoJSON.put("data",pedido.getData().getTime());
 			pedidoJSON.put("idCliente",pedido.getCliente().getId());
-			pedidoJSON.put("latitude",this.latitude);
-			pedidoJSON.put("longitude",this.longitude);
+			pedidoJSON.put("latitude",latitude);
+			pedidoJSON.put("longitude",longitude);
 			pedidoJSON.put("obs",pedido.getObs());
 			for(Item itm :itens){
 				JSONObject itemJSON = new JSONObject();
@@ -211,8 +195,8 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		setListAdapter(new PedidoAdapter(this,cursor));
 		registerForContextMenu(getListView());
 		
-		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+		//LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		//locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 		//locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 		
 		super.onResume();
