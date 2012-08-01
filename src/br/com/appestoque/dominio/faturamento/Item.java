@@ -3,7 +3,14 @@ package br.com.appestoque.dominio.faturamento;
 import br.com.appestoque.dominio.suprimento.Produto;
 
 public class Item {
-
+	
+	public static final int ITEM_SEQUENCIA_ID 			= 0;
+	public static final int ITEM_SEQUENCIA_QUANTIDADE 	= 1;
+	public static final int ITEM_SEQUENCIA_VALOR 		= 2;
+	public static final int ITEM_SEQUENCIA_PRODUTO 		= 3;
+	public static final int ITEM_SEQUENCIA_PEDIDO 		= 4;
+	public static final int ITEM_SEQUENCIA_NUMERO 		= 5;
+	
 	private Long id;	
 	private Double quantidade;
 	private Double valor;

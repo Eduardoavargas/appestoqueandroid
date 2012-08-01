@@ -21,6 +21,7 @@ public class ItemDAO implements IDAO<Item,Long>{
 	public static final String ITEM_CHAVE_VALOR = "valor";
 	public static final String ITEM_CHAVE_PRODUTO = "idProduto";
 	public static final String ITEM_CHAVE_PEDIDO = "idPedido";
+	public static final String ITEM_CHAVE_NUMERO = "numero";
 	
 	public static final String TABELA = "itens";
 	
@@ -51,8 +52,9 @@ public class ItemDAO implements IDAO<Item,Long>{
 														ITEM_CHAVE_QUANTIDADE,
 														ITEM_CHAVE_VALOR,
 														ITEM_CHAVE_PRODUTO,
-														ITEM_CHAVE_PEDIDO}, 
-														ITEM_CHAVE_PEDIDO + " = " + id , null, null, null, null);
+														ITEM_CHAVE_PEDIDO,
+														ITEM_CHAVE_NUMERO}, 
+														ITEM_CHAVE_PEDIDO + " = " + id , null, null, null, ITEM_CHAVE_NUMERO + " asc ");
     	return cursor;
 	}
 	
@@ -61,6 +63,7 @@ public class ItemDAO implements IDAO<Item,Long>{
         initialValues.put(ITEM_CHAVE_QUANTIDADE,item.getQuantidade());
         initialValues.put(ITEM_CHAVE_VALOR,item.getValor());
         initialValues.put(ITEM_CHAVE_PRODUTO,item.getProduto().getId());
+        initialValues.put(ITEM_CHAVE_NUMERO,item.getProduto().getNumero());
         initialValues.put(ITEM_CHAVE_PEDIDO,item.getPedido().getId());
         long ret = db.insert(TABELA, null,initialValues);
         return ret;

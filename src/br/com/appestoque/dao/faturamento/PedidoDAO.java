@@ -38,7 +38,7 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 														PEDIDO_CHAVE_OBS,
 														PEDIDO_CHAVE_CLIENTE,
 														PEDIDO_CHAVE_SINCRONIZADO}, 
-														null, null, null, null, null);
+														null, null, null, null, PEDIDO_CHAVE_DATA + " desc");
     	return cursor;
 	}
 	

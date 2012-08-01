@@ -63,8 +63,10 @@ public class ItemEditarActivity extends BaseAtividade {
 		if(produto!=null){
 			if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
 				Item item = new Item();
-				item.setQuantidade(new Double(qtd.getText().toString()));
-				item.setValor(new Double(valor.getText().toString()));
+//				item.setQuantidade(new Double(qtd.getText().toString()));
+//				item.setValor(new Double(valor.getText().toString()));
+				item.setQuantidade(Double.valueOf(qtd.getText().toString()));
+				item.setValor(Double.valueOf(valor.getText().toString()));
 				item.setProduto(produto);
 				PedidoDAO pedidoDAO = new PedidoDAO(this);
 				pedidoDAO.abrir();
