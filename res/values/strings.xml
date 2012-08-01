@@ -90,6 +90,8 @@
 		<string name="menu_visualizar">Visualizar</string>
 		<string name="menu_criar_pedido">Criar pedido</string>
 		<string name="menu_sincronizar">Sincronizar</string>
+		<string name="menu_editar">Editar</string>
+		<string name="menu_remover">Remover</string>
 		
 		<!--PADRÃO MÁSCARA-->
 		<string name="mascara_data_ddMMyyyy">dd/MM/yyyy</string>
@@ -100,6 +102,10 @@
 		
 		<string name="hello">Hello World</string>
         <string name="app_name">Customized Tabs!</string>
-		
+        
+        <string name="lbl_numero">Número</string>
+        <string name="lbl_quantidade">Quantidade</string>
+        <string name="lbl_valor">Valor</string>
+        <string name="lbl_total">Total</string>
 	
 </resources>
