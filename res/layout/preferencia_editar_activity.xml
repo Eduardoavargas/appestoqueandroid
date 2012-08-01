@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent" android:background="@color/fundo_branco">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/fundo_branco"
+    android:orientation="vertical" >
+
 	<LinearLayout style="@style/Titulo_Barra">
 		<ImageButton style="@style/Titulo_Barra_Acao"
 			android:src="@drawable/btn_iniciar"
@@ -14,13 +16,21 @@
 	<ScrollView android:layout_height="wrap_content" android:id="@+id/scrollView1"
 		android:layout_width="fill_parent" android:layout_weight="3">
 
-		<LinearLayout android:id="@+id/linearLayout1"
-			android:orientation="vertical" android:layout_width="fill_parent"
-			android:layout_height="fill_parent" android:background="@color/fundo_branco">
+		<LinearLayout
+		    android:id="@+id/linearLayout1"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:background="@color/fundo_branco"
+		    android:orientation="vertical" >
 
-			<TextView android:id="@+id/txtEmail" android:text="@string/edtEmail"
-				android:textColor="#000000" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" style="@style/SessionTitle" />
+			<TextView
+			    android:id="@+id/txtEmail"
+			    style="@style/SessionTitle"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:text="@string/edtEmail"
+			    android:textColor="#000000" />
+
 			<EditText android:id="@+id/edtEmail" android:layout_height="wrap_content"
 				android:layout_width="fill_parent" />
 			<TextView android:id="@+id/txtSenha" android:text="@string/edtSenha"
@@ -33,20 +43,28 @@
 
 	</ScrollView>
 
-	<LinearLayout android:orientation="horizontal"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:background="#ffffffff"
-		style="@android:style/ButtonBar">
+	<LinearLayout
+	    style="@android:style/ButtonBar"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#ffffffff"
+	    android:orientation="horizontal" >
+
 		<Button android:layout_width="0dip" android:layout_height="wrap_content"
 			android:layout_weight="1" android:onClick="onSalvarClick"
 			android:text="@string/botao_salvar" 
 			android:background="@drawable/btn_green"
 			    style="@style/ButtonText"/>
-		<Button android:layout_width="0dip" android:layout_height="wrap_content"
-			android:layout_weight="1" android:onClick="onCancelarClick"
-			android:text="@string/botao_cancelar" 
-			android:background="@drawable/btn_green"
-			    style="@style/ButtonText"/>
+
+		<Button
+		    style="@style/ButtonText"
+		    android:layout_width="0dip"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="1"
+		    android:background="@drawable/btn_green"
+		    android:onClick="onCancelarClick"
+		    android:text="@string/botao_cancelar" />
+
 	</LinearLayout>
 
 </LinearLayout>
