@@ -57,7 +57,7 @@ import org.apache.http.message.BasicNameValuePair;
 
 @SuppressWarnings("unused")
 public class PedidoActivity extends BaseListaAtividade implements Runnable{
-
+ 
 	private PedidoDAO pedidoDAO;
 	private ItemDAO itemDAO;
 	private ClienteDAO clienteDAO;
