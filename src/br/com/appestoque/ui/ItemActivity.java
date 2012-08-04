@@ -3,15 +3,18 @@ package br.com.appestoque.ui;
 import br.com.appestoque.Constantes;
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
+import br.com.appestoque.dao.cadastro.ClienteDAO;
 import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
 import br.com.appestoque.dao.suprimento.ProdutoDAO;
 import br.com.appestoque.dominio.faturamento.Item;
+import br.com.appestoque.dominio.faturamento.Pedido;
 import br.com.appestoque.dominio.suprimento.Produto;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,8 +22,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 
 public class ItemActivity extends BaseListaAtividade{
 	
@@ -81,31 +86,16 @@ public class ItemActivity extends BaseListaAtividade{
 	
 	public void onAdicionarClick(View v) {
 		Intent intent = new Intent(this, ItemEditarActivity.class);
-		intent.putExtras(getIntent().getExtras());
+		intent.putExtra(ItemDAO.ITEM_CHAVE_PEDIDO,getIntent().getExtras().getLong(PedidoDAO.PEDIDO_CHAVE_ID));
     	startActivity(intent);
     }
 	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v,
-			ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		MenuInflater inflater = getMenuInflater();
-		inflater.inflate(R.menu.item_menu, menu);
+	public void onListItemClick(ListView listView, View view, int position, long itemId){
+		super.onListItemClick(listView, view, position, itemId);
+		Intent intent = new Intent(this, ItemEditarActivity.class);
+		intent.putExtra(ItemDAO.ITEM_CHAVE_PEDIDO,getIntent().getExtras().getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+    	intent.putExtra(ItemDAO.ITEM_CHAVE_ID, itemId);
+    	startActivity(intent);
 	}
-
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.item_menu_editar:
-				Toast.makeText(getApplicationContext(), "Editar Item", Toast.LENGTH_SHORT).show();
-				return true;
-			case R.id.item_menu_remover:
-				Toast.makeText(getApplicationContext(), "Remover Item", Toast.LENGTH_SHORT).show();
-				return true;
-			default:
-				return super.onContextItemSelected(item);
-		}
-	}
-
     
 }

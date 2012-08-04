@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class ItemEditarActivity extends BaseAtividade {
 
@@ -34,16 +35,32 @@ public class ItemEditarActivity extends BaseAtividade {
 		}
 		produtoDAO.abrir();
 		
+		AutoCompleteTextView txtProduto = (AutoCompleteTextView) findViewById(R.id.edtProduto);
+		
 		List<Produto> lista = produtoDAO.produtos();
 		String[] produtos = new String[lista.size()];
-		
 		for(int i = 0; i<lista.size();++i){
 			produtos[i] = lista.get(i).getNumero();
 		}
 		
-		AutoCompleteTextView txtProduto = (AutoCompleteTextView) findViewById(R.id.edtProduto);
-	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.produto_listar, produtos);
+	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.produto_listar, produtos );
 	    txtProduto.setAdapter(adapter);
+		
+		Long mRowId = getIntent().getExtras().getLong(ItemDAO.ITEM_CHAVE_ID);
+		
+		if (mRowId != null) {
+			((TextView) findViewById(R.id.edtId)).setText(mRowId.toString());
+			ItemDAO dao = new ItemDAO(this);
+			dao.abrir();
+			Item item = dao.pesquisar(mRowId);
+			if (item != null) {
+				txtProduto.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
+				((TextView) findViewById(R.id.edtQtd)).setText(item.getQuantidade().toString());
+				((TextView) findViewById(R.id.edtValor)).setText(item.getValor().toString());
+			}
+			dao.fechar();
+		}
+	    
 	    super.onResume();
 	}
 	
@@ -63,17 +80,27 @@ public class ItemEditarActivity extends BaseAtividade {
 		if(produto!=null){
 			if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
 				Item item = new Item();
-//				item.setQuantidade(new Double(qtd.getText().toString()));
-//				item.setValor(new Double(valor.getText().toString()));
 				item.setQuantidade(Double.valueOf(qtd.getText().toString()));
 				item.setValor(Double.valueOf(valor.getText().toString()));
 				item.setProduto(produto);
+				
 				PedidoDAO pedidoDAO = new PedidoDAO(this);
 				pedidoDAO.abrir();
-				Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+				Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_PEDIDO));
 				pedidoDAO.fechar();
+				
 				item.setPedido(pedido);
-				itemDAO.adicionar(item);
+				
+				if(!extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
+					if(itemDAO.adicionar(item)==0){
+						Util.dialogo(this, getString(R.string.mensagem_atualizar_problema));
+					}
+				}else{
+					item.setId(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
+					if(itemDAO.atualizar(item)==0){
+						Util.dialogo(this, getString(R.string.mensagem_atualizar_problema));
+					}
+				}
 				finish();
 			}else{
 				Util.dialogo(this,"Desculpe, mas é necessário informar a quantidade e o valor do item.");

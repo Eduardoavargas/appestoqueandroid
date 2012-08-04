@@ -71,22 +71,43 @@ public class ItemDAO implements IDAO<Item,Long>{
 	
 	@Override
 	public Item pesquisar(long id) {
+		
     	Cursor cursor =  db.query(TABELA, new String[] {ITEM_CHAVE_ID,
 														ITEM_CHAVE_QUANTIDADE,
 														ITEM_CHAVE_VALOR,
-														ITEM_CHAVE_PRODUTO,
-														ITEM_CHAVE_PEDIDO}, ITEM_CHAVE_ID + " = " + id , 
-    							null, null, null, null);    	
+														ITEM_CHAVE_PRODUTO,														
+														ITEM_CHAVE_PEDIDO,
+														ITEM_CHAVE_NUMERO}, ITEM_CHAVE_ID + " = " + id , 
+    							null, null, null, null);
+		
     	if(cursor.getCount()>0){
     		cursor.moveToFirst();
     		Item item = new Item();    		
     		item.setPedido(new Pedido());
     		item.setProduto(new Produto());
-    		item.setId(cursor.getLong(0));
-    		item.setQuantidade(cursor.getDouble(1));
-    		item.setValor(cursor.getDouble(2));
-    		item.getProduto().setId(cursor.getLong(3));
-    		item.getPedido().setId(cursor.getLong(4));
+    		item.setId(cursor.getLong(Item.ITEM_SEQUENCIA_ID));
+    		item.setQuantidade(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE));
+    		item.setValor(cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR));
+    		
+    		Cursor produtoCrs = db.query("produtos",
+    				new String[] { ProdutoDAO.PRODUTO_CHAVE_ID, 
+    							   ProdutoDAO.PRODUTO_CHAVE_NOME,
+    							   ProdutoDAO.PRODUTO_CHAVE_NUMERO, 
+    							   ProdutoDAO.PRODUTO_CHAVE_VALOR },
+    							   ProdutoDAO.PRODUTO_CHAVE_ID + " = " + cursor.getLong(Item.ITEM_SEQUENCIA_PRODUTO), null, null, null, null);
+    		Produto produto = new Produto();
+    		if (produtoCrs.getCount() > 0) {
+    			produtoCrs.moveToFirst();
+    			produto.setId(produtoCrs.getLong(0));
+    			produto.setNome(produtoCrs.getString(1));
+    			produto.setNumero(produtoCrs.getString(2));
+    			produto.setValor(produtoCrs.getDouble(3));
+    			produtoCrs.close();
+    		}
+    		
+    		item.setProduto(produto);
+    		item.getPedido().setId(cursor.getLong(Item.ITEM_SEQUENCIA_PEDIDO));
+    		
     		return item;
     	}else{
     		return null;
@@ -126,6 +147,10 @@ public class ItemDAO implements IDAO<Item,Long>{
     		produtoDAO.fechar();
 		}	
     	return itens;
+	}
+	
+	public boolean remover(long id){
+		return db.delete(TABELA, ITEM_CHAVE_ID + " = " + id , null) > 0;
 	}
 	
     public void fechar(){
