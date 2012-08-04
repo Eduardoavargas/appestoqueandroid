@@ -20,8 +20,10 @@
 		android:layout_width="fill_parent" android:layout_weight="3">
 
 		<LinearLayout android:id="@+id/linearLayoutItem"
-			android:orientation="vertical" android:layout_width="fill_parent"
-			android:layout_height="fill_parent" android:background="@color/fundo_branco">
+					  android:orientation="vertical" 
+					  android:layout_width="fill_parent"
+					  android:layout_height="fill_parent" 
+					  android:background="@color/fundo_branco">
 	
 			<TextView android:id="@+id/txtProduto" 
 			          android:text="@string/item_produto"
