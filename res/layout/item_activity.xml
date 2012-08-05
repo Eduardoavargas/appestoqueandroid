@@ -4,7 +4,8 @@
 	android:layout_height="fill_parent" 
 	android:background="@color/fundo_branco">
 	
-	<Button android:text="@string/botao_adicionar" 
+	<Button android:id="@+id/btn_adicionar"
+	        android:text="@string/botao_adicionar" 
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content" 
 			android:onClick="onAdicionarClick"

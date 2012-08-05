@@ -10,7 +10,16 @@
 			android:onClick="onIniciarClick" />
 		<ImageView style="@style/Titulo_Barra_Separador" />	
 		<TextView style="@style/TitleBarText" android:text="@string/titulo_produto" />
-		<ImageView style="@style/Titulo_Barra_Separador" />		  
+		<ImageView style="@style/Titulo_Barra_Separador" />
+		
+		<ImageButton android:id="@+id/img_remover"
+		    	     android:contentDescription="@string/hint_remover"
+		             style="@style/Titulo_Barra_Acao"
+					 android:src="@drawable/btn_remover"
+					 android:onClick="onRemoverClick"/>
+			
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		     	   android:contentDescription="@string/hint_remover"/>			 	  
 		<ImageButton style="@style/Titulo_Barra_Acao"
 			android:src="@drawable/btn_retornar"
 			android:onClick="onRetornarClick" />
@@ -46,6 +55,8 @@
 			<EditText
 			    android:id="@+id/edtQtd"
 			    android:layout_width="120dp"
+			    android:ems="10"
+			    android:inputType="numberDecimal"
 			    android:layout_height="wrap_content" />
 
 			<TextView
@@ -58,6 +69,8 @@
 
 			<EditText android:id="@+id/edtValor"
 			          android:layout_width="120dp"
+			          android:ems="10"
+			    	  android:inputType="numberDecimal"
 					  android:layout_height="wrap_content"/>
 			  
 		</LinearLayout>
