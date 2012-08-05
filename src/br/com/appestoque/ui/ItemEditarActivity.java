@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ItemEditarActivity extends BaseAtividade {
@@ -49,7 +50,6 @@ public class ItemEditarActivity extends BaseAtividade {
 		Long mRowId = getIntent().getExtras().getLong(ItemDAO.ITEM_CHAVE_ID);
 		
 		if (mRowId != null) {
-			((TextView) findViewById(R.id.edtId)).setText(mRowId.toString());
 			ItemDAO dao = new ItemDAO(this);
 			dao.abrir();
 			Item item = dao.pesquisar(mRowId);
@@ -59,7 +59,12 @@ public class ItemEditarActivity extends BaseAtividade {
 				((TextView) findViewById(R.id.edtValor)).setText(item.getValor().toString());
 			}
 			dao.fechar();
+		}else{
+			((TextView) findViewById(R.id.edtQtd)).setText("0.00");
+			((TextView) findViewById(R.id.edtValor)).setText("0.00");
 		}
+		
+		((ImageButton) findViewById(R.id.img_remover)).setEnabled(getIntent().getExtras().containsKey(ItemDAO.ITEM_CHAVE_ID));
 	    
 	    super.onResume();
 	}
@@ -113,5 +118,14 @@ public class ItemEditarActivity extends BaseAtividade {
 	public void onCancelarClick(View view) {
 		finish();    	
 	}
+	
+	public void onRemoverClick(View view) {
+		Bundle extras = getIntent().getExtras();
+		if(extras.containsKey(ItemDAO.ITEM_CHAVE_ID)&&itemDAO.remover(extras.getLong(ItemDAO.ITEM_CHAVE_ID))){
+			Util.dialogo(this, getString(R.string.mensagem_remover_sucesso));
+			finish();
+		}
+	}
+
 	
 }

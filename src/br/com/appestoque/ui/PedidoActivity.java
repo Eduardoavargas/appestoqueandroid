@@ -256,7 +256,7 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 					Thread thread = new Thread(this);
 					thread.start();
 				}else{
-					Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_pedido_sincronizao));
+					Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_pedido_sincronizado));
 				}
 				return true;
 			case R.id.item_menu_visualizar:

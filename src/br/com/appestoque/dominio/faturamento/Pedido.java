@@ -6,6 +6,9 @@ import br.com.appestoque.dominio.cadastro.Cliente;
 
 public class Pedido {
 
+	public static final int PEDIDO_SEQUENCIA_ID 			= 0;
+	public static final int PEDIDO_SEQUENCIA_QUANTIDADE 	= 1;
+	
 	private Long id;
 	private String numero;
 	private Date data;

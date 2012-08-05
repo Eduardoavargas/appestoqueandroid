@@ -21,6 +21,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,6 +72,11 @@ public class ItemActivity extends BaseListaAtividade{
 		Bundle extras = getIntent().getExtras();
 		if(extras!=null){
 	        cursor = itemDAO.listar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+	        PedidoDAO pedidoDAO = new PedidoDAO(this);
+	        pedidoDAO.abrir();
+	        Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+	        pedidoDAO.fechar();
+	        ((Button) findViewById(R.id.btn_adicionar)).setEnabled(!pedido.getSincronizado());
 	    }
 		setListAdapter(new ItensAdapter(this,cursor));
 		registerForContextMenu(getListView());
@@ -92,10 +98,18 @@ public class ItemActivity extends BaseListaAtividade{
 	
 	public void onListItemClick(ListView listView, View view, int position, long itemId){
 		super.onListItemClick(listView, view, position, itemId);
-		Intent intent = new Intent(this, ItemEditarActivity.class);
-		intent.putExtra(ItemDAO.ITEM_CHAVE_PEDIDO,getIntent().getExtras().getLong(PedidoDAO.PEDIDO_CHAVE_ID));
-    	intent.putExtra(ItemDAO.ITEM_CHAVE_ID, itemId);
-    	startActivity(intent);
+		PedidoDAO pedidoDAO = new PedidoDAO(this);
+		pedidoDAO.abrir();
+		Pedido pedido = pedidoDAO.pesquisar(getIntent().getExtras().getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+		pedidoDAO.fechar();
+		if(!pedido.getSincronizado()){
+			Intent intent = new Intent(this, ItemEditarActivity.class);
+			intent.putExtra(ItemDAO.ITEM_CHAVE_PEDIDO,getIntent().getExtras().getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+	    	intent.putExtra(ItemDAO.ITEM_CHAVE_ID, itemId);
+	    	startActivity(intent);
+		}else{
+			Util.dialogo(this,getString(R.string.mensagem_pedido_sincronizado));
+		}
 	}
     
 }
