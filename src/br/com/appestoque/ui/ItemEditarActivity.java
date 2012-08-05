@@ -10,6 +10,7 @@ import br.com.appestoque.dominio.suprimento.Produto;
 import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
 import br.com.appestoque.dao.suprimento.ProdutoDAO;
+import br.com.appestoque.Constantes;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -57,11 +58,15 @@ public class ItemEditarActivity extends BaseAtividade {
 				txtProduto.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
 				((TextView) findViewById(R.id.edtQtd)).setText(item.getQuantidade().toString());
 				((TextView) findViewById(R.id.edtValor)).setText(item.getValor().toString());
+			}else{
+				
+				((TextView) findViewById(R.id.edtQtd)).setText(Constantes.VALOR_PADRAO_DUAS_CASAS_DECIMAIS);
+				((TextView) findViewById(R.id.edtValor)).setText(Constantes.VALOR_PADRAO_DUAS_CASAS_DECIMAIS);
 			}
 			dao.fechar();
 		}else{
-			((TextView) findViewById(R.id.edtQtd)).setText("0.00");
-			((TextView) findViewById(R.id.edtValor)).setText("0.00");
+			((TextView) findViewById(R.id.edtQtd)).setText(Constantes.VALOR_PADRAO_DUAS_CASAS_DECIMAIS);
+			((TextView) findViewById(R.id.edtValor)).setText(Constantes.VALOR_PADRAO_DUAS_CASAS_DECIMAIS);
 		}
 		
 		((ImageButton) findViewById(R.id.img_remover)).setEnabled(getIntent().getExtras().containsKey(ItemDAO.ITEM_CHAVE_ID));
