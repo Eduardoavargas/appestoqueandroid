@@ -30,7 +30,6 @@
 	<string name="mensagem_9">Pedido sincronizado com sucesso.</string>
 	<string name="mensagem_10">Pedido não sincronizado.</string>
 	<string name="mensagem_servidor_nao_responde">Servidor não está respondendo.</string>
-	<string name="mensagem_pedido_sincronizao">Este pedido já foi sincronizado.</string>
 	<string name="mensagem_conexao">Verificando conexão.</string>
 	
 	<string name="mensagem_remover_problema">Não foi possível remover informação</string>
@@ -110,5 +109,11 @@
         <string name="lbl_quantidade">Quantidade</string>
         <string name="lbl_valor">Valor</string>
         <string name="lbl_total">Total</string>
+        
+        <string name="hint_remover">Clique para remover informação</string>
+        
+        <string name="mensagem_remover_sucesso">Informação removida com sucesso.</string>
+        <string name="mensagem_pedido_sincronizado">Não será possível a ação porque o pedido de venda já foi sincronizado.</string>
+        
 	
 </resources>
