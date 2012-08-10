@@ -9,17 +9,13 @@
 	<string name="btn_cliente">Cliente</string>
 	<string name="btn_preferencia">Preferência</string>
 	
-	<!--
-	<string name="description_refresh">Refresh</string>  
-	<string name="description_home">Home</string> 	
-	<string name="description_search">Search</string>
-	-->
 	
+	<string name="contentDescription"></string>
 	
-	<string name="mensagem_sincronismo">Buscando informações. Aguarde...</string>
+	<string name="mensagem_sincronismo">Buscando informações. Aguarde.</string>
 	<string name="mensagem_sincronismo_conclusao">Processo de sincronismo concluido</string>
 	
-	<string name="mensagem_1">Sincronizando. Aguarde...</string>
+	<string name="mensagem_1">Sincronizando. Aguarde.</string>
 	<string name="mensagem_2">Informação de rede inexistente.</string>
 	<string name="mensagem_3">Conectividade inexistente</string>
 	<string name="mensagem_4">Erro ao atualizar produto</string>
@@ -115,5 +111,14 @@
         <string name="mensagem_remover_sucesso">Informação removida com sucesso.</string>
         <string name="mensagem_pedido_sincronizado">Não será possível a ação porque o pedido de venda já foi sincronizado.</string>
         
+        <!--labels-->
+        <string name="nome">Nome</string>
+        <string name="cnpj">CNPJ</string>
+        <string name="endereco">Endereço</string>
+        <string name="numero">Número</string>
+        <string name="cep">Cep</string>
+        <string name="complemento">Complemento</string>
+        <string name="bairro">Bairro</string>
+        <string name="cidade">Cidade</string>
 	
 </resources>
