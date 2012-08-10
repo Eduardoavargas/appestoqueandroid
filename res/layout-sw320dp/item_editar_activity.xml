@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:orientation="vertical" android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:background="@color/fundo_branco">
+	
+	<LinearLayout style="@style/Titulo_Barra">
+		<ImageButton style="@style/Titulo_Barra_Acao"
+			android:src="@drawable/btn_iniciar"
+			android:onClick="onIniciarClick" />
+		<ImageView style="@style/Titulo_Barra_Separador" />	
+		<TextView style="@style/TitleBarText" android:text="@string/titulo_produto" />
+		<ImageView style="@style/Titulo_Barra_Separador" />		  
+		<ImageButton style="@style/Titulo_Barra_Acao"
+			android:src="@drawable/btn_retornar"
+			android:onClick="onRetornarClick" />
+	</LinearLayout>
+
+	<ScrollView android:layout_height="wrap_content" android:id="@+id/scrollViewItem"
+		android:layout_width="fill_parent" android:layout_weight="3">
+
+		<LinearLayout android:id="@+id/linearLayoutItem"
+			android:orientation="vertical" android:layout_width="fill_parent"
+			android:layout_height="fill_parent" android:background="@color/fundo_branco">
+	
+			<TextView android:id="@+id/txtProduto" 
+			          android:text="@string/item_produto"
+					  android:textColor="#000000" 
+					  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent" 
+					  style="@style/SessionTitle" />
+			<AutoCompleteTextView android:id="@+id/edtProduto"
+		        	  android:layout_width="fill_parent"
+		        	  android:layout_height="wrap_content"
+		        	  android:textColor="@color/texto"/>
+			
+			<TextView android:id="@+id/txtQtd"
+			          android:text="@string/item_quantidade"
+					  android:textColor="#000000" 
+					  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent" 
+					  style="@style/SessionTitle" />
+
+			<EditText
+			    android:id="@+id/edtQtd"
+			    android:layout_width="120dp"
+			    android:layout_height="wrap_content" />
+
+			<TextView
+			    android:id="@+id/txtValor"
+			    style="@style/SessionTitle"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:text="@string/item_valor"
+			    android:textColor="#000000" />
+
+			<EditText android:id="@+id/edtValor"
+			          android:layout_width="120dp"
+					  android:layout_height="wrap_content"/>
+			  
+		</LinearLayout>
+
+	</ScrollView>	  	
+	
+	<LinearLayout android:orientation="horizontal"
+		android:layout_width="fill_parent" android:layout_height="wrap_content"
+		android:background="#ffffffff"
+		style="@android:style/ButtonBar">
+		<Button android:layout_width="0dip" 
+		    	android:layout_height="wrap_content"
+				android:layout_weight="1" 
+				android:onClick="onSalvarClick"
+				android:text="@string/botao_salvar"
+				android:background="@drawable/btn_green"
+				style="@style/ButtonText"/>
+		<Button android:layout_width="0dip" 
+		    	android:layout_height="wrap_content"
+				android:layout_weight="1" 
+				android:onClick="onCancelarClick"
+				android:text="@string/botao_cancelar" 
+				android:background="@drawable/btn_green"
+				style="@style/ButtonText"/>
+	</LinearLayout>	  
+
+</LinearLayout>
