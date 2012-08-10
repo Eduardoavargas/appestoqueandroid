@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/fundo_branco"
+    android:orientation="vertical" >
+
+	<LinearLayout style="@style/Titulo_Barra">
+		<ImageButton style="@style/Titulo_Barra_Acao"
+		    android:contentDescription="@string/contentDescription"
+			android:src="@drawable/btn_iniciar"
+			android:onClick="onIniciarClick" />
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		           android:contentDescription="@string/contentDescription"/>	
+		<TextView style="@style/TitleBarText" android:text="@string/titulo_cliente"/>
+	</LinearLayout>
+
+	<ScrollView android:layout_height="0dip" 
+	    		android:id="@+id/scrollView1"
+				android:layout_width="fill_parent" 
+				android:layout_weight="3">
+
+		<LinearLayout android:id="@+id/linearLayout1"
+		    		  android:layout_width="fill_parent"
+		    		  android:layout_height="wrap_content"
+		    		  android:background="@color/fundo_branco"
+		    		  android:orientation="vertical" >
+			<TextView style="@style/textView"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/nome"
+			    	  android:textColor="#000000" />
+			<EditText android:id="@+id/edtNome" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent" />
+			<TextView style="@style/textView"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/cnpj"
+			    	  android:textColor="#000000"/>
+			<EditText android:id="@+id/edtCnpj" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent"/>
+			<TextView style="@style/textView"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/endereco"
+			    	  android:textColor="#000000"/>
+			<EditText android:id="@+id/edtEnd" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent" />			
+			<TextView style="@style/textView"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/numero"
+			    	  android:textColor="#000000"/>
+			<EditText android:id="@+id/edtNum" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent" />		  
+			<TextView style="@style/textView"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/cep"
+			    	  android:textColor="#000000"/>
+			<EditText android:id="@+id/edtCep" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent" />		  
+			<TextView style="@style/textView"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/complemento"
+			    	  android:textColor="#000000"/>
+			<EditText android:id="@+id/edtCompl" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent" />
+			<TextView style="@style/textView"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/bairro"
+			    	  android:textColor="#000000"/>
+			<EditText android:id="@+id/edtBairro" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent"/>
+			<TextView style="@style/textView"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/cidade"
+			    	  android:textColor="#000000"/>
+			<EditText android:id="@+id/edtCidade" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="fill_parent" />		  
+		</LinearLayout>
+
+	</ScrollView>
+
+	<LinearLayout style="@android:style/ButtonBar"
+	    		  android:layout_width="fill_parent"
+	    		  android:layout_height="wrap_content"
+	    		  android:background="#ffffffff"
+	    		  android:orientation="horizontal" >
+		<Button android:layout_width="0dip" 
+		    	android:layout_height="wrap_content"
+				android:layout_weight="1" 
+				android:onClick="onSalvarClick"
+				android:text="@string/botao_salvar" 
+				android:background="@drawable/btn_green"
+			    style="@style/ButtonText"/>
+		<Button style="@style/ButtonText"
+		    	android:layout_width="0dip"
+		    	android:layout_height="wrap_content"
+		    	android:layout_weight="1"
+		    	android:background="@drawable/btn_green"
+		    	android:onClick="onCancelarClick"
+		    	android:text="@string/botao_cancelar" />
+	</LinearLayout>
+
+</LinearLayout>

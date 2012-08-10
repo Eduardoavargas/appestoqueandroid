@@ -15,6 +15,10 @@
 				  android:text="@string/titulo_cliente" />
 		<ImageView style="@style/TitleBarSeparator" />
 		<ImageButton style="@style/Titulo_Barra_Acao"
+			android:src="@drawable/btn_adicionar"
+			android:onClick="onAdicionarClick" />
+		<ImageView style="@style/Titulo_Barra_Separador" />
+		<ImageButton style="@style/Titulo_Barra_Acao"
 			android:src="@drawable/btn_buscar"
 			android:onClick="onBuscarClick" />
 		<ImageView style="@style/Titulo_Barra_Separador" />
