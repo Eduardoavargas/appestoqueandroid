@@ -252,6 +252,10 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 		}	
     	
     }
+	
+	public void onAdicionarClick(View v) {
+    	startActivity(new Intent(this, ClienteAdicionarActivity.class));
+	}
     
 	@Override
 	public void onCreateContextMenu(ContextMenu menu, View v,
