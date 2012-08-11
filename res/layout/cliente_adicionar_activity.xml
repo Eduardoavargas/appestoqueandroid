@@ -33,16 +33,16 @@
 			<EditText android:id="@+id/edtNome" 
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="fill_parent" />
+					  android:layout_width="280dip" />
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
 			    	  android:text="@string/cnpj"
 			    	  android:textColor="#000000"/>
 			<EditText android:id="@+id/edtCnpj" 
-			          android:inputType="text"
+			          android:inputType="number"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="fill_parent"/>
+					  android:layout_width="180dip"/>
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -51,25 +51,25 @@
 			<EditText android:id="@+id/edtEnd" 
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="fill_parent" />			
+					  android:layout_width="280dip" />			
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
 			    	  android:text="@string/numero"
 			    	  android:textColor="#000000"/>
 			<EditText android:id="@+id/edtNum" 
-			          android:inputType="text"
+			          android:inputType="number"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="fill_parent" />		  
+					  android:layout_width="120dip"/>		  
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
 			    	  android:text="@string/cep"
 			    	  android:textColor="#000000"/>
-			<EditText android:id="@+id/edtCep" 
-			          android:inputType="text"
+			<EditText android:id="@+id/edtCep"
+			          android:inputType="number"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="fill_parent" />		  
+					  android:layout_width="120dip"/>		  
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -78,7 +78,7 @@
 			<EditText android:id="@+id/edtCompl" 
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="fill_parent" />
+					  android:layout_width="280dip" />
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
 			<EditText android:id="@+id/edtBairro" 
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="fill_parent"/>
+					  android:layout_width="280dip"/>
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
 			<EditText android:id="@+id/edtCidade" 
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="fill_parent" />		  
+					  android:layout_width="280dip" />		  
 		</LinearLayout>
 
 	</ScrollView>
