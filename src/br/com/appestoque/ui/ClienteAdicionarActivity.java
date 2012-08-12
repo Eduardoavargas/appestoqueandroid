@@ -30,31 +30,32 @@ public class ClienteAdicionarActivity extends BaseAtividade {
 	        clienteDAO = new ClienteDAO(this);
 	        clienteDAO.abrir();
 	        
-	        // TODO validar nome do cliente	         
 	        final EditText edtNome = (EditText) findViewById(R.id.edtNome);
+	        if(edtNome.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_nome));}
 	        
 	        // TODO validar cnpj do cliente
-	        // TODO formatar cnpj do cliente
 	        final EditText edtCnpj = (EditText) findViewById(R.id.edtCnpj);
+	        if(edtCnpj.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_cnpj));}
 	        
-	        // TODO validar endereço do cliente
 	        final EditText edtEnd  = (EditText) findViewById(R.id.edtEnd);
+	        if(edtEnd.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_endereco));}
 	        
-	        // TODO validar número do cliente
 	        final EditText edtNum  = (EditText) findViewById(R.id.edtNum);
+	        if(edtNum.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_numero));}
 	        
 	        // TODO validar cep do cliente
-	        // TODO formatar cep do cliente
 	        final EditText edtCep  = (EditText) findViewById(R.id.edtCep);
+	        if(edtCep.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_cep));}
 	        
-	        // TODO validar complemento do cliente
 	        final EditText edtCompl  = (EditText) findViewById(R.id.edtCompl);
+	        if(edtCompl.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_complemento));}
 	        
-	        // TODO validar bairro do cliente
-	        final EditText edtBairro  = (EditText) findViewById(R.id.edtBairro);
+	        final EditText edtBairro = (EditText) findViewById(R.id.edtBairro);
+	        if(edtBairro.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_bairro));}
 	        
 	        // TODO validar cidade do cliente
-	        final EditText edtCidade  = (EditText) findViewById(R.id.edtCidade);
+	        final EditText edtCidade = (EditText) findViewById(R.id.edtCidade);
+	        if(edtCidade.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_cidade));}
 	        
 	        idCliente = clienteDAO.contar();
 	        
