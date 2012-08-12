@@ -105,4 +105,10 @@ public class Util {
 		return decimalFormat.format(valor);   
 	}
 	
+	public static String validarCNPJ( String cnpj) throws Exception{
+		assert cnpj.length()==Constantes.TAMANHO_PADRAO_CNPJ;
+		
+		return cnpj;   
+	}
+	
 }

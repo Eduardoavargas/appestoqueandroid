@@ -19,6 +19,8 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 	public static final String CLIENTE_CHAVE_COMPLEMENTO = "complemento";
 	public static final String CLIENTE_CHAVE_BAIRRO = "bairro";
 	public static final String CLIENTE_CHAVE_CIDADE = "cidade";
+	
+	final String CLIENTE_SQL_CONTAR = "select count(*) from " + TABELA;  
 
 	public static final String TABELA = "clientes";
     
@@ -130,6 +132,10 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 				CLIENTE_CHAVE_CIDADE }, CLIENTE_CHAVE_NOME + " like '" + nome
 				+ "%'", null, null, null, null);
 		return cursor;
+    }
+    
+    public long contar(){
+    	return db.compileStatement(CLIENTE_SQL_CONTAR).simpleQueryForLong();
     }
 
 	@Override

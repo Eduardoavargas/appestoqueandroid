@@ -35,5 +35,7 @@ public class Constantes {
 	public static final String MASCARA_VALOR_TRES_CASAS_DECIMAIS = "##,###,##0.000";
 	
 	public static final String VALOR_PADRAO_DUAS_CASAS_DECIMAIS = "0.000";
+	
+	public static final long TAMANHO_PADRAO_CNPJ = 14;
 		
 }

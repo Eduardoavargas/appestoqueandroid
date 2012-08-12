@@ -142,8 +142,8 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 				         
 				     }
 				     reader.endArray();
-				     clienteDAO.fechar();
 				}finally {
+					clienteDAO.fechar();
 					reader.close();
 				}			
 				message.what = Constantes.SUCESSO;
