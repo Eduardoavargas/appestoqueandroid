@@ -3,6 +3,8 @@ package br.com.appestoque.ui;
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.cadastro.ClienteDAO;
+import br.com.appestoque.format.CNPJFormatter;
+import br.com.appestoque.format.CepFormatter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -56,12 +58,15 @@ public class ClienteAdicionarActivity extends BaseAtividade {
 	        
 	        idCliente = clienteDAO.contar();
 	        
+//	        String cnpj = new CNPJFormatter().format(edtCnpj.getText().toString());
+//	        String cep = new CepFormatter().format(edtCep.getText().toString());
+	        
 	        clienteDAO.criar(++idCliente, 
 	        		edtNome.getText().toString(), 
-	        		edtCnpj.getText().toString(), 
+	        		new CNPJFormatter().format(edtCnpj.getText().toString()), 
 	        		edtEnd.getText().toString(),
 	        		Long.valueOf(edtNum.getText().toString()),
-	        		edtCep.getText().toString(), 
+	        		new CepFormatter().format(edtCep.getText().toString()), 
 	        		edtCompl.getText().toString(), 
 	        		edtBairro.getText().toString(), 
 	        		edtCidade.getText().toString());
