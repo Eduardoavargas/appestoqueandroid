@@ -120,5 +120,11 @@
         <string name="complemento">Complemento</string>
         <string name="bairro">Bairro</string>
         <string name="cidade">Cidade</string>
+        
+        
+        <!--dialog-->
+        <string name="sim">Sim</string>
+        <string name="nao">Não</string>
+        <string name="msg_criar_pedido_venda">Deseja criar um pedido de venda para este novo cliente ?</string>
 	
 </resources>
