@@ -1,5 +1,8 @@
 package br.com.appestoque.dao.cadastro;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -132,6 +135,33 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 				CLIENTE_CHAVE_CIDADE }, CLIENTE_CHAVE_NOME + " like '" + nome
 				+ "%'", null, null, null, null);
 		return cursor;
+    }
+    
+    
+	public String[] listarBairros() {
+		cursor = db.query(true, TABELA, new String[] {CLIENTE_CHAVE_BAIRRO}, null, null, null, null, CLIENTE_CHAVE_BAIRRO, null);
+		String[] bairros = new String[cursor.getCount()];
+		if (bairros.length>0) {
+			int i = 0;
+			while (cursor.moveToNext()) {
+				bairros[i] = cursor.getString(0);
+				++i;
+			}
+		}
+		return bairros;
+    }
+
+	public String[] listarCidades() {
+		cursor = db.query(true, TABELA, new String[] {CLIENTE_CHAVE_CIDADE}, null, null, null, null, CLIENTE_CHAVE_CIDADE, null);
+		String[] cidades = new String[cursor.getCount()];
+		if (cidades.length>0) {
+			int i = 0;
+			while (cursor.moveToNext()) {
+				cidades[i] = cursor.getString(0);
+				++i;
+			}
+		}
+		return cidades;
     }
     
     public long contar(){

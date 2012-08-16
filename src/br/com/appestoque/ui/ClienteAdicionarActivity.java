@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 
 public class ClienteAdicionarActivity extends BaseAtividade {
@@ -18,6 +20,17 @@ public class ClienteAdicionarActivity extends BaseAtividade {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.cliente_adicionar_activity);
+		ClienteDAO clienteDAO = null;
+		try{
+			clienteDAO = new ClienteDAO(this);
+	        clienteDAO.abrir();
+			AutoCompleteTextView txtBairro = (AutoCompleteTextView) findViewById(R.id.edtBairro);
+			AutoCompleteTextView txtCidade = (AutoCompleteTextView) findViewById(R.id.edtCidade);
+		    txtBairro.setAdapter(new ArrayAdapter<String>(this, R.layout.produto_listar, clienteDAO.listarBairros() ));
+		    txtCidade.setAdapter(new ArrayAdapter<String>(this, R.layout.produto_listar, clienteDAO.listarCidades() ));
+		}finally{
+			clienteDAO.fechar();
+		}
 	}	
 	
 	static long idCliente;
