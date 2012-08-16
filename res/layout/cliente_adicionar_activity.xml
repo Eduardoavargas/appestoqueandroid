@@ -84,19 +84,37 @@
 			    	  android:layout_height="wrap_content"
 			    	  android:text="@string/bairro"
 			    	  android:textColor="#000000"/>
+			
+			<AutoCompleteTextView android:id="@+id/edtBairro"
+		        	  android:layout_height="wrap_content"
+					  android:layout_width="280dip"
+		        	  android:textColor="@color/texto"/>
+			
+			<!--  
 			<EditText android:id="@+id/edtBairro" 
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
 					  android:layout_width="280dip"/>
+			-->		  
+			
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
 			    	  android:text="@string/cidade"
 			    	  android:textColor="#000000"/>
+			
+			<AutoCompleteTextView android:id="@+id/edtCidade"
+		        	  android:layout_height="wrap_content"
+					  android:layout_width="280dip"
+		        	  android:textColor="@color/texto"/>
+			
+			<!--  
 			<EditText android:id="@+id/edtCidade" 
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="280dip" />		  
+					  android:layout_width="280dip" />
+			-->		  
+					  		  
 		</LinearLayout>
 
 	</ScrollView>
