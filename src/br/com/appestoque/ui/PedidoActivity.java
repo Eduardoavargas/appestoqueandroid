@@ -123,17 +123,18 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		try {
 			pedidoJSON.put("numero",pedido.getNumero());
 			pedidoJSON.put("data",pedido.getData().getTime());
-			
+			pedidoJSON.put("sincronizado",pedido.getCliente().isSincronizado());
 			pedidoJSON.put("idCliente",pedido.getCliente().getId());
-			pedidoJSON.put("nome",pedido.getCliente().getNome());
-			pedidoJSON.put("cnpj",pedido.getCliente().getCnpj());
-			pedidoJSON.put("endereco",pedido.getCliente().getEndereco());
-			pedidoJSON.put("num",pedido.getCliente().getNumero());
-			pedidoJSON.put("cep",pedido.getCliente().getCep());
-			pedidoJSON.put("complemento",pedido.getCliente().getComplemento());
-			pedidoJSON.put("bairro",pedido.getCliente().getBairro());
-			pedidoJSON.put("cidade",pedido.getCliente().getCidade());
-			
+			if(!pedido.getCliente().isSincronizado()){
+				pedidoJSON.put("nome",pedido.getCliente().getNome());
+				pedidoJSON.put("cnpj",pedido.getCliente().getCnpj());
+				pedidoJSON.put("endereco",pedido.getCliente().getEndereco());
+				pedidoJSON.put("num",pedido.getCliente().getNumero());
+				pedidoJSON.put("cep",pedido.getCliente().getCep());
+				pedidoJSON.put("complemento",pedido.getCliente().getComplemento());
+				pedidoJSON.put("bairro",pedido.getCliente().getBairro());
+				pedidoJSON.put("cidade",pedido.getCliente().getCidade());
+			}
 			pedidoJSON.put("latitude",latitude);
 			pedidoJSON.put("longitude",longitude);
 			pedidoJSON.put("obs",pedido.getObs());

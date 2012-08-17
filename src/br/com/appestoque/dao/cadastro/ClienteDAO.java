@@ -1,8 +1,5 @@
 package br.com.appestoque.dao.cadastro;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -22,6 +19,7 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 	public static final String CLIENTE_CHAVE_COMPLEMENTO = "complemento";
 	public static final String CLIENTE_CHAVE_BAIRRO = "bairro";
 	public static final String CLIENTE_CHAVE_CIDADE = "cidade";
+	public static final String CLIENTE_CHAVE_SINCRONIZADO = "sincronizado";
 	
 	final String CLIENTE_SQL_CONTAR = "select count(*) from " + TABELA;  
 
@@ -108,22 +106,26 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 				CLIENTE_CHAVE_NOME, CLIENTE_CHAVE_CNPJ, CLIENTE_CHAVE_ENDERECO,
 				CLIENTE_CHAVE_NUMERO, CLIENTE_CHAVE_CEP,
 				CLIENTE_CHAVE_COMPLEMENTO, CLIENTE_CHAVE_BAIRRO,
-				CLIENTE_CHAVE_CIDADE }, CLIENTE_CHAVE_ID + " = " + id, null,
+				CLIENTE_CHAVE_CIDADE, CLIENTE_CHAVE_SINCRONIZADO }, CLIENTE_CHAVE_ID + " = " + id, null,
 				null, null, null);
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
-			objeto = new Cliente(cursor.getLong(0), cursor.getString(1),
-					cursor.getString(2), cursor.getString(3),
-					cursor.getLong(4), cursor.getString(5),
-					cursor.getString(6), cursor.getString(7),
-					cursor.getString(8));
+			objeto = new Cliente(cursor.getLong(Cliente.CLIENTE_SEQUENCIA_ID), 
+							     cursor.getString(Cliente.CLIENTE_SEQUENCIA_NOME),
+							     cursor.getString(Cliente.CLIENTE_SEQUENCIA_CNPJ), 
+							     cursor.getString(Cliente.CLIENTE_SEQUENCIA_ENDERECO),
+							     cursor.getLong(Cliente.CLIENTE_SEQUENCIA_NUMERO), 
+							     cursor.getString(Cliente.CLIENTE_SEQUENCIA_CEP),
+							     cursor.getString(Cliente.CLIENTE_SEQUENCIA_COMPLEMENTO), 
+							     cursor.getString(Cliente.CLIENTE_SEQUENCIA_BAIRRO),
+							     cursor.getString(Cliente.CLIENTE_SEQUENCIA_CIDADE),
+							     cursor.getLong(Cliente.CLIENTE_SEQUENCIA_SINCRONIZADO));
 			cursor.close();
 			return objeto;
 		}else{
 			cursor.close();
 			return null;
 		}
-		
 	}
 	
     public Cursor pesquisar(String nome) {
