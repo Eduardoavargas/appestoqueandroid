@@ -6,6 +6,7 @@ public class Produto {
 	private String nome;
 	private String numero;
 	private Double valor;
+	private Double minimo;
 	
 	public Produto() {
 	}
@@ -33,6 +34,14 @@ public class Produto {
 	}
 	public void setValor(Double valor) {
 		this.valor = valor;
+	}
+
+	public Double getMinimo() {
+		return minimo;
+	}
+
+	public void setMinimo(Double minimo) {
+		this.minimo = minimo;
 	}
 
 }

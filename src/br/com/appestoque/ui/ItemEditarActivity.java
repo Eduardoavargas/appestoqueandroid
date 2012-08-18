@@ -89,29 +89,33 @@ public class ItemEditarActivity extends BaseAtividade {
 		Produto produto = produtoDAO.consultar(numero.getText().toString());
 		if(produto!=null){
 			if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
-				Item item = new Item();
-				item.setQuantidade(Double.valueOf(qtd.getText().toString()));
-				item.setValor(Double.valueOf(valor.getText().toString()));
-				item.setProduto(produto);
-				
-				PedidoDAO pedidoDAO = new PedidoDAO(this);
-				pedidoDAO.abrir();
-				Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_PEDIDO));
-				pedidoDAO.fechar();
-				
-				item.setPedido(pedido);
-				
-				if(!extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
-					if(itemDAO.adicionar(item)==0){
-						Util.dialogo(this, getString(R.string.mensagem_atualizar_problema));
+				if(Double.valueOf(valor.getText().toString())>=produto.getMinimo()){
+					Item item = new Item();
+					item.setQuantidade(Double.valueOf(qtd.getText().toString()));
+					item.setValor(Double.valueOf(valor.getText().toString()));
+					item.setProduto(produto);
+					
+					PedidoDAO pedidoDAO = new PedidoDAO(this);
+					pedidoDAO.abrir();
+					Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_PEDIDO));
+					pedidoDAO.fechar();
+					
+					item.setPedido(pedido);
+					
+					if(!extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
+						if(itemDAO.adicionar(item)==0){
+							Util.dialogo(this, getString(R.string.mensagem_atualizar_problema));
+						}
+					}else{
+						item.setId(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
+						if(itemDAO.atualizar(item)==0){
+							Util.dialogo(this, getString(R.string.mensagem_atualizar_problema));
+						}
 					}
+					finish();
 				}else{
-					item.setId(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
-					if(itemDAO.atualizar(item)==0){
-						Util.dialogo(this, getString(R.string.mensagem_atualizar_problema));
-					}
+					Util.dialogo(this,getString(R.string.msg_validar_produto_valor_minimo));
 				}
-				finish();
 			}else{
 				Util.dialogo(this,"Desculpe, mas é necessário informar a quantidade e o valor do item.");
 			}

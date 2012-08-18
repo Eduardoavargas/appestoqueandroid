@@ -17,6 +17,7 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 	public static final String PRODUTO_CHAVE_NOME = "nome";
     public static final String PRODUTO_CHAVE_NUMERO = "numero";
     public static final String PRODUTO_CHAVE_VALOR = "valor";
+    public static final String PRODUTO_CHAVE_MINIMO = "minimo";
     
     public static final String TABELA = "produtos";
     
@@ -40,7 +41,7 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 	public List<Produto> produtos() {		
 		cursor = db.query(TABELA,
 				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
-						PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR }, null,
+							   PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR }, null,
 				null, null, null, null);
 
 		List<Produto> produtos = new ArrayList<Produto>();
@@ -118,9 +119,12 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
     
     public Produto consultar(String numero){
 		cursor = db.query(TABELA,
-				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
-						PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR },
-				PRODUTO_CHAVE_NUMERO + " = '" + numero + "'", null, null, null,
+				new String[] { 	PRODUTO_CHAVE_ID, 
+								PRODUTO_CHAVE_NOME,
+								PRODUTO_CHAVE_NUMERO, 
+								PRODUTO_CHAVE_VALOR,
+								PRODUTO_CHAVE_MINIMO },
+								PRODUTO_CHAVE_NUMERO + " = '" + numero + "'", null, null, null,
 				null);
 		if (cursor.getCount() > 0) {
 			cursor.moveToFirst();
@@ -129,6 +133,7 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 			produto.setNome(cursor.getString(1));
 			produto.setNumero(cursor.getString(2));
 			produto.setValor(cursor.getDouble(3));
+			produto.setMinimo(cursor.getDouble(4));
 			cursor.close();
 			return produto;
 		} else {

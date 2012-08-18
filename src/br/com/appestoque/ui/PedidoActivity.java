@@ -96,7 +96,6 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		String senha = preferencias.getString("senha", null);
 		
 		Double latitude = Double.parseDouble(preferencias.getString("latitude",null)), longitude = Double.parseDouble(preferencias.getString("longitude",null));
-		//Double latitude = new Double(preferencias.getString("latitude",null)), longitude = new Double(preferencias.getString("longitude",null));
 		
 		url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
 		parametros = new ArrayList <NameValuePair>();
@@ -263,6 +262,7 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 			case R.id.item_menu_sincronizar:
 				this.idPedido = info.id;
 				pedido = pedidoDAO.pesquisar(idPedido);
+				pedido.setCliente(clienteDAO.pesquisar(pedido.getCliente().getId()));
 				if(!pedido.getSincronizado()){
 					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
 					Thread thread = new Thread(this);

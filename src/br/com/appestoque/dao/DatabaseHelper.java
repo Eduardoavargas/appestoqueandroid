@@ -12,10 +12,11 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 	public static final String BASEDEDADOS_ARQUIVO = "appestoque.db";	
     
-	private static final int BASEDEDADOS_VERSAO = 3;
+	private static final int BASEDEDADOS_VERSAO = 4;
 	private static final int VERSAO_LANCAMENTO 	= 1;
 	private static final int VERSAO_1 			= 2;
 	private static final int VERSAO_2 			= 3;
+	private static final int VERSAO_3 			= 4;
 	
 	public DatabaseHelper(Context context) {
         super(context, BASEDEDADOS_ARQUIVO, null, BASEDEDADOS_VERSAO);        
@@ -28,7 +29,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 					+ ProdutoDAO.PRODUTO_CHAVE_ID       	+ " integer primary key,  				"
 			        + ProdutoDAO.PRODUTO_CHAVE_NOME     	+ " text not null, 	 					" 
 			        + ProdutoDAO.PRODUTO_CHAVE_NUMERO   	+ " text not null,	 	 				"
-			        + ProdutoDAO.PRODUTO_CHAVE_VALOR    	+ " real not null	 	 				"
+			        + ProdutoDAO.PRODUTO_CHAVE_VALOR    	+ " real not null,	 	 				"
+			        + ProdutoDAO.PRODUTO_CHAVE_MINIMO    	+ " real not null	 	 				"
 			        + "  ); ");
 		
 		db.execSQL(" create table "+ ClienteDAO.TABELA 		+ " ( "
@@ -75,6 +77,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 				break;
 			case VERSAO_2:
 				db.execSQL( " alter table " + ClienteDAO.TABELA + " add column  " + ClienteDAO.CLIENTE_CHAVE_SINCRONIZADO + " integer default 0 ;" ); 
+				break;
+			case VERSAO_3:
+				db.execSQL( " alter table " + ProdutoDAO.TABELA + " add column  " + ProdutoDAO.PRODUTO_CHAVE_MINIMO + " real default 0 ;" ); 
 				break;	
 		}
 	}
