@@ -135,5 +135,6 @@
         <string name="msg_validar_complemento">Complemento informado é inválido</string>
         <string name="msg_validar_bairro">Bairro informado é inválido</string>
         <string name="msg_validar_cidade">Cidade informada é inválida</string>
+        <string name="msg_validar_produto_valor_minimo">Este produto não pode ser vendido por este valor</string>
 	
 </resources>
