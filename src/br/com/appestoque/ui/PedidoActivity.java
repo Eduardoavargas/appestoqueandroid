@@ -95,7 +95,8 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		String email = preferencias.getString("email", null);
 		String senha = preferencias.getString("senha", null);
 		
-		Double latitude = new Double(preferencias.getString("latitude",null)), longitude = new Double(preferencias.getString("longitude",null));
+		Double latitude = Double.parseDouble(preferencias.getString("latitude",null)), longitude = Double.parseDouble(preferencias.getString("longitude",null));
+		//Double latitude = new Double(preferencias.getString("latitude",null)), longitude = new Double(preferencias.getString("longitude",null));
 		
 		url = Constantes.SERVIDOR + Constantes.RESTFUL_PEDIDO;
 		parametros = new ArrayList <NameValuePair>();

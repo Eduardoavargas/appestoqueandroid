@@ -122,7 +122,7 @@ public class Cliente {
 	}
 	
 	public boolean isSincronizado(){
-		return sincronizado==1L;
+		return sincronizado!=null&&sincronizado==1L;
 	}
 	
 	public void setSincronizado(boolean sincronzado) {
