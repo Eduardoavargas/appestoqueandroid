@@ -1,12 +1,16 @@
 package br.com.appestoque.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import br.com.appestoque.Constantes;
 import br.com.appestoque.R;
@@ -22,6 +26,29 @@ public class IniciarAtividade extends BaseAtividade implements LocationListener 
 		setContentView(R.layout.iniciar_atividade);
 		getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
 		//getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
+//		try {
+//			((TextView) findViewById(R.id.txtVersao)).setText("Versão: "+getPackageManager().getPackageInfo(getPackageName(),0).versionName);
+//		} catch (NameNotFoundException e) {
+//			 Log.e(Constantes.TAG, e.getMessage());
+//		}
+	}
+	
+	public void onSobreClick(View v) {
+		try {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(new String("Versão: "+getPackageManager().getPackageInfo(getPackageName(),0).versionName))
+			       .setCancelable(false)
+			       .setPositiveButton(getString(R.string.sim), new DialogInterface.OnClickListener() {
+			           public void onClick(DialogInterface dialog, int id) {
+			        	   dialog.cancel();
+			           }
+			       });
+			AlertDialog alert = builder.create();
+			alert.show();
+		} catch (NameNotFoundException e) {
+			Log.e(Constantes.TAG, e.getMessage());
+		}
+
 	}
 	
 	public void onClienteClick(View v) {
