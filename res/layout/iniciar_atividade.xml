@@ -8,6 +8,12 @@
     <LinearLayout style="@style/Titulo_Barra">
         <TextView style="@style/Titulo_Barra_Texto" 
         		  android:text="@string/titulo_menu"/>
+        <ImageView style="@style/Titulo_Barra_Separador" 
+		     	   android:contentDescription="@string/description"/>
+        <ImageButton android:contentDescription="@string/description"
+		             style="@style/Titulo_Barra_Acao"
+					 android:src="@drawable/btn_sobre"
+					 android:onClick="onSobreClick"/>        
     </LinearLayout>
     
     <LinearLayout android:orientation="horizontal"

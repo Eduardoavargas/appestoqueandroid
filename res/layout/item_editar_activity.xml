@@ -13,13 +13,13 @@
 		<ImageView style="@style/Titulo_Barra_Separador" />
 		
 		<ImageButton android:id="@+id/img_remover"
-		    	     android:contentDescription="@string/hint_remover"
+		    	     android:contentDescription="@string/description"
 		             style="@style/Titulo_Barra_Acao"
 					 android:src="@drawable/btn_remover"
 					 android:onClick="onRemoverClick"/>
 			
 		<ImageView style="@style/Titulo_Barra_Separador" 
-		     	   android:contentDescription="@string/hint_remover"/>			 	  
+		     	   android:contentDescription="@string/description"/>			 	  
 		<ImageButton style="@style/Titulo_Barra_Acao"
 			android:src="@drawable/btn_retornar"
 			android:onClick="onRetornarClick" />
