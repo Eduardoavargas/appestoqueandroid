@@ -26,19 +26,14 @@ public class IniciarAtividade extends BaseAtividade implements LocationListener 
 		setContentView(R.layout.iniciar_atividade);
 		getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
 		//getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
-//		try {
-//			((TextView) findViewById(R.id.txtVersao)).setText("Versão: "+getPackageManager().getPackageInfo(getPackageName(),0).versionName);
-//		} catch (NameNotFoundException e) {
-//			 Log.e(Constantes.TAG, e.getMessage());
-//		}
 	}
 	
 	public void onSobreClick(View v) {
 		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(new String("Versão: "+getPackageManager().getPackageInfo(getPackageName(),0).versionName))
+			builder.setMessage(new String("Versão: Beta "+getPackageManager().getPackageInfo(getPackageName(),0).versionName))
 			       .setCancelable(false)
-			       .setPositiveButton(getString(R.string.sim), new DialogInterface.OnClickListener() {
+			       .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
 			        	   dialog.cancel();
 			           }
