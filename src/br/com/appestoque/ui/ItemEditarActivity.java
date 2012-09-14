@@ -58,8 +58,8 @@ public class ItemEditarActivity extends BaseAtividade {
 				txtProduto.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
 				((TextView) findViewById(R.id.edtQtd)).setText(item.getQuantidade().toString());
 				((TextView) findViewById(R.id.edtValor)).setText(item.getValor().toString());
+				((TextView) findViewById(R.id.edtObs)).setText(item.getObs());
 			}else{
-				
 				((TextView) findViewById(R.id.edtQtd)).setText(Constantes.VALOR_PADRAO_DUAS_CASAS_DECIMAIS);
 				((TextView) findViewById(R.id.edtValor)).setText(Constantes.VALOR_PADRAO_DUAS_CASAS_DECIMAIS);
 			}
@@ -86,6 +86,9 @@ public class ItemEditarActivity extends BaseAtividade {
 		final AutoCompleteTextView numero = (AutoCompleteTextView) findViewById(R.id.edtProduto);
 		final EditText qtd = (EditText) findViewById(R.id.edtQtd);
 		final EditText valor = (EditText) findViewById(R.id.edtValor);
+		
+		final EditText obs = (EditText) findViewById(R.id.edtObs);
+		
 		Produto produto = produtoDAO.consultar(numero.getText().toString());
 		if(produto!=null){
 			if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
@@ -93,6 +96,7 @@ public class ItemEditarActivity extends BaseAtividade {
 					Item item = new Item();
 					item.setQuantidade(Double.valueOf(qtd.getText().toString()));
 					item.setValor(Double.valueOf(valor.getText().toString()));
+					item.setObs(obs.getText().toString());
 					item.setProduto(produto);
 					
 					PedidoDAO pedidoDAO = new PedidoDAO(this);

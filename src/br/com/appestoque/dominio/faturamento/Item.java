@@ -10,20 +10,23 @@ public class Item {
 	public static final int ITEM_SEQUENCIA_PRODUTO 		= 3;
 	public static final int ITEM_SEQUENCIA_PEDIDO 		= 4;
 	public static final int ITEM_SEQUENCIA_NUMERO 		= 5;
+	public static final int ITEM_SEQUENCIA_OBS 			= 6;
 	
 	private Long id;	
 	private Double quantidade;
 	private Double valor;
 	private Pedido pedido;
 	private Produto produto;
+	private String obs;
 	
-	public Item(Long id, Double valor, Double quantidade, Pedido pedido, Produto produto) {
+	public Item(Long id, Double valor, Double quantidade, Pedido pedido, Produto produto, String obs) {
 		super();
 		this.id = id;
 		this.quantidade = quantidade;
 		this.valor = valor;
 		this.pedido = pedido;
 		this.produto = produto;
+		this.obs = obs;
 	}
 	
 	public Item() {
@@ -68,6 +71,14 @@ public class Item {
 	
 	public void setProduto(Produto produto) {
 		this.produto = produto;
+	}
+
+	public String getObs() {
+		return obs;
+	}
+
+	public void setObs(String obs) {
+		this.obs = obs;
 	}
 	
 }

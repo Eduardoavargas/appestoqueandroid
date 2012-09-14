@@ -38,10 +38,12 @@ public class ItemActivity extends BaseListaAtividade{
             final TextView valor = (TextView) view.findViewById(R.id.valor);
             final TextView valorTotal = (TextView) view.findViewById(R.id.valorTotal);
             final TextView numero = (TextView) view.findViewById(R.id.numero);
+            final TextView obs = (TextView) view.findViewById(R.id.obs);
             quantidade.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
             valor.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
             valorTotal.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE)*cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
             numero.setText(cursor.getString(Item.ITEM_SEQUENCIA_NUMERO));
+            obs.setText(cursor.getString(Item.ITEM_SEQUENCIA_OBS));
             Produto prd = produtoDAO.pesquisar(cursor.getLong(Item.ITEM_SEQUENCIA_PRODUTO));
             produto.setText(prd.getNome());
 		}

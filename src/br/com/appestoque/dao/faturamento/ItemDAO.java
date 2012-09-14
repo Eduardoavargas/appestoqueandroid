@@ -22,6 +22,7 @@ public class ItemDAO implements IDAO<Item,Long>{
 	public static final String ITEM_CHAVE_PRODUTO = "idProduto";
 	public static final String ITEM_CHAVE_PEDIDO = "idPedido";
 	public static final String ITEM_CHAVE_NUMERO = "numero";
+	public static final String ITEM_CHAVE_OBS = "obs";
 	
 	public static final String TABELA = "itens";
 	
@@ -42,7 +43,8 @@ public class ItemDAO implements IDAO<Item,Long>{
 														ITEM_CHAVE_QUANTIDADE,
 														ITEM_CHAVE_VALOR,
 														ITEM_CHAVE_PRODUTO,
-														ITEM_CHAVE_PEDIDO}, 
+														ITEM_CHAVE_PEDIDO,
+														ITEM_CHAVE_OBS}, 
 														null, null, null, null, null);
     	return cursor;
 	}
@@ -53,7 +55,8 @@ public class ItemDAO implements IDAO<Item,Long>{
 														ITEM_CHAVE_VALOR,
 														ITEM_CHAVE_PRODUTO,
 														ITEM_CHAVE_PEDIDO,
-														ITEM_CHAVE_NUMERO}, 
+														ITEM_CHAVE_NUMERO,
+														ITEM_CHAVE_OBS}, 
 														ITEM_CHAVE_PEDIDO + " = " + id , null, null, null, ITEM_CHAVE_NUMERO + " asc ");
     	return cursor;
 	}
@@ -65,6 +68,7 @@ public class ItemDAO implements IDAO<Item,Long>{
         initialValues.put(ITEM_CHAVE_PRODUTO,item.getProduto().getId());
         initialValues.put(ITEM_CHAVE_NUMERO,item.getProduto().getNumero());
         initialValues.put(ITEM_CHAVE_PEDIDO,item.getPedido().getId());
+        initialValues.put(ITEM_CHAVE_OBS,item.getObs());
         long ret = db.insert(TABELA, null,initialValues);
         return ret;
     }
@@ -77,7 +81,8 @@ public class ItemDAO implements IDAO<Item,Long>{
 														ITEM_CHAVE_VALOR,
 														ITEM_CHAVE_PRODUTO,														
 														ITEM_CHAVE_PEDIDO,
-														ITEM_CHAVE_NUMERO}, ITEM_CHAVE_ID + " = " + id , 
+														ITEM_CHAVE_NUMERO,
+														ITEM_CHAVE_OBS}, ITEM_CHAVE_ID + " = " + id , 
     							null, null, null, null);
 		
     	if(cursor.getCount()>0){
@@ -88,6 +93,7 @@ public class ItemDAO implements IDAO<Item,Long>{
     		item.setId(cursor.getLong(Item.ITEM_SEQUENCIA_ID));
     		item.setQuantidade(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE));
     		item.setValor(cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR));
+    		item.setObs(cursor.getString(Item.ITEM_SEQUENCIA_OBS));
     		
     		Cursor produtoCrs = db.query("produtos",
     				new String[] { ProdutoDAO.PRODUTO_CHAVE_ID, 
@@ -120,6 +126,7 @@ public class ItemDAO implements IDAO<Item,Long>{
         initialValues.put(ITEM_CHAVE_VALOR,item.getValor());
         initialValues.put(ITEM_CHAVE_PRODUTO,item.getProduto().getId());
         initialValues.put(ITEM_CHAVE_PEDIDO,item.getPedido().getId());
+        initialValues.put(ITEM_CHAVE_OBS,item.getObs());
 		return db.update(TABELA, initialValues, ITEM_CHAVE_ID + " = " + item.getId() , null);
 	}
 	
@@ -133,7 +140,8 @@ public class ItemDAO implements IDAO<Item,Long>{
 														ITEM_CHAVE_QUANTIDADE,
 														ITEM_CHAVE_VALOR,
 														ITEM_CHAVE_PRODUTO,
-														ITEM_CHAVE_PEDIDO}, 
+														ITEM_CHAVE_PEDIDO,
+														ITEM_CHAVE_OBS}, 
 														ITEM_CHAVE_PEDIDO + " = " + pedido.getId(), null, null, null, null);
 		List<Item> itens = new ArrayList<Item>();
 		if(cursor.getCount()>0){	
@@ -141,7 +149,8 @@ public class ItemDAO implements IDAO<Item,Long>{
 			produtoDAO.abrir();
     		while(cursor.moveToNext()){
     			Produto produto = produtoDAO.pesquisar(cursor.getLong(3)); 
-    			Item item = new Item(cursor.getLong(0),cursor.getDouble(2),cursor.getDouble(1),pedido, produto);
+    			Item item = new Item(cursor.getLong(0),cursor.getDouble(2),cursor.getDouble(1),pedido, produto, 
+    					cursor.getString(Item.ITEM_SEQUENCIA_OBS));
     			itens.add(item);
     		}    		
     		produtoDAO.fechar();

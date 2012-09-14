@@ -12,8 +12,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 	public static final String BASEDEDADOS_ARQUIVO = "appestoque.db";	
     
-	private static final int BASEDEDADOS_VERSAO = 1;
+	private static final int BASEDEDADOS_VERSAO = 2;
 	private static final int VERSAO_1 			= 1;
+	private static final int VERSAO_2 			= 2;
 	
 	public DatabaseHelper(Context context) {
         super(context, BASEDEDADOS_ARQUIVO, null, BASEDEDADOS_VERSAO);        
@@ -47,7 +48,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 					+ PedidoDAO.PEDIDO_CHAVE_ID  			+ " integer primary key AUTOINCREMENT,	"
 			        + PedidoDAO.PEDIDO_CHAVE_NUMERO     	+ " text not null, 	 					" 
 			        + PedidoDAO.PEDIDO_CHAVE_DATA     		+ " integer not null, 	 				"
-			        + PedidoDAO.PEDIDO_CHAVE_OBS     		+ " text not null, 	 					"
+			        + PedidoDAO.PEDIDO_CHAVE_OBS     		+ " text , 	 							"
 			        + PedidoDAO.PEDIDO_CHAVE_CLIENTE     	+ " integer not null, 					"
 			        + PedidoDAO.PEDIDO_CHAVE_SINCRONIZADO  	+ " integer DEFAULT 0 					"
 			        + "  ); ");
@@ -58,7 +59,8 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			        + ItemDAO.ITEM_CHAVE_VALOR     			+ " real not null, 	 					"
 			        + ItemDAO.ITEM_CHAVE_PRODUTO     		+ " integer not null, 	 				"			        
 			        + ItemDAO.ITEM_CHAVE_PEDIDO     		+ " integer not null, 					"
-			        + ItemDAO.ITEM_CHAVE_NUMERO   			+ " text null	 	 					"
+			        + ItemDAO.ITEM_CHAVE_NUMERO   			+ " text null,	 	 					"
+			        + ItemDAO.ITEM_CHAVE_OBS     			+ " text null 							"
 			        + "  ); ");
 		
 	}
@@ -68,6 +70,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		switch (newVersion) {
 			case VERSAO_1: 
 				onCreate(db);
+				break;
+			case VERSAO_2:
+				db.execSQL( " alter table " + ItemDAO.TABELA + " add column  " + ItemDAO.ITEM_CHAVE_OBS + " text null ;" ); 
 				break;
 //			case VERSAO_1:
 //				db.execSQL( " alter table " + ItemDAO.TABELA + " add column  " + ItemDAO.ITEM_CHAVE_NUMERO + " text null ;" ); 
