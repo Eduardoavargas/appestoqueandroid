@@ -83,6 +83,7 @@
 		<string name="item_quantidade">Quantidade</string>
 		<string name="item_valor">Valor</string>
 		<string name="item_total">Total</string>
+		<string name="item_obs">Observação</string>
 		
 		<!--MENU ITEM-->
 		<string name="menu_visualizar">Visualizar</string>
@@ -105,6 +106,7 @@
         <string name="lbl_quantidade">Quantidade</string>
         <string name="lbl_valor">Valor</string>
         <string name="lbl_total">Total</string>
+        <string name="lbl_obs">Obs</string>
         
         <string name="description">appestoque contentDescription</string>
         
