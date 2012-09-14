@@ -4,20 +4,16 @@
 			  android:layout_width="fill_parent" 
 			  android:layout_height="fill_parent"
 			  android:padding="6dip">
-
 	<LinearLayout android:orientation="vertical"
 		android:layout_width="0dip" android:layout_weight="1"
 		android:layout_height="fill_parent">
-
 		<TextView android:id="@+id/produto" 
 		    android:layout_width="wrap_content"
 			android:layout_height="wrap_content" 
 			style="@style/SessionTitle" />
-
 		<LinearLayout android:orientation="horizontal"
 					  android:layout_width="fill_parent" 
 					  android:layout_height="wrap_content">
-
 			<TextView android:text="@string/lbl_numero"
 					  android:textColor="#000000" 
 					  android:layout_height="wrap_content"
@@ -28,9 +24,7 @@
 				      android:layout_height="wrap_content" 
 				      style="@style/SessionSubtitle" 
 					  android:layout_marginLeft="5dip"/>
-				
 		</LinearLayout>
-		
 		<LinearLayout android:orientation="horizontal"
 			android:layout_width="fill_parent" android:layout_height="wrap_content">
 
@@ -40,10 +34,7 @@
 			<TextView android:id="@+id/quantidade" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" style="@style/SessionSubtitle" 
 				android:layout_marginLeft="5dip"/>
-				
 		</LinearLayout>
-
-
 		<LinearLayout android:orientation="horizontal"
 			android:layout_width="fill_parent" android:layout_height="wrap_content">
 
@@ -54,11 +45,9 @@
 				android:layout_height="wrap_content" style="@style/SessionSubtitle" 
 				android:layout_marginLeft="5dip"/>
 		</LinearLayout>
-
-
 		<LinearLayout android:orientation="horizontal"
-			android:layout_width="fill_parent" android:layout_height="wrap_content">
-
+					  android:layout_width="fill_parent" 
+					  android:layout_height="wrap_content">
 			<TextView android:text="@string/lbl_total"
 				android:textColor="#000000" android:layout_height="wrap_content"
 				android:layout_width="wrap_content" style="@style/SessionTitle" />
@@ -66,6 +55,15 @@
 				android:layout_height="wrap_content" style="@style/SessionSubtitle" 
 				android:layout_marginLeft="5dip"/>
 		</LinearLayout>
-
+		<LinearLayout android:orientation="horizontal"
+					  android:layout_width="fill_parent" 
+					  android:layout_height="wrap_content">
+			<TextView android:text="@string/lbl_obs"
+				android:textColor="#000000" android:layout_height="wrap_content"
+				android:layout_width="wrap_content" style="@style/SessionTitle" />
+			<TextView android:id="@+id/obs" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" style="@style/SessionSubtitle" 
+				android:layout_marginLeft="5dip"/>
+		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>
