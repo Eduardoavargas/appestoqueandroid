@@ -143,6 +143,7 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 				itemJSON.put("idProduto", itm.getProduto().getId());
 				itemJSON.put("quantidade", itm.getQuantidade());
 				itemJSON.put("valor", itm.getValor());
+				itemJSON.put("obs", itm.getObs());
 				itms.put(itemJSON);
 			}
 			pedidoJSON.put("itens", itms);

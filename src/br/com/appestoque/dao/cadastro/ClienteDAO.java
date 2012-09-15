@@ -53,7 +53,8 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 						String cep, 
 						String complemento, 
 						String bairro,
-						String cidade) {
+						String cidade,
+						boolean sincronizado) {
 		long identificador = 0;
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(CLIENTE_CHAVE_ID, id);
@@ -65,6 +66,7 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 		initialValues.put(CLIENTE_CHAVE_COMPLEMENTO, complemento);
 		initialValues.put(CLIENTE_CHAVE_BAIRRO, bairro);
 		initialValues.put(CLIENTE_CHAVE_CIDADE, cidade);
+		initialValues.put(CLIENTE_CHAVE_SINCRONIZADO, (sincronizado?1:0));
 		identificador = db.insert(TABELA, null, initialValues);
 		return identificador;
     }

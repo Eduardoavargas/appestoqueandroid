@@ -124,7 +124,7 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 				         reader.endObject();
 				         Cliente cliente = clienteDAO.pesquisar(id);
 				         if(cliente==null){
-				        	 clienteDAO.criar(id, nome, cnpj, endereco, numero, cep, complemento, bairro, cidade);
+				        	 clienteDAO.criar(id, nome, cnpj, endereco, numero, cep, complemento, bairro, cidade,true);
 				         }else if(!cliente.getNome().equals(nome)||!cliente.getCnpj().equals(cnpj)||!cliente.getEndereco().equals(endereco)
 				        		 ||!cliente.getNumero().equals(numero)||!cliente.getCep().equals(cep)
 				        		 ||!cliente.getComplemento().equals(complemento)||!cliente.getBairro().equals(bairro)

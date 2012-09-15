@@ -141,6 +141,7 @@ public class ItemDAO implements IDAO<Item,Long>{
 														ITEM_CHAVE_VALOR,
 														ITEM_CHAVE_PRODUTO,
 														ITEM_CHAVE_PEDIDO,
+														ITEM_CHAVE_NUMERO,
 														ITEM_CHAVE_OBS}, 
 														ITEM_CHAVE_PEDIDO + " = " + pedido.getId(), null, null, null, null);
 		List<Item> itens = new ArrayList<Item>();

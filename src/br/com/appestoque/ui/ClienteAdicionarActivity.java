@@ -83,7 +83,8 @@ public class ClienteAdicionarActivity extends BaseAtividade {
 	        		new CepFormatter().format(edtCep.getText().toString()), 
 	        		edtCompl.getText().toString(), 
 	        		edtBairro.getText().toString(), 
-	        		edtCidade.getText().toString());
+	        		edtCidade.getText().toString(),
+	        		false);
 	
 	        context = this;
 	        
