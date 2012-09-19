@@ -83,6 +83,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				String nome = null;
 				String numero = null;
 				Double preco = null;
+				Double minimo = null;
 				try {
 					produtoDAO.abrir();
 					reader.beginArray();
@@ -98,17 +99,22 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 								numero = reader.nextString();
 							} else if (name.equals("preco")) {
 								preco = reader.nextDouble();
+							} else if (name.equals("minimo")) {
+								minimo = reader.nextDouble();
 							} else {
 								reader.skipValue();
 							}
 						}
 						reader.endObject();
-						Produto produto = produtoDAO.pesquisar(id);
-						if(produto==null){
-							produtoDAO.criar(id, nome, numero, preco);
-						}else if(!produto.getNome().equals(nome)||!produto.getValor().equals(preco)){
+						Produto produto = produtoDAO.pesquisar(id);						
+						if(produto==null){							
+							produtoDAO.criar(id, nome, numero, (preco!=null?preco:0), (minimo!=null?minimo:0));
+						}else if(!produto.getNome().equals(nome)||
+								 !produto.getValor().equals(preco)||
+								 !produto.getMinimo().equals(minimo)){
 							produto.setNome(!produto.getNome().equals(nome)?nome:null);
 							produto.setValor(!produto.getValor().equals(preco)?preco:null);
+							produto.setValor(!produto.getMinimo().equals(minimo)?minimo:null);
 							produtoDAO.atualizar(produto);							
 						}
 					}
