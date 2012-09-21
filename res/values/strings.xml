@@ -132,9 +132,11 @@
         <string name="msg_criar_pedido_venda">Deseja criar um pedido de venda para este novo cliente ?</string>
         <string name="msg_validar_nome">Nome informado é inválido</string>
         <string name="msg_validar_cnpj">CNPJ informado é inválido</string>
+        <string name="msg_validar_tamanho_cnpj">CNPJ informado com tamanho inválido</string>
         <string name="msg_validar_endereco">Endereço informado é inválido</string>
         <string name="msg_validar_numero">Número informado é inválido</string>
         <string name="msg_validar_cep">Cep informado é inválido</string>
+        <string name="msg_validar_tamanho_cep">Cep informado com tamanho inválido</string>
         <string name="msg_validar_complemento">Complemento informado é inválido</string>
         <string name="msg_validar_bairro">Bairro informado é inválido</string>
         <string name="msg_validar_cidade">Cidade informada é inválida</string>
