@@ -1,6 +1,7 @@
 package br.com.appestoque.ui;
 
 import br.com.appestoque.R;
+
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.cadastro.ClienteDAO;
 import br.com.appestoque.format.CNPJFormatter;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import br.com.appestoque.Constantes;
 
 public class ClienteAdicionarActivity extends BaseAtividade {
 	
@@ -50,6 +52,10 @@ public class ClienteAdicionarActivity extends BaseAtividade {
 	        final EditText edtCnpj = (EditText) findViewById(R.id.edtCnpj);
 	        if(edtCnpj.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_cnpj));}
 	        
+	        if(edtCnpj.getText().toString().length()<Constantes.TAMANHO_PADRAO_CNPJ){
+	        	throw new Exception(getString(R.string.msg_validar_tamanho_cnpj));
+	        }
+	        
 	        final EditText edtEnd  = (EditText) findViewById(R.id.edtEnd);
 	        if(edtEnd.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_endereco));}
 	        
@@ -59,6 +65,10 @@ public class ClienteAdicionarActivity extends BaseAtividade {
 	        // TODO validar cep do cliente
 	        final EditText edtCep  = (EditText) findViewById(R.id.edtCep);
 	        if(edtCep.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_cep));}
+	        
+	        if(edtCep.getText().toString().length()<Constantes.TAMANHO_PADRAO_CEP){
+	        	throw new Exception(getString(R.string.msg_validar_tamanho_cep));
+	        }
 	        
 	        final EditText edtCompl  = (EditText) findViewById(R.id.edtCompl);
 	        if(edtCompl.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_complemento));}

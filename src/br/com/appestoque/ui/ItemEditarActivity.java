@@ -92,7 +92,8 @@ public class ItemEditarActivity extends BaseAtividade {
 		Produto produto = produtoDAO.consultar(numero.getText().toString());
 		if(produto!=null){
 			if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
-				if(Double.valueOf(valor.getText().toString())>=produto.getMinimo()){
+				if ((Double.valueOf(valor.getText().toString())==0&&Double.valueOf(qtd.getText().toString())==0)||  
+				   (Double.valueOf(valor.getText().toString())>=produto.getMinimo())){
 					Item item = new Item();
 					item.setQuantidade(Double.valueOf(qtd.getText().toString()));
 					item.setValor(Double.valueOf(valor.getText().toString()));
@@ -121,7 +122,7 @@ public class ItemEditarActivity extends BaseAtividade {
 					Util.dialogo(this,getString(R.string.msg_validar_produto_valor_minimo));
 				}
 			}else{
-				Util.dialogo(this,"Desculpe, mas é necessário informar a quantidade e o valor do item.");
+				Util.dialogo(this,"Desculpe, mas ï¿½ necessï¿½rio informar a quantidade e o valor do item.");
 			}
 		}else{
 			Util.dialogo(this,getString(R.string.mensagem_8));
