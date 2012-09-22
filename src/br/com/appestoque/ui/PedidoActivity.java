@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Paint.Join;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.location.Location;
@@ -69,6 +70,9 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 	
 	private Pedido pedido;
 	
+	public void processarPedido(Pedido pedido){
+	}
+	
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
@@ -77,7 +81,14 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 					final View iconView = findViewById(android.R.id.icon1);
 		            LayerDrawable iconDrawable = (LayerDrawable) iconView.getBackground();
 		            iconDrawable.getDrawable(0).setColorFilter(Constantes.COR_AZUL_1, PorterDuff.Mode.SRC_ATOP);
-		            Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_sincronismo_conclusao));
+		            /*
+		             *atualizando dados do pedido após sincronismo com o servidor 
+		             */
+		            pedido.setSincronizado(new Short("1"));
+					pedidoDAO.abrir();
+					long retorno = pedidoDAO.atualizar(pedido);
+					pedidoDAO.fechar();
+		            Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_sincronismo_conclusao));		            
 					break;
 				case Constantes.FALHA:
 					Util.dialogo(PedidoActivity.this, msg.getData().getString("mensagem"));
@@ -153,18 +164,25 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		
 		parametros.add(new BasicNameValuePair("json",pedidoJSON.toString()));
 		
-		JSONObject json = HttpCliente.SendHttpPost(url,parametros,PedidoActivity.this);
-		
 		Message message = new Message();
 		Bundle bundle = new Bundle();
 		
-		if(json!=null&&!json.isNull("id")){
+		try{
+			JSONObject json = HttpCliente.SendHttpPost(url,parametros,PedidoActivity.this);
+			message.what = Constantes.SUCESSO;
+		}catch(Exception e){
+			message.what = Constantes.FALHA;
+			bundle.putString("mensagem",e.getMessage());
+		}
+		
+		/*
+		if(json!=null&&!json.isNull("id")){			
 			pedido.setSincronizado(new Short("1"));
 			pedidoDAO.abrir();
 			long retorno = pedidoDAO.atualizar(pedido);
 			pedidoDAO.fechar();
 			message.what = Constantes.SUCESSO;
-		}else if(json!=null&&!json.isNull("erro")){			
+		}else if(json!=null&&!json.isNull("erro")){
 			try {
 				bundle.putString("mensagem",json.getString("erro"));
 			} catch (JSONException e) {
@@ -173,8 +191,11 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		}else{
 			bundle.putString("mensagem",getString(R.string.mensagem_10));
 		}
+		*/
+		
 		message.setData(bundle);
 		handler.sendMessage(message);
+		
 	}
 	
 	@Override
