@@ -13,6 +13,8 @@ import br.com.appestoque.dao.suprimento.ProdutoDAO;
 import br.com.appestoque.Constantes;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
@@ -37,7 +39,7 @@ public class ItemEditarActivity extends BaseAtividade {
 		}
 		produtoDAO.abrir();
 		
-		AutoCompleteTextView txtProduto = (AutoCompleteTextView) findViewById(R.id.edtProduto);
+		AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.edtProduto);
 		
 		List<Produto> lista = produtoDAO.produtos();
 		String[] produtos = new String[lista.size()];
@@ -45,8 +47,31 @@ public class ItemEditarActivity extends BaseAtividade {
 			produtos[i] = lista.get(i).getNumero();
 		}
 		
-	    ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.produto_listar, produtos );
-	    txtProduto.setAdapter(adapter);
+	    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.produto_listar,produtos);
+	    
+	    autoCompleteTextView.setAdapter(arrayAdapter);
+	    
+	    autoCompleteTextView.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				
+//				System.out.println("arg2...: " + arg2);
+//				System.out.println("arg3...: " + arg3);
+//				System.out.println("Nome...: " + arg0.getItemAtPosition(arg2).toString());
+//				System.out.println("Nome2...: " + produto.getNome());
+				//((TextView) findViewById(R.id.edtQtd)).setText();
+//				quantidade.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+//	            valor.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+//				Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS)
+				
+				ProdutoDAO dao = new ProdutoDAO(arg0.getContext());
+				dao.abrir();
+				Produto produto = dao.consultar(arg0.getItemAtPosition(arg2).toString());
+				((TextView) findViewById(R.id.edtValor)).setText(Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+				dao.fechar();
+				
+			} 
+	    });
 		
 		Long mRowId = getIntent().getExtras().getLong(ItemDAO.ITEM_CHAVE_ID);
 		
@@ -55,7 +80,7 @@ public class ItemEditarActivity extends BaseAtividade {
 			dao.abrir();
 			Item item = dao.pesquisar(mRowId);
 			if (item != null) {
-				txtProduto.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
+				autoCompleteTextView.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
 				((TextView) findViewById(R.id.edtQtd)).setText(item.getQuantidade().toString());
 				((TextView) findViewById(R.id.edtValor)).setText(item.getValor().toString());
 				((TextView) findViewById(R.id.edtObs)).setText(item.getObs());
@@ -122,7 +147,7 @@ public class ItemEditarActivity extends BaseAtividade {
 					Util.dialogo(this,getString(R.string.msg_validar_produto_valor_minimo));
 				}
 			}else{
-				Util.dialogo(this,"Desculpe, mas � necess�rio informar a quantidade e o valor do item.");
+				Util.dialogo(this,"Desculpe, mas � necessário informar a quantidade e o valor do item.");
 			}
 		}else{
 			Util.dialogo(this,getString(R.string.mensagem_8));

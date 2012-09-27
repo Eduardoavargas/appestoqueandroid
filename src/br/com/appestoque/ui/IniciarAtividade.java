@@ -24,14 +24,14 @@ public class IniciarAtividade extends BaseAtividade implements LocationListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.iniciar_atividade);
-		getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
-		//getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
+		//getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+		getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
 	}
 	
 	public void onSobreClick(View v) {
 		try {
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(new String("Vers„o: Beta "+getPackageManager().getPackageInfo(getPackageName(),0).versionName))
+			builder.setMessage(new String("Vers√£o: Beta "+getPackageManager().getPackageInfo(getPackageName(),0).versionName))
 			       .setCancelable(false)
 			       .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
 			           public void onClick(DialogInterface dialog, int id) {
