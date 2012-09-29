@@ -39,39 +39,50 @@ public class ItemEditarActivity extends BaseAtividade {
 		}
 		produtoDAO.abrir();
 		
-		AutoCompleteTextView autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.edtProduto);
+		AutoCompleteTextView acNumeros = (AutoCompleteTextView) findViewById(R.id.edtNumero);
+		
+//		AutoCompleteTextView acNomes = (AutoCompleteTextView) findViewById(R.id.edtNome);
 		
 		List<Produto> lista = produtoDAO.produtos();
-		String[] produtos = new String[lista.size()];
+		String[] numeros = new String[lista.size()];
+//		String[] nomes = new String[lista.size()];
 		for(int i = 0; i<lista.size();++i){
-			produtos[i] = lista.get(i).getNumero();
+			numeros[i] = lista.get(i).getNumero();
+//			nomes[i] = lista.get(i).getNome();
 		}
 		
-	    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,R.layout.produto_listar,produtos);
+	    ArrayAdapter<String> adapterNumeros = new ArrayAdapter<String>(this,R.layout.produto_listar,numeros);
+//	    ArrayAdapter<String> adapterNomes = new ArrayAdapter<String>(this,R.layout.produto_listar,nomes);
 	    
-	    autoCompleteTextView.setAdapter(arrayAdapter);
+	    acNumeros.setAdapter(adapterNumeros);
+//	    acNomes.setAdapter(adapterNomes);
 	    
-	    autoCompleteTextView.setOnItemClickListener(new OnItemClickListener() {
+		//((TextView) findViewById(R.id.edtQtd)).setText();
+	    //quantidade.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+	    //valor.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+	    //Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS)
+	    
+	    acNumeros.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				
-//				System.out.println("arg2...: " + arg2);
-//				System.out.println("arg3...: " + arg3);
-//				System.out.println("Nome...: " + arg0.getItemAtPosition(arg2).toString());
-//				System.out.println("Nome2...: " + produto.getNome());
-				//((TextView) findViewById(R.id.edtQtd)).setText();
-//				quantidade.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
-//	            valor.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
-//				Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS)
-				
 				ProdutoDAO dao = new ProdutoDAO(arg0.getContext());
 				dao.abrir();
 				Produto produto = dao.consultar(arg0.getItemAtPosition(arg2).toString());
 				((TextView) findViewById(R.id.edtValor)).setText(Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
 				dao.fechar();
-				
 			} 
 	    });
+	    
+//	    acNomes.setOnItemClickListener(new OnItemClickListener() {
+//			@Override
+//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+//				ProdutoDAO dao = new ProdutoDAO(arg0.getContext());
+//				dao.abrir();
+//				Produto produto = dao.consultarNome(arg0.getItemAtPosition(arg2).toString());
+//				((TextView) findViewById(R.id.edtValor)).setText(Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+//				dao.fechar();
+//			} 
+//	    });
 		
 		Long mRowId = getIntent().getExtras().getLong(ItemDAO.ITEM_CHAVE_ID);
 		
@@ -80,7 +91,7 @@ public class ItemEditarActivity extends BaseAtividade {
 			dao.abrir();
 			Item item = dao.pesquisar(mRowId);
 			if (item != null) {
-				autoCompleteTextView.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
+				acNumeros.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
 				((TextView) findViewById(R.id.edtQtd)).setText(item.getQuantidade().toString());
 				((TextView) findViewById(R.id.edtValor)).setText(item.getValor().toString());
 				((TextView) findViewById(R.id.edtObs)).setText(item.getObs());
@@ -108,7 +119,7 @@ public class ItemEditarActivity extends BaseAtividade {
 	
 	public void onSalvarClick(View view) {
 		Bundle extras = getIntent().getExtras();
-		final AutoCompleteTextView numero = (AutoCompleteTextView) findViewById(R.id.edtProduto);
+		final AutoCompleteTextView numero = (AutoCompleteTextView) findViewById(R.id.edtNumero);
 		final EditText qtd = (EditText) findViewById(R.id.edtQtd);
 		final EditText valor = (EditText) findViewById(R.id.edtValor);
 		

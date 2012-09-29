@@ -24,8 +24,8 @@ public class IniciarAtividade extends BaseAtividade implements LocationListener 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.iniciar_atividade);
-		//getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
-		getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
+		getLocationManager().requestLocationUpdates(LocationManager.GPS_PROVIDER,0,0,this);
+		//getLocationManager().requestLocationUpdates(LocationManager.NETWORK_PROVIDER,0,0,this);
 	}
 	
 	public void onSobreClick(View v) {
