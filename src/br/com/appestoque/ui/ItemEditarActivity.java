@@ -41,21 +41,21 @@ public class ItemEditarActivity extends BaseAtividade {
 		
 		AutoCompleteTextView acNumeros = (AutoCompleteTextView) findViewById(R.id.edtNumero);
 		
-//		AutoCompleteTextView acNomes = (AutoCompleteTextView) findViewById(R.id.edtNome);
+		AutoCompleteTextView acNomes = (AutoCompleteTextView) findViewById(R.id.edtNome);
 		
 		List<Produto> lista = produtoDAO.produtos();
 		String[] numeros = new String[lista.size()];
-//		String[] nomes = new String[lista.size()];
+		String[] nomes = new String[lista.size()];
 		for(int i = 0; i<lista.size();++i){
 			numeros[i] = lista.get(i).getNumero();
-//			nomes[i] = lista.get(i).getNome();
+			nomes[i] = lista.get(i).getNome();
 		}
 		
 	    ArrayAdapter<String> adapterNumeros = new ArrayAdapter<String>(this,R.layout.produto_listar,numeros);
-//	    ArrayAdapter<String> adapterNomes = new ArrayAdapter<String>(this,R.layout.produto_listar,nomes);
+	    ArrayAdapter<String> adapterNomes = new ArrayAdapter<String>(this,R.layout.produto_listar,nomes);
 	    
 	    acNumeros.setAdapter(adapterNumeros);
-//	    acNomes.setAdapter(adapterNomes);
+	    acNomes.setAdapter(adapterNomes);
 	    
 		//((TextView) findViewById(R.id.edtQtd)).setText();
 	    //quantidade.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
@@ -73,16 +73,16 @@ public class ItemEditarActivity extends BaseAtividade {
 			} 
 	    });
 	    
-//	    acNomes.setOnItemClickListener(new OnItemClickListener() {
-//			@Override
-//			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-//				ProdutoDAO dao = new ProdutoDAO(arg0.getContext());
-//				dao.abrir();
-//				Produto produto = dao.consultarNome(arg0.getItemAtPosition(arg2).toString());
-//				((TextView) findViewById(R.id.edtValor)).setText(Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
-//				dao.fechar();
-//			} 
-//	    });
+	    acNomes.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				ProdutoDAO dao = new ProdutoDAO(arg0.getContext());
+				dao.abrir();
+				Produto produto = dao.consultarNome(arg0.getItemAtPosition(arg2).toString());
+				((TextView) findViewById(R.id.edtValor)).setText(Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+				dao.fechar();
+			} 
+	    });
 		
 		Long mRowId = getIntent().getExtras().getLong(ItemDAO.ITEM_CHAVE_ID);
 		

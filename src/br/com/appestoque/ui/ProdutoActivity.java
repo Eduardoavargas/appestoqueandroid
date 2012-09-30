@@ -84,6 +84,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 				String numero = null;
 				Double preco = null;
 				Double minimo = null;
+				Double quantidade = null;
 				try {
 					produtoDAO.abrir();
 					reader.beginArray();
@@ -101,6 +102,8 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 								preco = reader.nextDouble();
 							} else if (name.equals("minimo")) {
 								minimo = reader.nextDouble();
+							} else if (name.equals("quantidade")) {
+								quantidade = reader.nextDouble();
 							} else {
 								reader.skipValue();
 							}
@@ -108,7 +111,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 						reader.endObject();
 						Produto produto = produtoDAO.pesquisar(id);						
 						if(produto==null){							
-							produtoDAO.criar(id, nome, numero, (preco!=null?preco:0), (minimo!=null?minimo:0));
+							produtoDAO.criar(id, nome, numero, (preco!=null?preco:0), (minimo!=null?minimo:0), (quantidade!=null?quantidade:0));
 						}else if(!produto.getNome().equals(nome)||
 								 !produto.getValor().equals(preco)||
 								 !produto.getMinimo().equals(minimo)){

@@ -12,9 +12,10 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
 	public static final String BASEDEDADOS_ARQUIVO = "appestoque.db";	
     
-	private static final int BASEDEDADOS_VERSAO = 2;
+	private static final int BASEDEDADOS_VERSAO = 3;
 	private static final int VERSAO_1 			= 1;
 	private static final int VERSAO_2 			= 2;
+	private static final int VERSAO_3 			= 3;
 	
 	public DatabaseHelper(Context context) {
         super(context, BASEDEDADOS_ARQUIVO, null, BASEDEDADOS_VERSAO);        
@@ -29,6 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			        + ProdutoDAO.PRODUTO_CHAVE_NUMERO   	+ " text not null,	 	 				"
 			        + ProdutoDAO.PRODUTO_CHAVE_VALOR    	+ " real not null,	 	 				"
 			        + ProdutoDAO.PRODUTO_CHAVE_MINIMO    	+ " real not null	 	 				"
+			        + ProdutoDAO.PRODUTO_CHAVE_QUANTIDADE   + " real not null	 	 				"
 			        + "  ); ");
 		
 		db.execSQL(" create table "+ ClienteDAO.TABELA 		+ " ( "
@@ -74,6 +76,9 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			case VERSAO_2:
 				db.execSQL( " alter table " + ItemDAO.TABELA + " add column  " + ItemDAO.ITEM_CHAVE_OBS + " text null ;" ); 
 				break;
+			case VERSAO_3:
+				db.execSQL( " alter table " + ProdutoDAO.TABELA + " add column  " + ProdutoDAO.PRODUTO_CHAVE_QUANTIDADE + " real default 0 ;" ); 
+				break;	
 //			case VERSAO_1:
 //				db.execSQL( " alter table " + ItemDAO.TABELA + " add column  " + ItemDAO.ITEM_CHAVE_NUMERO + " text null ;" ); 
 //				break;
