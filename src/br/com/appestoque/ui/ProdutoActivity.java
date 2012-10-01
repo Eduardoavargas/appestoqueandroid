@@ -118,6 +118,7 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 							produto.setNome(!produto.getNome().equals(nome)?nome:null);
 							produto.setValor(!produto.getValor().equals(preco)?preco:null);
 							produto.setValor(!produto.getMinimo().equals(minimo)?minimo:null);
+							produto.setValor(!produto.getQuantidade().equals(quantidade)?quantidade:null);
 							produtoDAO.atualizar(produto);							
 						}
 					}
