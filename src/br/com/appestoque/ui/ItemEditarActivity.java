@@ -57,11 +57,6 @@ public class ItemEditarActivity extends BaseAtividade {
 	    acNumeros.setAdapter(adapterNumeros);
 	    acNomes.setAdapter(adapterNomes);
 	    
-		//((TextView) findViewById(R.id.edtQtd)).setText();
-	    //quantidade.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
-	    //valor.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
-	    //Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS)
-	    
 	    acNumeros.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -69,6 +64,8 @@ public class ItemEditarActivity extends BaseAtividade {
 				dao.abrir();
 				Produto produto = dao.consultar(arg0.getItemAtPosition(arg2).toString());
 				((TextView) findViewById(R.id.edtValor)).setText(Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+				((TextView) findViewById(R.id.edtQtd)).setText(Util.doubleToString(produto.getQuantidade(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+				((AutoCompleteTextView) findViewById(R.id.edtNome)).setText(produto.getNome());
 				dao.fechar();
 			} 
 	    });
@@ -80,6 +77,8 @@ public class ItemEditarActivity extends BaseAtividade {
 				dao.abrir();
 				Produto produto = dao.consultarNome(arg0.getItemAtPosition(arg2).toString());
 				((TextView) findViewById(R.id.edtValor)).setText(Util.doubleToString(produto.getValor(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+				((TextView) findViewById(R.id.edtQtd)).setText(Util.doubleToString(produto.getQuantidade(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+				((AutoCompleteTextView) findViewById(R.id.edtNumero)).setText(produto.getNumero());
 				dao.fechar();
 			} 
 	    });
@@ -91,7 +90,10 @@ public class ItemEditarActivity extends BaseAtividade {
 			dao.abrir();
 			Item item = dao.pesquisar(mRowId);
 			if (item != null) {
-				acNumeros.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
+				//((AutoCompleteTextView) findViewById(R.id.edtNumero)).setText(produto.getNumero());
+				//acNumeros.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
+				((AutoCompleteTextView) findViewById(R.id.edtNome)).setText(item.getProduto().getNome());
+				((AutoCompleteTextView) findViewById(R.id.edtNumero)).setText(item.getProduto().getNumero());
 				((TextView) findViewById(R.id.edtQtd)).setText(item.getQuantidade().toString());
 				((TextView) findViewById(R.id.edtValor)).setText(item.getValor().toString());
 				((TextView) findViewById(R.id.edtObs)).setText(item.getObs());

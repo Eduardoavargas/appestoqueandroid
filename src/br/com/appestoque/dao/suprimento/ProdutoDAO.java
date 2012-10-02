@@ -33,16 +33,21 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 	
 	public Cursor listar() {		
 		cursor = db.query(TABELA,
-				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
-						PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR, PRODUTO_CHAVE_MINIMO }, null,
+				new String[] { 	PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
+								PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR, 
+								PRODUTO_CHAVE_MINIMO, PRODUTO_CHAVE_QUANTIDADE }, null,
 				null, null, null, null);
 		return cursor;
     }
 	
 	public List<Produto> produtos() {		
 		cursor = db.query(TABELA,
-				new String[] { PRODUTO_CHAVE_ID, PRODUTO_CHAVE_NOME,
-							   PRODUTO_CHAVE_NUMERO, PRODUTO_CHAVE_VALOR , PRODUTO_CHAVE_MINIMO }, null,
+				new String[] { 	PRODUTO_CHAVE_ID, 
+							 	PRODUTO_CHAVE_NOME,
+							 	PRODUTO_CHAVE_NUMERO, 
+							 	PRODUTO_CHAVE_VALOR , 
+							 	PRODUTO_CHAVE_MINIMO, 
+							 	PRODUTO_CHAVE_QUANTIDADE }, null,
 				null, null, null, null);
 
 		List<Produto> produtos = new ArrayList<Produto>();
@@ -50,18 +55,12 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 		if (cursor.getCount() > 0) {
 			while (cursor.moveToNext()) {
 				Produto produto = new Produto();
-				produto.setId(cursor.getLong(cursor
-						.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_ID)));
-				produto.setNome(cursor.getString(cursor
-						.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_NOME)));
-				produto.setNumero(cursor.getString(cursor
-						.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_NUMERO)));
-				produto.setValor(cursor.getDouble(cursor
-						.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_VALOR)));
-				produto.setMinimo(cursor.getDouble(cursor
-						.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_MINIMO)));
-				produto.setQuantidade(cursor.getDouble(cursor
-						.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_QUANTIDADE)));
+				produto.setId(cursor.getLong(cursor.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_ID)));
+				produto.setNome(cursor.getString(cursor.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_NOME)));
+				produto.setNumero(cursor.getString(cursor.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_NUMERO)));
+				produto.setValor(cursor.getDouble(cursor.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_VALOR)));
+				produto.setMinimo(cursor.getDouble(cursor.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_MINIMO)));
+				produto.setQuantidade(cursor.getDouble(cursor.getColumnIndex(ProdutoDAO.PRODUTO_CHAVE_QUANTIDADE)));
 				produtos.add(produto);
 			}
 		}
