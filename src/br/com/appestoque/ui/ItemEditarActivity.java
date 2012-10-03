@@ -90,8 +90,6 @@ public class ItemEditarActivity extends BaseAtividade {
 			dao.abrir();
 			Item item = dao.pesquisar(mRowId);
 			if (item != null) {
-				//((AutoCompleteTextView) findViewById(R.id.edtNumero)).setText(produto.getNumero());
-				//acNumeros.setText(item.getProduto().getNumero().toCharArray(),0,item.getProduto().getNumero().length());
 				((AutoCompleteTextView) findViewById(R.id.edtNome)).setText(item.getProduto().getNome());
 				((AutoCompleteTextView) findViewById(R.id.edtNumero)).setText(item.getProduto().getNumero());
 				((TextView) findViewById(R.id.edtQtd)).setText(item.getQuantidade().toString());
@@ -147,20 +145,21 @@ public class ItemEditarActivity extends BaseAtividade {
 					
 					if(!extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
 						if(itemDAO.adicionar(item)==0){
-							Util.dialogo(this, getString(R.string.mensagem_atualizar_problema));
+							Util.dialogo(this, getString(R.string.mensagem_atualizar_informacao));
 						}
 					}else{
 						item.setId(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
 						if(itemDAO.atualizar(item)==0){
-							Util.dialogo(this, getString(R.string.mensagem_atualizar_problema));
+							Util.dialogo(this, getString(R.string.mensagem_atualizar_informacao));
 						}
 					}
 					finish();
-				}else{
-					Util.dialogo(this,getString(R.string.msg_validar_produto_valor_minimo));
+				}else{					
+					Util.dialogo(this,"Este produto não pode ser vendido porque o valor mínimo é " + 
+							Util.doubleToString(produto.getMinimo(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
 				}
 			}else{
-				Util.dialogo(this,"Desculpe, mas � necessário informar a quantidade e o valor do item.");
+				Util.dialogo(this,getString(R.string.msg_obrigatorio_quantidade_valor));
 			}
 		}else{
 			Util.dialogo(this,getString(R.string.mensagem_8));
@@ -178,6 +177,5 @@ public class ItemEditarActivity extends BaseAtividade {
 			finish();
 		}
 	}
-
 	
 }
