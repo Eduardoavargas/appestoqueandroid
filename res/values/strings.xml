@@ -30,7 +30,7 @@
 	
 	<string name="mensagem_remover_problema">Não foi possível remover informação</string>
 	<string name="mensagem_adicionar_problema">Não foi possível adicionar informação</string>
-	<string name="mensagem_atualizar_problema">Não foi possível atualizar informação</string>
+	<string name="mensagem_atualizar_informacao">Não foi possível atualizar informação</string>
 	
 	<string name="empty_sessions">No sessions found</string>
 	<string name="no_notes">No Notes Yet</string>
@@ -142,6 +142,8 @@
         <string name="msg_validar_complemento">Complemento informado é inválido</string>
         <string name="msg_validar_bairro">Bairro informado é inválido</string>
         <string name="msg_validar_cidade">Cidade informada é inválida</string>
-        <string name="msg_validar_produto_valor_minimo">Este produto não pode ser vendido por este valor</string>
+        <string name="msg_validar_produto_valor_minimo">Este produto não pode ser vendido porque o valor mínimo é <xliff:g>%1$s</xliff:g></string>
+        
+        <string name="msg_obrigatorio_quantidade_valor">Desculpe, mas é necessário informar a quantidade e o valor do item.</string>
 	
 </resources>
