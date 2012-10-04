@@ -175,24 +175,6 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 			bundle.putString("mensagem",e.getMessage());
 		}
 		
-		/*
-		if(json!=null&&!json.isNull("id")){			
-			pedido.setSincronizado(new Short("1"));
-			pedidoDAO.abrir();
-			long retorno = pedidoDAO.atualizar(pedido);
-			pedidoDAO.fechar();
-			message.what = Constantes.SUCESSO;
-		}else if(json!=null&&!json.isNull("erro")){
-			try {
-				bundle.putString("mensagem",json.getString("erro"));
-			} catch (JSONException e) {
-				bundle.putString("mensagem",e.getMessage());
-			}
-		}else{
-			bundle.putString("mensagem",getString(R.string.mensagem_10));
-		}
-		*/
-		
 		message.setData(bundle);
 		handler.sendMessage(message);
 		
