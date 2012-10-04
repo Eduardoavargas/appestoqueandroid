@@ -8,14 +8,25 @@
 	<LinearLayout style="@style/Titulo_Barra">
 		<ImageButton style="@style/Titulo_Barra_Acao"
 					 android:src="@drawable/btn_iniciar"
-					 android:onClick="onIniciarClick" />
-		<ImageView style="@style/Titulo_Barra_Separador" />
+					 android:onClick="onIniciarClick" 
+					 android:contentDescription="@string/description"/>
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		           android:contentDescription="@string/description"/>
 		<TextView style="@style/TitleBarText" 
-		    	  android:text="@string/titulo_pedido" />
-		<ImageView style="@style/Titulo_Barra_Separador" />
-		<ImageButton style="@style/Titulo_Barra_Acao" 
+		    	  android:text="@string/titulo_pedido"/>
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		     	   android:contentDescription="@string/description"/>
+		<ImageButton android:id="@+id/img_remover"
+		    	     android:contentDescription="@string/description"
+		             style="@style/Titulo_Barra_Acao"
+					 android:src="@drawable/btn_remover"
+					 android:onClick="onRemoverClick"/>
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		           android:contentDescription="@string/description"/>
+		<ImageButton style="@style/Titulo_Barra_Acao"
 		    	     android:src="@drawable/btn_retornar"
-				     android:onClick="onRetornarClick" />
+				     android:onClick="onRetornarClick" 
+				     android:contentDescription="@string/description"/>
 	</LinearLayout>
 	
 	<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
