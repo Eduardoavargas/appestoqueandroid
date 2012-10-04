@@ -14,16 +14,17 @@
 		<TextView style="@style/TitleBarText" 
 				  android:text="@string/titulo_pedido" />
 		<ImageView style="@style/TitleBarSeparator" />
+		<ImageButton android:id="@+id/img_remover"
+		    	     android:contentDescription="@string/description"
+		             style="@style/Titulo_Barra_Acao"
+					 android:src="@drawable/btn_remover"
+					 android:onClick="onRemoverClick"/>
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		     	   android:contentDescription="@string/description"/>
 		<ImageButton style="@style/Titulo_Barra_Acao"
 			android:src="@drawable/btn_buscar"
 			android:onClick="onBuscarClick" />
 		<ImageView style="@style/Titulo_Barra_Separador" />
-		<!--  
-        <ImageButton style="@style/Titulo_Barra_Acao"
-            android:id="@+id/btn_atualizar"
-            android:src="@drawable/ic_title_refresh"
-            android:onClick="onAtualizarClick" />
-        -->    	
 	</LinearLayout>
 
 	 <ListView
