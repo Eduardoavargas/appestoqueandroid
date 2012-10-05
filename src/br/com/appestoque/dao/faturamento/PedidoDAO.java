@@ -26,8 +26,11 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	
 	private SQLiteDatabase db;
 	
+	private Context context;
+	
 	public PedidoDAO(Context context) {
 		this.databaseHelper = new DatabaseHelper(context);
+		this.context = context;
     }
 	
 	@Override
@@ -109,6 +112,10 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
         initialValues.put(PEDIDO_CHAVE_CLIENTE,pedido.getCliente().getId());
         initialValues.put(PEDIDO_CHAVE_SINCRONIZADO,pedido.getSincronizado());
 		return db.update(TABELA, initialValues, PEDIDO_CHAVE_ID + " = " + pedido.getId() , null);
+	}
+	
+	public boolean remover(Pedido pedido){
+		return ((new ItemDAO(context)).remover(pedido)&&(db.delete(TABELA, PEDIDO_CHAVE_ID + " = " + pedido.getId(),null)>0));
 	}
 	
 	@Override

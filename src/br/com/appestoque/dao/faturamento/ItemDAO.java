@@ -130,11 +130,6 @@ public class ItemDAO implements IDAO<Item,Long>{
 		return db.update(TABELA, initialValues, ITEM_CHAVE_ID + " = " + item.getId() , null);
 	}
 	
-	@Override
-	public void limpar() {
-    	db.delete(TABELA, null, null);
-	}
-	
 	public List<Item> listar(Pedido pedido) {
 		Cursor cursor = db.query(TABELA, new String[] {	ITEM_CHAVE_ID,
 														ITEM_CHAVE_QUANTIDADE,
@@ -161,6 +156,15 @@ public class ItemDAO implements IDAO<Item,Long>{
 	
 	public boolean remover(long id){
 		return db.delete(TABELA, ITEM_CHAVE_ID + " = " + id , null) > 0;
+	}
+	
+	public boolean remover(Pedido pedido){
+		return db.delete(TABELA, ITEM_CHAVE_PEDIDO + " = " + pedido.getId(),null)>0;
+	}
+	
+	@Override
+	public void limpar() {
+    	db.delete(TABELA, null, null);
 	}
 	
     public void fechar(){

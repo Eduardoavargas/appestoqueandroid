@@ -1,6 +1,8 @@
 package br.com.appestoque.ui;
 
 import br.com.appestoque.R;
+import br.com.appestoque.Util;
+import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
 import android.content.Context;
 import android.content.Intent;
@@ -51,5 +53,16 @@ public class PedidoItemEditarActivity extends BaseTabAtividade {
         tv.setText(text);
         return view;
     }
+    
+	public void onRemoverClick(View view) {
+		Bundle extras = getIntent().getExtras();
+		if(extras.containsKey(PedidoDAO.PEDIDO_CHAVE_ID)){
+			PedidoDAO pedidoDAO = new PedidoDAO(this);
+			if(pedidoDAO.remover(pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID)))){
+				Util.dialogo(this, getString(R.string.mensagem_remover_sucesso));
+				finish();
+			}
+		}
+	}
 	
 }

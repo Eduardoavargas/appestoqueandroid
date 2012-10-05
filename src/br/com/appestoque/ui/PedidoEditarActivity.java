@@ -3,10 +3,12 @@ package br.com.appestoque.ui;
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.cadastro.ClienteDAO;
+import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
 import br.com.appestoque.dominio.cadastro.Cliente;
 import br.com.appestoque.dominio.faturamento.Pedido;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 public class PedidoEditarActivity extends BaseAtividade{
