@@ -145,5 +145,9 @@
         <string name="msg_validar_produto_valor_minimo">Este produto não pode ser vendido porque o valor mínimo é</string>
         
         <string name="msg_obrigatorio_quantidade_valor">Desculpe, mas é necessário informar a quantidade e o valor do item.</string>
+        
+        <string name="msg_pedido_nao_encontrado">O pedido não foi encontrado.</string>
+        <string name="msg_pedido_sincronizado_remover">Não será possível remover o o pedido porque já foi sincronizado.</string>
+        <string name="msg_item_chave_nao_localizada">Chave do pedido no item não foi localizada.</string>
 	
 </resources>
