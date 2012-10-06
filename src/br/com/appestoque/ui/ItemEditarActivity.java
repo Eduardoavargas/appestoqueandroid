@@ -25,6 +25,7 @@ public class ItemEditarActivity extends BaseAtividade {
 
 	private ItemDAO itemDAO;
 	private ProdutoDAO produtoDAO;
+	private PedidoDAO pedidoDAO;
 	
 	@Override
 	public void onResume() {
@@ -38,6 +39,11 @@ public class ItemEditarActivity extends BaseAtividade {
 			produtoDAO = new ProdutoDAO(this);
 		}
 		produtoDAO.abrir();
+		
+		if(pedidoDAO==null){
+			pedidoDAO = new PedidoDAO(this);
+		}
+		pedidoDAO.abrir();
 		
 		AutoCompleteTextView acNumeros = (AutoCompleteTextView) findViewById(R.id.edtNumero);
 		
@@ -114,6 +120,7 @@ public class ItemEditarActivity extends BaseAtividade {
 	protected void onPause(){
 		produtoDAO.fechar();
 		itemDAO.fechar();
+		pedidoDAO.fechar();
 		super.onPause();
 	}
 	
@@ -172,9 +179,20 @@ public class ItemEditarActivity extends BaseAtividade {
 	
 	public void onRemoverClick(View view) {
 		Bundle extras = getIntent().getExtras();
-		if(extras.containsKey(ItemDAO.ITEM_CHAVE_ID)&&itemDAO.remover(extras.getLong(ItemDAO.ITEM_CHAVE_ID))){
-			Util.dialogo(this, getString(R.string.mensagem_remover_sucesso));
-			finish();
+		Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
+		if(pedido!=null){
+			if(!pedido.getSincronizado()&&
+					extras.containsKey(ItemDAO.ITEM_CHAVE_ID)&&
+					itemDAO.remover(extras.getLong(ItemDAO.ITEM_CHAVE_ID))){
+				Util.dialogo(this, getString(R.string.mensagem_remover_sucesso));
+				finish();
+			}else if(pedido.getSincronizado()){
+				Util.dialogo(this, getString(R.string.msg_pedido_sincronizado_remover));
+			}else if(extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
+				Util.dialogo(this, getString(R.string.msg_item_chave_nao_localizada));
+			}
+		}else{
+			Util.dialogo(this, getString(R.string.msg_pedido_nao_encontrado));
 		}
 	}
 	
