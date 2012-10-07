@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 			        + ProdutoDAO.PRODUTO_CHAVE_NUMERO   	+ " text not null,	 	 				"
 			        + ProdutoDAO.PRODUTO_CHAVE_VALOR    	+ " real not null,	 	 				"
 			        + ProdutoDAO.PRODUTO_CHAVE_MINIMO    	+ " real not null,	 	 				"
-			        + ProdutoDAO.PRODUTO_CHAVE_QUANTIDADE   + " real not null	 	 				"
+			        + ProdutoDAO.PRODUTO_CHAVE_QUANTIDADE   + " real default 0	 	 				"
 			        + "  ); ");
 		
 		db.execSQL(" create table "+ ClienteDAO.TABELA 		+ " ( "

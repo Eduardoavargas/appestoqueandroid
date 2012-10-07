@@ -114,7 +114,8 @@ public class ProdutoActivity extends BaseListaAtividade implements Runnable{
 							produtoDAO.criar(id, nome, numero, (preco!=null?preco:0), (minimo!=null?minimo:0), (quantidade!=null?quantidade:0));
 						}else if(!produto.getNome().equals(nome)||
 								 !produto.getValor().equals(preco)||
-								 !produto.getMinimo().equals(minimo)){
+								 !produto.getMinimo().equals(minimo)||
+								 !produto.getQuantidade().equals(quantidade)){
 							produto.setNome(!produto.getNome().equals(nome)?nome:null);
 							produto.setValor(!produto.getValor().equals(preco)?preco:null);
 							produto.setMinimo(!produto.getMinimo().equals(minimo)?minimo:null);
