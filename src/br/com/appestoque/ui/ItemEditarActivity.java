@@ -11,6 +11,8 @@ import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
 import br.com.appestoque.dao.suprimento.ProdutoDAO;
 import br.com.appestoque.Constantes;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,6 +28,8 @@ public class ItemEditarActivity extends BaseAtividade {
 	private ItemDAO itemDAO;
 	private ProdutoDAO produtoDAO;
 	private PedidoDAO pedidoDAO;
+	
+	private Bundle extras = null;
 	
 	@Override
 	public void onResume() {

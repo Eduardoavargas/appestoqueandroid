@@ -4,7 +4,10 @@ import br.com.appestoque.R;
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
+import br.com.appestoque.dominio.faturamento.Pedido;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -55,14 +58,39 @@ public class PedidoItemEditarActivity extends BaseTabAtividade {
     }
     
 	public void onRemoverClick(View view) {
-		Bundle extras = getIntent().getExtras();
-		if(extras.containsKey(PedidoDAO.PEDIDO_CHAVE_ID)){
-			PedidoDAO pedidoDAO = new PedidoDAO(this);
-			if(pedidoDAO.remover(pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID)))){
-				Util.dialogo(this, getString(R.string.mensagem_remover_sucesso));
-				finish();
-			}
-		}
+		AlertDialog.Builder alerta = new AlertDialog.Builder(this);
+		alerta.setMessage(R.string.msg_pedido_confirmar_exclusao);
+		alerta.setPositiveButton(getString(R.string.sim), new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	        	   Bundle extras = getIntent().getExtras();
+	        	   if(extras.containsKey(PedidoDAO.PEDIDO_CHAVE_ID)){
+	        		   PedidoDAO pedidoDAO = new PedidoDAO(getApplication());
+	        		   pedidoDAO.abrir();
+	        		   Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+	        		   if(pedido!=null&&!pedido.getSincronizado()){
+	        			   ItemDAO itemDAO = new ItemDAO(getApplication());
+	        			   itemDAO.abrir();
+	        			   itemDAO.remover(pedido);
+	        			   itemDAO.fechar();
+	        			   Util.dialogo(getApplication(), getString(R.string.msg_item_removido));
+	        			   pedidoDAO.remover(pedido);
+	        			   Util.dialogo(getApplication(), getString(R.string.msg_pedido_removido));
+	        			   finish();
+	        		   }else if(pedido==null){
+	        			   Util.dialogo(getApplication(), getString(R.string.msg_pedido_nao_encontrado));
+	        		   }else if(pedido.getSincronizado()){
+	        			   Util.dialogo(getApplication(), getString(R.string.mensagem_pedido_sincronizado));
+	        		   }
+	        		   pedidoDAO.fechar();
+	        	   }
+	        	   
+	           }
+	    });
+		alerta.setNegativeButton(getString(R.string.nao), new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	           }
+	    });
+		alerta.show();
 	}
 	
 }

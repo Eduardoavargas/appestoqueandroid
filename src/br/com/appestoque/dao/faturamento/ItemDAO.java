@@ -159,7 +159,7 @@ public class ItemDAO implements IDAO<Item,Long>{
 	}
 	
 	public boolean remover(Pedido pedido){
-		return db.delete(TABELA, ITEM_CHAVE_PEDIDO + " = " + pedido.getId(),null)>0;
+		return (db.delete(TABELA, ITEM_CHAVE_PEDIDO + " = " + pedido.getId(),null)>0);
 	}
 	
 	@Override
