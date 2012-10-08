@@ -26,6 +26,7 @@ public class ProdutoEditarActivity extends BaseAtividade {
 			((TextView) findViewById(R.id.edtNome)).setText(produto.getNome());
 			((TextView) findViewById(R.id.edtNumero)).setText(produto.getNumero());
 			((TextView) findViewById(R.id.edtPreco)).setText(Util.doubleToString(produto.getValor(), Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+			((TextView) findViewById(R.id.edtQtd)).setText(Util.doubleToString(produto.getQuantidade(), Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
 		}
 	}
 

@@ -80,7 +80,7 @@ public class Util {
             stream.flush();
             stream.close();
         }catch(Exception e){
-            Log.e("Não foi possível salvar", e.toString());
+            Log.e("Nï¿½o foi possï¿½vel salvar", e.toString());
         }
     }
 	
@@ -103,6 +103,10 @@ public class Util {
 	public static String doubleToString( double valor, String mask){
 		DecimalFormat decimalFormat = new DecimalFormat(mask);
 		return decimalFormat.format(valor);   
+	}
+	
+	public static Double stringToDouble( String valor){
+		return Double.valueOf(valor.replace(",", "."));   
 	}
 	
 	public static String validarCNPJ( String cnpj) throws Exception{

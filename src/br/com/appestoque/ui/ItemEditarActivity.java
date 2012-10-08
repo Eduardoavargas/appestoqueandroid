@@ -11,8 +11,6 @@ import br.com.appestoque.dao.faturamento.ItemDAO;
 import br.com.appestoque.dao.faturamento.PedidoDAO;
 import br.com.appestoque.dao.suprimento.ProdutoDAO;
 import br.com.appestoque.Constantes;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -28,8 +26,6 @@ public class ItemEditarActivity extends BaseAtividade {
 	private ItemDAO itemDAO;
 	private ProdutoDAO produtoDAO;
 	private PedidoDAO pedidoDAO;
-	
-	private Bundle extras = null;
 	
 	@Override
 	public void onResume() {
@@ -139,11 +135,11 @@ public class ItemEditarActivity extends BaseAtividade {
 		Produto produto = produtoDAO.consultar(numero.getText().toString());
 		if(produto!=null){
 			if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
-				if ((Double.valueOf(valor.getText().toString())==0&&Double.valueOf(qtd.getText().toString())==0)||  
-				   (Double.valueOf(valor.getText().toString())>=produto.getMinimo())){
+				if ((Util.stringToDouble(valor.getText().toString())==0&&Util.stringToDouble(qtd.getText().toString())==0)||  
+				   (Util.stringToDouble(valor.getText().toString())>=produto.getMinimo())){
 					Item item = new Item();
-					item.setQuantidade(Double.valueOf(qtd.getText().toString()));
-					item.setValor(Double.valueOf(valor.getText().toString()));
+					item.setQuantidade(Util.stringToDouble(qtd.getText().toString()));
+					item.setValor(Util.stringToDouble(valor.getText().toString()));
 					item.setObs(obs.getText().toString());
 					item.setProduto(produto);
 					
@@ -183,21 +179,29 @@ public class ItemEditarActivity extends BaseAtividade {
 	
 	public void onRemoverClick(View view) {
 		Bundle extras = getIntent().getExtras();
-		Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
-		if(pedido!=null){
-			if(!pedido.getSincronizado()&&
-					extras.containsKey(ItemDAO.ITEM_CHAVE_ID)&&
-					itemDAO.remover(extras.getLong(ItemDAO.ITEM_CHAVE_ID))){
-				Util.dialogo(this, getString(R.string.mensagem_remover_sucesso));
-				finish();
-			}else if(pedido.getSincronizado()){
-				Util.dialogo(this, getString(R.string.msg_pedido_sincronizado_remover));
-			}else if(extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
-				Util.dialogo(this, getString(R.string.msg_item_chave_nao_localizada));
-			}
-		}else{
-			Util.dialogo(this, getString(R.string.msg_pedido_nao_encontrado));
+		if(extras.containsKey(ItemDAO.ITEM_CHAVE_ID)&&itemDAO.remover(extras.getLong(ItemDAO.ITEM_CHAVE_ID))){
+			Util.dialogo(this, getString(R.string.mensagem_remover_sucesso));
+			finish();
 		}
 	}
+	
+//	public void onRemoverClick(View view) {
+//		Bundle extras = getIntent().getExtras();
+//		Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
+//		if(pedido!=null){
+//			if(!pedido.getSincronizado()&&
+//					extras.containsKey(ItemDAO.ITEM_CHAVE_ID)&&
+//					itemDAO.remover(extras.getLong(ItemDAO.ITEM_CHAVE_ID))){
+//				Util.dialogo(this, getString(R.string.mensagem_remover_sucesso));
+//				finish();
+//			}else if(pedido.getSincronizado()){
+//				Util.dialogo(this, getString(R.string.msg_pedido_sincronizado_remover));
+//			}else if(extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
+//				Util.dialogo(this, getString(R.string.msg_item_chave_nao_localizada));
+//			}
+//		}else{
+//			Util.dialogo(this, getString(R.string.msg_pedido_nao_encontrado));
+//		}
+//	}
 	
 }
