@@ -87,6 +87,12 @@
 		<string name="item_total">Total</string>
 		<string name="item_obs">Observação</string>
 		
+		<!--PRODUTO-->
+		<string name="produto_nome">Nome</string>
+		<string name="produto_numero">Número</string>
+		<string name="produto_valor">Valor</string>
+		<string name="produto_quantidade">Quantidade</string>
+		
 		<!--MENU ITEM-->
 		<string name="menu_visualizar">Visualizar</string>
 		<string name="menu_criar_pedido">Criar pedido</string>
@@ -149,5 +155,10 @@
         <string name="msg_pedido_nao_encontrado">O pedido não foi encontrado.</string>
         <string name="msg_pedido_sincronizado_remover">Não será possível remover o o pedido porque já foi sincronizado.</string>
         <string name="msg_item_chave_nao_localizada">Chave do pedido no item não foi localizada.</string>
+        
+        <string name="msg_pedido_confirmar_exclusao">Tem certeza que deseja remover o pedido ?</string>
+        
+        <string name="msg_pedido_removido">Pedido removido com sucesso.</string>
+        <string name="msg_item_removido">Iten(s) removido(s) com sucesso.</string>
 	
 </resources>
