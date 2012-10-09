@@ -1,14 +1,17 @@
 package br.com.appestoque.dao.faturamento;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import br.com.appestoque.Constantes;
 import br.com.appestoque.dao.DatabaseHelper;
 import br.com.appestoque.dao.IDAO;
 import br.com.appestoque.dominio.cadastro.Cliente;
+import br.com.appestoque.dominio.faturamento.Item;
 import br.com.appestoque.dominio.faturamento.Pedido;
 
 public class PedidoDAO implements IDAO<Pedido,Long>{
@@ -29,8 +32,8 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	private Context context;
 	
 	public PedidoDAO(Context context) {
-		this.databaseHelper = new DatabaseHelper(context);
 		this.context = context;
+		this.databaseHelper = new DatabaseHelper(context);
     }
 	
 	@Override
@@ -98,6 +101,16 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
     		pedido.setObs(cursor.getString(3));
     		pedido.getCliente().setId(cursor.getLong(4));
     		pedido.setSincronizado(cursor.getShort(5));
+    		
+    		ItemDAO itemDAO = new ItemDAO(this.context);
+    		itemDAO.abrir();
+    		Double total = 0d;
+    		for(Item item : itemDAO.listar(pedido)){
+    			total += item.getQuantidade()*item.getValor();
+    		}
+    		itemDAO.fechar();
+    		pedido.setTotal(new BigDecimal(total).setScale(Constantes.DUAS_CASAS_DECIMAIS,BigDecimal.ROUND_DOWN).doubleValue());
+    		
     		return pedido;
     	}else{
     		return null;

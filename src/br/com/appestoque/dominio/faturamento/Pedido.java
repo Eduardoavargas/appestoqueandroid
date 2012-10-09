@@ -15,6 +15,7 @@ public class Pedido {
 	private String obs;
 	private Cliente cliente;
 	private Short sincronizado;
+	private Double total;
 	
 	public Pedido() {
 		super();
@@ -78,6 +79,14 @@ public class Pedido {
 
 	public void setSincronizado(Short sincronizado) {
 		this.sincronizado = sincronizado;
+	}
+
+	public Double getTotal() {
+		return total;
+	}
+
+	public void setTotal(Double total) {
+		this.total = total;
 	}
 	
 }
