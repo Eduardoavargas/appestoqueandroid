@@ -131,6 +131,13 @@
         <string name="bairro">Bairro</string>
         <string name="cidade">Cidade</string>
         
+        <string name="cliente_label">Cliente</string>
+		<string name="numero_label">Número</string>
+		<string name="data_label">Data</string>
+		<string name="obs_label">Observação</string>
+		<string name="total_label">Total</string>
+        
+        
         <!--dialog-->
         <string name="sim">Sim</string>
         <string name="nao">Não</string>
