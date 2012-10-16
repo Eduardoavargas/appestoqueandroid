@@ -167,5 +167,7 @@
         
         <string name="msg_pedido_removido">Pedido removido com sucesso.</string>
         <string name="msg_item_removido">Iten(s) removido(s) com sucesso.</string>
+        
+        <string name="msg_remover_pedido_sincronizado">Desculpe, mas não será possível remover um pedido sincronizado.</string>
 	
 </resources>
