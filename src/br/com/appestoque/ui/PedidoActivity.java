@@ -267,7 +267,7 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 				this.idPedido = info.id;
 				pedido = pedidoDAO.pesquisar(idPedido);
 				pedido.setCliente(clienteDAO.pesquisar(pedido.getCliente().getId()));
-				if(!pedido.getSincronizado()){
+				if(!pedido.isSincronizado()){
 					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
 					Thread thread = new Thread(this);
 					thread.start();

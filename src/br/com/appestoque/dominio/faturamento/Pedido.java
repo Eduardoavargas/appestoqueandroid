@@ -73,7 +73,7 @@ public class Pedido {
 		this.cliente = cliente;
 	}
 
-	public boolean getSincronizado() {
+	public boolean isSincronizado() {
 		return sincronizado.equals(new Short("1"));
 	}
 

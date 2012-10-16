@@ -7,7 +7,7 @@ public class Constantes {
 	
 	public static final String TAG = "Appestoque";
 	
-	public static final String DISPOSITIVO = "9774d56d682e549c";
+	//public static final String DISPOSITIVO = "9774d56d682e549c";
 	
 	//public static final String SERVIDOR = "http://10.0.2.2:8888";
 	public static final String SERVIDOR = "http://appestoque.appspot.com";

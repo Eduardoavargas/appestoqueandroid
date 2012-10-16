@@ -1,5 +1,7 @@
 package br.com.appestoque.ui;
 
+import java.util.Calendar;
+
 import br.com.appestoque.Constantes;
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
@@ -9,6 +11,9 @@ import br.com.appestoque.dao.faturamento.PedidoDAO;
 import br.com.appestoque.dominio.cadastro.Cliente;
 import br.com.appestoque.dominio.faturamento.Pedido;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class PedidoEditarActivity extends BaseAtividade{
@@ -39,14 +44,44 @@ public class PedidoEditarActivity extends BaseAtividade{
 			clienteDAO.abrir();
 			Cliente cliente = clienteDAO.pesquisar(pedido.getCliente().getId());
 			pedido.setCliente(cliente);
+			
+			Calendar calendario = Calendar.getInstance();
+			calendario.setTime(pedido.getData());
+			((DatePicker)findViewById(R.id.dtpData)).init(	calendario.get(Calendar.YEAR), 
+															calendario.get(Calendar.MONTH), 
+															calendario.get(Calendar.DAY_OF_MONTH), null);
 			((TextView) findViewById(R.id.edtNumero)).setText(pedido.getNumero().toString());
-			((TextView) findViewById(R.id.edtData)).setText(Util.dateToStr(Constantes.MASCARA_DATA_DDMMYYYY,pedido.getData()));
 			((TextView) findViewById(R.id.edtCliente)).setText(pedido.getCliente().getNome());
 			((TextView) findViewById(R.id.edtObs)).setText(pedido.getObs());
 			((TextView) findViewById(R.id.edtTotal)).setText(Util.doubleToString(
 					pedido.getTotal(),Constantes.MASCARA_VALOR_DUAS_CASAS_DECIMAIS));
+			//((Button) findViewById(R.id.btnSalvar)).setEnabled(!pedido.isSincronizado());
+			((DatePicker)findViewById(R.id.dtpData)).setEnabled(!pedido.isSincronizado());
+			((TextView) findViewById(R.id.edtObs)).setEnabled(!pedido.isSincronizado());
+			((TextView) findViewById(R.id.edtNumero)).setEnabled(!pedido.isSincronizado());
 		}
 		super.onResume();
+	}
+	
+	public void onSalvarClick(View view) {
+		Bundle extras = getIntent().getExtras();
+		Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
+		if(pedido!=null&&!pedido.isSincronizado()){
+			final EditText numero = (EditText) findViewById(R.id.edtNumero);
+			final DatePicker data = (DatePicker) findViewById(R.id.dtpData);
+			final EditText obs = (EditText) findViewById(R.id.edtObs);
+			pedido.setNumero(numero.getText().toString());
+			Calendar calendario = Calendar.getInstance();
+			calendario.set(data.getYear(), data.getMonth(), data.getDayOfMonth());
+			pedido.setData(calendario.getTime());
+			pedido.setObs(obs.getText().toString());
+			pedidoDAO.atualizar(pedido);
+			this.finish();
+		}else if(pedido==null){
+			Util.dialogo(PedidoEditarActivity.this,getString(R.string.msg_pedido_nao_encontrado));
+		}else if(pedido.isSincronizado()){
+			Util.dialogo(PedidoEditarActivity.this,getString(R.string.mensagem_pedido_sincronizado));
+		}
 	}
 	
 	@Override

@@ -70,7 +70,7 @@ public class ItemActivity extends BaseListaAtividade{
 	        pedidoDAO.abrir();
 	        Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
 	        pedidoDAO.fechar();
-	        ((Button) findViewById(R.id.btn_adicionar)).setEnabled(!pedido.getSincronizado());
+	        ((Button) findViewById(R.id.btn_adicionar)).setEnabled(!pedido.isSincronizado());
 	    }
 		setListAdapter(new ItensAdapter(this,cursor));
 		registerForContextMenu(getListView());
@@ -96,7 +96,7 @@ public class ItemActivity extends BaseListaAtividade{
 		pedidoDAO.abrir();
 		Pedido pedido = pedidoDAO.pesquisar(getIntent().getExtras().getLong(PedidoDAO.PEDIDO_CHAVE_ID));
 		pedidoDAO.fechar();
-		if(!pedido.getSincronizado()){
+		if(!pedido.isSincronizado()){
 			Intent intent = new Intent(this, ItemEditarActivity.class);
 			intent.putExtra(ItemDAO.ITEM_CHAVE_PEDIDO,getIntent().getExtras().getLong(PedidoDAO.PEDIDO_CHAVE_ID));
 	    	intent.putExtra(ItemDAO.ITEM_CHAVE_ID, itemId);

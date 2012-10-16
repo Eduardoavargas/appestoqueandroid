@@ -1,5 +1,8 @@
 package br.com.appestoque.ui;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.cadastro.ClienteDAO;
@@ -35,6 +38,8 @@ public class PedidoIncluirActivity extends BaseAtividade {
 			Cliente cliente = clienteDAO.pesquisar(extras.getLong(ClienteDAO.CLIENTE_CHAVE_ID));
 			((TextView) findViewById(R.id.edtCliente)).setText(cliente.getNome());
 			((TextView) findViewById(R.id.edtId)).setText(cliente.getId().toString());
+			SimpleDateFormat simpleDateFormat = new SimpleDateFormat("'P'yyyyMMddhhmmss");
+			((TextView) findViewById(R.id.edtNumero)).setText(simpleDateFormat.format(new Date()));
 		}
 		super.onResume();
 	}
@@ -52,7 +57,7 @@ public class PedidoIncluirActivity extends BaseAtividade {
 		final DatePicker data = (DatePicker) findViewById(R.id.dtpData);
 		final EditText obs = (EditText) findViewById(R.id.edtObs);
 		
-		long chave = pedidoDAO.criar(numero.getText().toString(), Util.dateMillisegundos(data.getYear(),data.getMonth(),data.getDayOfMonth()), obs.getText().toString(), new Long(id.getText().toString()) );
+		long chave = pedidoDAO.criar(numero.getText().toString(), Util.dateMillisegundos(data.getYear(),data.getMonth(),data.getDayOfMonth()), obs.getText().toString(), Long.valueOf(id.getText().toString()) );
 		setResult(RESULT_OK);
 		Intent intent = new Intent(this, PedidoItemEditarActivity.class);
 		intent.putExtra(PedidoDAO.PEDIDO_CHAVE_ID, chave);

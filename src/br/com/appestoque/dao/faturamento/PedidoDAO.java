@@ -123,7 +123,7 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
         initialValues.put(PEDIDO_CHAVE_DATA,pedido.getData().getTime());
         initialValues.put(PEDIDO_CHAVE_OBS,pedido.getObs());
         initialValues.put(PEDIDO_CHAVE_CLIENTE,pedido.getCliente().getId());
-        initialValues.put(PEDIDO_CHAVE_SINCRONIZADO,pedido.getSincronizado());
+        initialValues.put(PEDIDO_CHAVE_SINCRONIZADO,pedido.isSincronizado());
 		return db.update(TABELA, initialValues, PEDIDO_CHAVE_ID + " = " + pedido.getId() , null);
 	}
 	

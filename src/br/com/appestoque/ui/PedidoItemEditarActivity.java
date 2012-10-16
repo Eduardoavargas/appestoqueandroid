@@ -67,7 +67,7 @@ public class PedidoItemEditarActivity extends BaseTabAtividade {
 	        		   PedidoDAO pedidoDAO = new PedidoDAO(getApplication());
 	        		   pedidoDAO.abrir();
 	        		   Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
-	        		   if(pedido!=null&&!pedido.getSincronizado()){
+	        		   if(pedido!=null&&!pedido.isSincronizado()){
 	        			   ItemDAO itemDAO = new ItemDAO(getApplication());
 	        			   itemDAO.abrir();
 	        			   itemDAO.remover(pedido);
@@ -78,7 +78,7 @@ public class PedidoItemEditarActivity extends BaseTabAtividade {
 	        			   finish();
 	        		   }else if(pedido==null){
 	        			   Util.dialogo(getApplication(), getString(R.string.msg_pedido_nao_encontrado));
-	        		   }else if(pedido.getSincronizado()){
+	        		   }else if(pedido.isSincronizado()){
 	        			   Util.dialogo(getApplication(), getString(R.string.mensagem_pedido_sincronizado));
 	        		   }
 	        		   pedidoDAO.fechar();
