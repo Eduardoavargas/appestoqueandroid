@@ -14,7 +14,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Button;
 
 public class PedidoEditarActivity extends BaseAtividade{
 
@@ -55,7 +57,7 @@ public class PedidoEditarActivity extends BaseAtividade{
 			((TextView) findViewById(R.id.edtObs)).setText(pedido.getObs());
 			((TextView) findViewById(R.id.edtTotal)).setText(Util.doubleToString(
 					pedido.getTotal(),Constantes.MASCARA_VALOR_DUAS_CASAS_DECIMAIS));
-			//((Button) findViewById(R.id.btnSalvar)).setEnabled(!pedido.isSincronizado());
+			((LinearLayout) findViewById(R.id.linearLayoutPedido)).setVisibility(pedido.isSincronizado()?View.GONE:View.VISIBLE);
 			((DatePicker)findViewById(R.id.dtpData)).setEnabled(!pedido.isSincronizado());
 			((TextView) findViewById(R.id.edtObs)).setEnabled(!pedido.isSincronizado());
 			((TextView) findViewById(R.id.edtNumero)).setEnabled(!pedido.isSincronizado());

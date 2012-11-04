@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CursorAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -70,7 +71,7 @@ public class ItemActivity extends BaseListaAtividade{
 	        pedidoDAO.abrir();
 	        Pedido pedido = pedidoDAO.pesquisar(extras.getLong(PedidoDAO.PEDIDO_CHAVE_ID));
 	        pedidoDAO.fechar();
-	        ((Button) findViewById(R.id.btn_adicionar)).setEnabled(!pedido.isSincronizado());
+	        ((Button) findViewById(R.id.btn_adicionar)).setVisibility(pedido.isSincronizado()?View.GONE:View.VISIBLE);
 	    }
 		setListAdapter(new ItensAdapter(this,cursor));
 		registerForContextMenu(getListView());

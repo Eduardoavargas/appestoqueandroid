@@ -85,9 +85,9 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		             *atualizando dados do pedido após sincronismo com o servidor 
 		             */
 		            pedido.setSincronizado(new Short("1"));
-					pedidoDAO.abrir();
+					//pedidoDAO.abrir();
 					long retorno = pedidoDAO.atualizar(pedido);
-					pedidoDAO.fechar();
+					//pedidoDAO.fechar();
 		            Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_sincronismo_conclusao));		            
 					break;
 				case Constantes.FALHA:
