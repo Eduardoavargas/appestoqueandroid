@@ -96,6 +96,7 @@
 		<!--MENU ITEM-->
 		<string name="menu_visualizar">Visualizar</string>
 		<string name="menu_criar_pedido">Criar pedido</string>
+		<string name="menu_listar_pedidos">Listar pedido(s)</string>
 		<string name="menu_sincronizar">Sincronizar</string>
 		<string name="menu_editar">Editar</string>
 		<string name="menu_remover">Remover</string>
@@ -169,5 +170,8 @@
         <string name="msg_item_removido">Iten(s) removido(s) com sucesso.</string>
         
         <string name="msg_remover_pedido_sincronizado">Desculpe, mas não será possível remover um pedido sincronizado.</string>
+        
+        <string name="mensagem_erro_listar_cliente_pedido">Erro ao tentar localizar pedido(s) por cliente.</string>
+        <string name="mensagem_info_cliente_pedido">Desculpe, mas não foi encontrado nenhum pedido para o cliente informado.</string>
 	
 </resources>
