@@ -22,6 +22,8 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
 	public static final String PEDIDO_CHAVE_OBS = "obs";
 	public static final String PEDIDO_CHAVE_CLIENTE = "idCliente";
 	public static final String PEDIDO_CHAVE_SINCRONIZADO = "sincronizado";
+
+	final String PEDIDO_SQL_CONTAR = "select count(*) from " + TABELA;
 	
 	public static final String TABELA = "pedidos";
 	
@@ -68,6 +70,21 @@ public class PedidoDAO implements IDAO<Pedido,Long>{
         
         long ret = db.insert(TABELA, null,initialValues);
         return ret;
+    }
+	
+	public Cursor listar(Cliente cliente) {
+    	Cursor cursor = db.query(TABELA, new String[] {	PEDIDO_CHAVE_ID,
+														PEDIDO_CHAVE_NUMERO,
+														PEDIDO_CHAVE_DATA,
+														PEDIDO_CHAVE_OBS,
+														PEDIDO_CHAVE_CLIENTE,
+														PEDIDO_CHAVE_SINCRONIZADO}, PEDIDO_CHAVE_CLIENTE + " = " + cliente.getId(), 
+								null, null, null, PEDIDO_CHAVE_DATA + " desc ");
+    	return cursor;
+    } 
+	
+	public boolean existePedido(Cliente cliente){
+    	return (db.compileStatement(PEDIDO_SQL_CONTAR + " where " + PEDIDO_CHAVE_CLIENTE + " = " + cliente.getId() ).simpleQueryForLong()>0);
     }
 	
     public Cursor pesquisar(String numero) {

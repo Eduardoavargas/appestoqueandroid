@@ -28,6 +28,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -44,6 +45,7 @@ import br.com.appestoque.HttpCliente;
 import br.com.appestoque.R;
 import br.com.appestoque.Util;
 import br.com.appestoque.dao.cadastro.ClienteDAO;
+import br.com.appestoque.dao.faturamento.PedidoDAO;
 import br.com.appestoque.dominio.cadastro.Cliente;
 import br.com.appestoque.seguranca.Criptografia;
 import br.com.appestoque.util.Conversor;
@@ -274,6 +276,25 @@ public class ClienteActivity extends BaseListaAtividade implements Runnable{
 				intent = new Intent(this, PedidoIncluirActivity.class);
 				intent.putExtra(ClienteDAO.CLIENTE_CHAVE_ID, info.id);
 		    	startActivity(intent);
+				return true;
+			case R.id.item_menu_listar_pedidos:				
+				Cliente cliente = clienteDAO.pesquisar(info.id);
+				PedidoDAO pedidoDAO = null;
+				try{
+					pedidoDAO = new PedidoDAO(this);
+					pedidoDAO.abrir();
+					if(pedidoDAO.existePedido(cliente)){
+						intent = new Intent(this, PedidoActivity.class);
+						intent.putExtra(ClienteDAO.CLIENTE_CHAVE_ID, info.id);
+				    	startActivity(intent);
+					}else{
+						Util.dialogo(ClienteActivity.this,getString(R.string.mensagem_info_cliente_pedido));
+					}
+				}catch(Exception e){
+					Log.e(Constantes.TAG, getString(R.string.mensagem_erro_listar_cliente_pedido), e);
+				}finally{
+					pedidoDAO.fechar();
+				}				
 				return true;
 			case R.id.item_menu_sincronizar:
 				Toast.makeText(getApplicationContext(), "Sincronizar", Toast.LENGTH_SHORT).show();

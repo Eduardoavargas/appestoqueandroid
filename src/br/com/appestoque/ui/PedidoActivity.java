@@ -85,9 +85,7 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		             *atualizando dados do pedido após sincronismo com o servidor 
 		             */
 		            pedido.setSincronizado(new Short("1"));
-					//pedidoDAO.abrir();
 					long retorno = pedidoDAO.atualizar(pedido);
-					//pedidoDAO.fechar();
 		            Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_sincronismo_conclusao));		            
 					break;
 				case Constantes.FALHA:
@@ -201,7 +199,11 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		clienteDAO.abrir();
 		
 		Cursor cursor = null;
-	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+		
+		Bundle extras = getIntent().getExtras();
+		if(extras.containsKey(ClienteDAO.CLIENTE_CHAVE_ID)){
+			cursor = pedidoDAO.listar(clienteDAO.pesquisar(extras.getLong(ClienteDAO.CLIENTE_CHAVE_ID)));
+		}else if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
 	        String query = intent.getStringExtra(SearchManager.QUERY);
 	        cursor = pedidoDAO.pesquisar(query);
 	    }else{
