@@ -22,9 +22,9 @@
 			
 			<EditText android:id="@+id/edtCliente"
 			    	  android:inputType="text"
-		        	  android:layout_width="fill_parent"
 		        	  android:layout_height="wrap_content"
-		        	  android:enabled="false"/>
+		        	  android:enabled="false"
+		        	  android:layout_width="250dp"/>
 			
 			<TextView android:id="@+id/txtData" 
 			          android:text="@string/data_label"
