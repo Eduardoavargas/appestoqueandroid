@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import br.com.appestoque.Constantes;
 import br.com.appestoque.dao.DatabaseHelper;
 import br.com.appestoque.dao.IDAO;
 import br.com.appestoque.dominio.cadastro.Cliente;
@@ -136,8 +137,7 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 				CLIENTE_CHAVE_NOME, CLIENTE_CHAVE_CNPJ, CLIENTE_CHAVE_ENDERECO,
 				CLIENTE_CHAVE_NUMERO, CLIENTE_CHAVE_CEP,
 				CLIENTE_CHAVE_COMPLEMENTO, CLIENTE_CHAVE_BAIRRO,
-				CLIENTE_CHAVE_CIDADE }, CLIENTE_CHAVE_NOME + " like '" + nome
-				+ "%'", null, null, null, null);
+				CLIENTE_CHAVE_CIDADE }, CLIENTE_CHAVE_NOME + " like '" + Constantes.CARACTER_PERCENTAGEM + nome + Constantes.CARACTER_PERCENTAGEM + "'", null, null, null, null);
 		return cursor;
     }
     

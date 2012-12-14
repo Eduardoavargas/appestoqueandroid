@@ -7,6 +7,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import br.com.appestoque.Constantes;
 import br.com.appestoque.dao.DatabaseHelper;
 import br.com.appestoque.dao.IDAO;
 import br.com.appestoque.dominio.suprimento.Produto;
@@ -104,7 +105,7 @@ public class ProdutoDAO implements IDAO<Produto,Long> {
 								PRODUTO_CHAVE_VALOR,
 								PRODUTO_CHAVE_MINIMO,
 								PRODUTO_CHAVE_QUANTIDADE},
-								PRODUTO_CHAVE_NUMERO + " like '" + numero + "%'", null, null,
+								PRODUTO_CHAVE_NUMERO + " like '" + numero + Constantes.CARACTER_PERCENTAGEM + "'", null, null,
 				null, null);
 		return cursor;
     }

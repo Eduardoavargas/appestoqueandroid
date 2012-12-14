@@ -16,6 +16,8 @@ public class Constantes {
 	public static final String RESTFUL_CLIENTE = "/RESTFul/cliente";
 	public static final String RESTFUL_PEDIDO  = "/RESTFul/pedido";
 	
+	public static final String CARACTER_PERCENTAGEM  = "%";
+	
 	public static final int COR_AZUL_1 = -14002535;
 	public static final int COR_AZUL_2 = -15750145;
 	public static final int COR_AZUL_3 = -16750900;
