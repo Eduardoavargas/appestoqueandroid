@@ -36,6 +36,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView.AdapterContextMenuInfo;
+import android.widget.CheckBox;
 import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -231,31 +232,22 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			
 			final TextView numero = (TextView) view.findViewById(R.id.numero);
 			final TextView data = (TextView) view.findViewById(R.id.data);
 			final TextView valor = (TextView) view.findViewById(R.id.valor);
 			final TextView cliente = (TextView) view.findViewById(R.id.cliente);
-			
+			final CheckBox checkBox = (CheckBox) view.findViewById(R.id.sincronizado);
 			numero.setText(cursor.getString(1));
 			data.setText(Util.millisegundosDate(cursor.getLong(2)));
-			
 			Pedido pedido = pedidoDAO.pesquisar(cursor.getLong(0));
 			valor.setText(Util.doubleToString(pedido.getTotal(),Constantes.MASCARA_VALOR_DUAS_CASAS_DECIMAIS));
-            
+	        checkBox.setChecked(pedido.isSincronizado());
             try{
             	Cliente objeto = clienteDAO.pesquisar(cursor.getLong(4));
             	cliente.setText(objeto!=null?objeto.getNome():"");
             }catch(Exception e){
             	Util.dialogo(PedidoActivity.this, e.getMessage());
             }
-            
-            /*
-			 *
-            final View iconView = view.findViewById(android.R.id.icon1);
-            LayerDrawable iconDrawable = (LayerDrawable) iconView.getBackground();
-            iconDrawable.getDrawable(0).setColorFilter(cursor.getLong(5)==0?Constantes.COR_VERMELHO_1:Constantes.COR_AZUL_1, PorterDuff.Mode.SRC_ATOP);
-            */
 		}
 
 		@Override
