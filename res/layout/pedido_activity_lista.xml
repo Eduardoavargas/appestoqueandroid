@@ -33,4 +33,18 @@
         android:layout_below="@id/valor"
         android:layout_alignParentLeft="true"
         style="@style/SessionSubtitle"/>
+    <CheckBox
+        android:id="@+id/sincronizado"
+        android:layout_above="@id/valor"
+        android:enabled="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dip"
+        android:background="@drawable/chk"
+        android:button="@null"
+        android:focusable="false"
+        android:focusableInTouchMode="false"/>
+    
 </RelativeLayout>
