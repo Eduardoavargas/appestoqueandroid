@@ -79,14 +79,10 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 		public void handleMessage(Message msg) {
 			switch (msg.what){
 				case Constantes.SUCESSO:
-					final View iconView = findViewById(android.R.id.icon1);
-		            LayerDrawable iconDrawable = (LayerDrawable) iconView.getBackground();
-		            iconDrawable.getDrawable(0).setColorFilter(Constantes.COR_AZUL_1, PorterDuff.Mode.SRC_ATOP);
-		            /*
-		             *atualizando dados do pedido após sincronismo com o servidor 
-		             */
 		            pedido.setSincronizado(new Short("1"));
 					long retorno = pedidoDAO.atualizar(pedido);
+					final CheckBox checkBox = (CheckBox) findViewById(R.id.sincronizado);
+					checkBox.setChecked(pedido.isSincronizado());
 		            Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_sincronismo_conclusao));		            
 					break;
 				case Constantes.FALHA:
