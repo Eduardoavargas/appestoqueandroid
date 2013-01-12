@@ -4,6 +4,7 @@
 		    	android:layout_height="fill_parent"
 		    	android:paddingLeft="16dp"
 		    	android:paddingRight="16dp" 
+		    	android:paddingTop="16dp"
      			style="@style/ListItem">
     <TextView
         android:id="@+id/numero"
