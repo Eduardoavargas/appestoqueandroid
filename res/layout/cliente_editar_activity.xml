@@ -24,9 +24,7 @@
 	    		android:layout_width="fill_parent" 
 				android:id="@+id/scrollViewCliente">
 	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    			style="@style/layout_padrao"
-    			android:layout_width="fill_parent"
-    			android:layout_height="wrap_content">
+    			style="@style/layout_padrao">
 	        <TextView android:id="@+id/txtCnpj" 
 					  android:text="@string/cliente_cnpj"
 					  android:layout_height="fill_parent" 

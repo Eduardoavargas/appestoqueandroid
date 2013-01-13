@@ -20,6 +20,66 @@
 	            android:layout_width="fill_parent" 
 	            android:layout_weight="3">
 
+	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    					style="@style/layout_padrao">
+            <TextView android:id="@+id/txtCliente" 
+			          android:text="@string/cliente_label"
+					  android:layout_height="fill_parent"
+					  android:layout_width="fill_parent" 
+					  style="@style/textview_padrao"/>
+			<EditText android:id="@+id/edtCliente"
+			    	  android:inputType="text"
+		        	  android:layout_width="fill_parent"
+		        	  android:layout_height="wrap_content"
+		        	  android:enabled="false"
+		        	  android:layout_below="@+id/txtCliente"/>
+			<TextView android:id="@+id/txtData" 
+			          android:text="@string/data_label"
+					  android:layout_height="fill_parent"
+					  android:layout_width="fill_parent" 
+					  android:layout_below="@+id/edtCliente"
+					  style="@style/textview_padrao"/>
+			<DatePicker android:id="@+id/dtpData"
+		        	  android:layout_width="fill_parent"
+		        	  android:layout_height="wrap_content" 
+		        	  android:layout_below="@+id/txtData"/>
+			<TextView android:id="@+id/txtNumero" 
+			          android:text="@string/numero_label"
+					  android:layout_height="fill_parent"
+					  android:layout_width="fill_parent" 
+					  android:layout_below="@+id/dtpData"
+		        	  style="@style/textview_padrao"/>
+			<EditText android:id="@+id/edtNumero"
+			    	  android:inputType="text"
+		        	  android:layout_width="180dp"
+		        	  android:layout_height="wrap_content" 
+		        	  android:layout_below="@+id/txtNumero"/>
+			<TextView android:id="@+id/txtObs" 
+			          android:text="@string/obs_label"
+					  android:layout_height="fill_parent"
+		 			  android:layout_width="fill_parent" 
+		 			  android:layout_below="@+id/edtNumero"
+		        	  style="@style/textview_padrao"/>
+			<EditText android:id="@+id/edtObs"
+		        	  android:layout_width="fill_parent"
+		        	  android:layout_height="115dp"
+		        	  android:ems="10"
+		        	  android:inputType="textMultiLine"
+		        	  android:layout_below="@+id/txtObs"/>
+			<TextView android:id="@+id/txtTotal" 
+			          android:text="@string/total_label"
+					  android:layout_height="fill_parent"
+		 			  android:layout_width="fill_parent" 
+		 			  android:layout_below="@+id/edtObs"
+		        	  style="@style/textview_padrao"/>
+			<EditText android:id="@+id/edtTotal" 
+			    	  android:inputType="text"
+		        	  android:layout_width="180dp"
+		        	  android:layout_height="wrap_content"
+		        	  android:layout_below="@+id/txtTotal"/>
+        </RelativeLayout>
+	    
+	    <!--  	
 		<LinearLayout
 		    android:id="@+id/linearLayout1"
 		    android:layout_width="fill_parent"
@@ -82,6 +142,7 @@
 		        android:ems="10"
 		        android:inputType="textMultiLine" />
 		</LinearLayout>
+		-->
 
 	</ScrollView>
 
