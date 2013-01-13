@@ -34,12 +34,12 @@ public class ItemActivity extends BaseListaAtividade{
 
 		@Override
 		public void bindView(View view, Context context, Cursor cursor) {
-			final TextView produto = (TextView) view.findViewById(R.id.produto);
-            final TextView quantidade = (TextView) view.findViewById(R.id.quantidade);
-            final TextView valor = (TextView) view.findViewById(R.id.valor);
-            final TextView valorTotal = (TextView) view.findViewById(R.id.valorTotal);
-            final TextView numero = (TextView) view.findViewById(R.id.numero);
-            final TextView obs = (TextView) view.findViewById(R.id.obs);
+			final TextView produto = (TextView) view.findViewById(R.id.edtProduto);
+            final TextView quantidade = (TextView) view.findViewById(R.id.edtQuantidade);
+            final TextView valor = (TextView) view.findViewById(R.id.edtValor);
+            final TextView valorTotal = (TextView) view.findViewById(R.id.edtValorTotal);
+            final TextView numero = (TextView) view.findViewById(R.id.edtNumero);
+            final TextView obs = (TextView) view.findViewById(R.id.edtObs);
             quantidade.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
             valor.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
             valorTotal.setText(Util.doubleToString(cursor.getDouble(Item.ITEM_SEQUENCIA_QUANTIDADE)*cursor.getDouble(Item.ITEM_SEQUENCIA_VALOR),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
