@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:orientation="vertical" 
 	android:layout_width="fill_parent"
@@ -8,14 +7,18 @@
 	<LinearLayout style="@style/Titulo_Barra">
 		<ImageButton style="@style/Titulo_Barra_Acao"
 			android:src="@drawable/btn_iniciar"
-			android:onClick="onIniciarClick" />		
-		<ImageView style="@style/Titulo_Barra_Separador" />
+			android:onClick="onIniciarClick"
+			android:contentDescription="@string/texto_padrao"/>		
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		           android:contentDescription="@string/texto_padrao"/>
 		<TextView style="@style/TitleBarText" 
-				  android:text="@string/titulo_produto" />
-		<ImageView style="@style/Titulo_Barra_Separador" />		  
+				  android:text="@string/titulo_produto"/>
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		           android:contentDescription="@string/texto_padrao"/>		  
 		<ImageButton style="@style/Titulo_Barra_Acao"
-			android:src="@drawable/btn_retornar"
-			android:onClick="onRetornarClick" />		  
+					 android:src="@drawable/btn_retornar"
+				     android:onClick="onRetornarClick" 
+					 android:contentDescription="@string/texto_padrao"/>		  
 	</LinearLayout>
 			<TextView android:id="@+id/txtNome"
 					  android:text="@string/produto_nome"
