@@ -3,22 +3,27 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/fundo_branco"
-    android:orientation="vertical" >
-
+    android:orientation="vertical">
+    
 	<LinearLayout style="@style/Titulo_Barra">
 		<ImageButton style="@style/Titulo_Barra_Acao"
 			android:src="@drawable/btn_iniciar"
-			android:onClick="onIniciarClick" />
-		<ImageView style="@style/Titulo_Barra_Separador" />	
-		<TextView style="@style/TitleBarText" android:text="@string/titulo_preferencia" />
+			android:onClick="onIniciarClick" 
+			android:contentDescription="@string/texto_padrao"/>
+		<ImageView style="@style/Titulo_Barra_Separador" 
+		    android:contentDescription="@string/texto_padrao" />	
+		<TextView style="@style/TitleBarText" 
+		    android:text="@string/titulo_preferencia" />
 	</LinearLayout>
 
-	<ScrollView android:layout_height="wrap_content" android:id="@+id/scrollView1"
+	<ScrollView android:layout_height="0dip" android:id="@+id/scrollView1"
 		android:layout_width="fill_parent" android:layout_weight="3">
 
 	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_padrao">
 	    	<TextView 	android:id="@+id/txtEmail"
         	  			android:text="@string/edtEmail"
+        	  			android:layout_width="fill_parent"
+	          		  	android:layout_height="wrap_content"
         	  			style="@style/textview_padrao"/> 
         	<EditText 	android:id="@+id/edtEmail"
         	          	android:inputType="textEmailAddress"
@@ -26,7 +31,9 @@
 	          		  	android:layout_height="wrap_content"
 	          		  	android:layout_below="@+id/txtEmail" />
         	<TextView 	android:id="@+id/txtSenha"
-        	  			android:text="@string/edtEmail"
+        	  			android:text="@string/edtSenha"
+        	  			android:layout_width="fill_parent"
+	          		  	android:layout_height="wrap_content"
         	  			android:layout_below="@+id/edtEmail"
         	  			style="@style/textview_padrao"/> 
         	<EditText 	android:id="@+id/edtSenha"
@@ -35,34 +42,6 @@
 	          		  	android:layout_height="wrap_content"
 	          		  	android:layout_below="@+id/txtSenha" />
 	    </RelativeLayout>    
-	    
-	    <!-- 	
-		<LinearLayout
-		    android:id="@+id/linearLayout1"
-		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
-		    android:background="@color/fundo_branco"
-		    android:orientation="vertical" >
-
-			<TextView
-			    android:id="@+id/txtEmail"
-			    style="@style/SessionTitle"
-			    android:layout_width="fill_parent"
-			    android:layout_height="wrap_content"
-			    android:text="@string/edtEmail"
-			    android:textColor="#000000" />
-
-			<EditText android:id="@+id/edtEmail" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" />
-			<TextView android:id="@+id/txtSenha" android:text="@string/edtSenha"
-				android:textColor="#000000" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" style="@style/SessionTitle" />
-			<EditText android:id="@+id/edtSenha" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:inputType="textPassword"/>
-
-		</LinearLayout>
-		 -->
-
 	</ScrollView>
 
 	<LinearLayout
@@ -76,7 +55,7 @@
 			android:layout_weight="1" android:onClick="onSalvarClick"
 			android:text="@string/botao_salvar" 
 			android:background="@drawable/btn_green"
-			    style="@style/ButtonText"/>
+			style="@style/ButtonText"/>
 
 		<Button
 		    style="@style/ButtonText"
@@ -88,5 +67,4 @@
 		    android:text="@string/botao_cancelar" />
 
 	</LinearLayout>
-
 </LinearLayout>

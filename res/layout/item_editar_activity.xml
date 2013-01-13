@@ -31,6 +31,8 @@
 	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_padrao">
 	        <TextView android:id="@+id/txtNome" 
 			          android:text="@string/item_nome"
+			          android:layout_width="fill_parent"
+	          		  android:layout_height="wrap_content"
 					  style="@style/textview_padrao"/>
 			<AutoCompleteTextView android:id="@+id/edtNome"
 		        	  android:layout_width="fill_parent"
@@ -39,6 +41,8 @@
 		        	  android:layout_below="@+id/txtNome"/>
 			<TextView android:id="@+id/txtNumero" 
 			          android:text="@string/item_numero"
+			          android:layout_width="fill_parent"
+	          		  android:layout_height="wrap_content"
 			          style="@style/textview_padrao"
 			          android:layout_below="@+id/edtNome"/>
 			<AutoCompleteTextView android:id="@+id/edtNumero"
@@ -48,6 +52,8 @@
 		        	  android:textColor="@color/texto"/>
 			<TextView android:id="@+id/txtQtd"
 			          android:text="@string/item_quantidade"
+			          android:layout_width="fill_parent"
+	          		  android:layout_height="wrap_content"
 					  style="@style/textview_padrao"
 					  android:layout_below="@+id/edtNumero"/>
 			<EditText android:id="@+id/edtQtd"
@@ -61,7 +67,9 @@
 			    	  style="@style/textview_padrao"
 			    	  android:layout_below="@+id/edtNumero"			    	   
 			    	  android:gravity="right"
-        			  android:layout_alignParentRight="true"/>
+        			  android:layout_alignParentRight="true"
+        			  android:layout_width="fill_parent"
+	          		  android:layout_height="wrap_content"/>
 			<EditText android:id="@+id/edtValor"
 			          android:layout_width="120dp"
 			          android:ems="10"
@@ -73,7 +81,9 @@
 			<TextView android:id="@+id/txtObs"
 	          		  android:text="@string/item_obs"
 		      		  style="@style/textview_padrao"
-			  		  android:layout_below="@+id/edtQtd"/>
+			  		  android:layout_below="@+id/edtQtd"
+			  		  android:layout_width="fill_parent"
+	          		  android:layout_height="wrap_content"/>
 			<EditText android:id="@+id/edtObs"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="115dp"
