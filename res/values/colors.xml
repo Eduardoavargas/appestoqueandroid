@@ -15,5 +15,7 @@
     
     
     <color name="transparent">#00000000</color>
+    
+    <color name="titulo_cor_padrao">#5aae00</color>
         
 </resources>

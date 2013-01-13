@@ -180,7 +180,10 @@
         
         
         <string name="texto_padrao">descrição de conteúdo</string>
-        
         <string name="texto_quantidade">Qtd</string>
+        <string name="texto_numero">Número</string>
+        <string name="texto_valor">Valor</string>
+        <string name="texto_valor_total">Total</string>
+        <string name="texto_observacao">Observação</string>
 	
 </resources>

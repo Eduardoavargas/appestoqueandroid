@@ -3,4 +3,9 @@
 	<dimen name="title_height">45dip</dimen>
 	<dimen name="text_size_medium">18sp</dimen>
 	<dimen name="text_size_small">14sp</dimen>
+	
+	<dimen name="margem_topo_padrao">10dp</dimen>
+	<dimen name="margem_equerda_padrao">20dp</dimen>
+	<dimen name="numero_largura_padrao">100dp</dimen>
+	
 </resources>
