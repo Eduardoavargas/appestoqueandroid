@@ -175,5 +175,10 @@
         
         <string name="mensagem_erro_listar_cliente_pedido">Erro ao tentar localizar pedido(s) por cliente.</string>
         <string name="mensagem_info_cliente_pedido">Desculpe, mas não foi encontrado nenhum pedido para o cliente informado.</string>
+        
+        
+        
+        
+        <string name="texto_padrao">descrição de conteúdo</string>
 	
 </resources>
