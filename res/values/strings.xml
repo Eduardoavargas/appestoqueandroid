@@ -180,5 +180,7 @@
         
         
         <string name="texto_padrao">descrição de conteúdo</string>
+        
+        <string name="texto_quantidade">Qtd</string>
 	
 </resources>
