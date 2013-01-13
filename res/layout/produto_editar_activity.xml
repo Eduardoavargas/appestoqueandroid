@@ -27,6 +27,7 @@
 					  android:text="@string/produto_nome"
 					  android:layout_width="fill_parent"
 					  android:layout_height="wrap_content"
+					  android:textColor="@color/titulo_cor_padrao"
 					  style="@style/textview_padrao"/>
 				<TextView android:id="@+id/edtNome"				     
 					  android:layout_width="fill_parent"
@@ -40,6 +41,7 @@
 			          android:layout_width="100dp"
 			          android:layout_height="wrap_content"
 					  android:layout_below="@+id/edtNome"
+					  android:textColor="@color/titulo_cor_padrao"
         			  style="@style/textview_padrao"/>
 				<TextView android:id="@+id/edtNumero"
 			          android:layout_width="100dp"
@@ -54,6 +56,7 @@
         			  android:layout_alignTop="@id/txtNumero"
         			  android:layout_toRightOf="@id/txtNumero"
         			  android:layout_marginLeft="20dp"
+        			  android:textColor="@color/titulo_cor_padrao"
         			  style="@style/textview_padrao"/>
 				<TextView android:id="@+id/edtPreco"  
 				      android:layout_width="100dp"
@@ -69,6 +72,7 @@
 				 	  android:layout_width="fill_parent"
 				 	  android:layout_alignTop="@id/txtPreco"
         			  android:layout_toRightOf="@id/txtPreco"
+        			  android:textColor="@color/titulo_cor_padrao"
 					  style="@style/textview_padrao"/>
 				<TextView android:id="@+id/edtQtd"  
 					  android:layout_height="fill_parent" 
