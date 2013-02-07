@@ -84,14 +84,14 @@ public class ClienteAdicionarActivity extends BaseAtividade {
 	        
 //	        String cnpj = new CNPJFormatter().format(edtCnpj.getText().toString());
 //	        String cep = new CepFormatter().format(edtCep.getText().toString());
-	        
+
 	        clienteDAO.criar(++idCliente, 
 	        		edtNome.getText().toString(), 
 	        		new CNPJFormatter().format(edtCnpj.getText().toString()), 
 	        		edtEnd.getText().toString(),
 	        		Long.valueOf(edtNum.getText().toString()),
 	        		new CepFormatter().format(edtCep.getText().toString()), 
-	        		edtCompl.getText().toString(), 
+	        		edtCompl.getText().toString(),
 	        		edtBairro.getText().toString(), 
 	        		edtCidade.getText().toString(),
 	        		false);

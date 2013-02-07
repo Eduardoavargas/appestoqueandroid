@@ -55,7 +55,7 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 						String complemento, 
 						String bairro,
 						String cidade,
-						boolean sincronizado) {
+						boolean sincronizado ) {
 		long identificador = 0;
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(CLIENTE_CHAVE_ID, id);
