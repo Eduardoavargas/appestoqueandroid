@@ -27,27 +27,25 @@
 					  android:text="@string/produto_nome"
 					  android:layout_width="fill_parent"
 					  android:layout_height="wrap_content"
-					  android:textColor="@color/titulo_cor_padrao"
-					  style="@style/textview_padrao"/>
+					  style="@style/texto_simples"/>
 				<TextView android:id="@+id/edtNome"				     
 					  android:layout_width="fill_parent"
 					  android:layout_height="wrap_content"
 					  android:layout_below="@+id/txtNome"
 					  android:layout_marginBottom="10dp"
-					  style="@style/textview_padrao"/>
+					  style="@style/texto_destaque"/>
 				
 				<TextView android:id="@+id/txtNumero" 
 			          android:text="@string/produto_numero"
 			          android:layout_width="100dp"
 			          android:layout_height="wrap_content"
 					  android:layout_below="@+id/edtNome"
-					  android:textColor="@color/titulo_cor_padrao"
-        			  style="@style/textview_padrao"/>
+        			  style="@style/texto_simples"/>
 				<TextView android:id="@+id/edtNumero"
 			          android:layout_width="100dp"
 			          android:layout_height="wrap_content"
 			          android:layout_below="@+id/txtNumero"
-			          style="@style/textview_padrao"/>
+			          style="@style/texto_destaque"/>
 				
 				<TextView android:id="@+id/txtPreco" 
 					  android:text="@string/produto_valor"
@@ -56,15 +54,14 @@
         			  android:layout_alignTop="@id/txtNumero"
         			  android:layout_toRightOf="@id/txtNumero"
         			  android:layout_marginLeft="20dp"
-        			  android:textColor="@color/titulo_cor_padrao"
-        			  style="@style/textview_padrao"/>
+        			  style="@style/texto_simples"/>
 				<TextView android:id="@+id/edtPreco"  
 				      android:layout_width="100dp"
 			          android:layout_height="wrap_content"
         			  android:layout_alignTop="@id/edtNumero"
         			  android:layout_toRightOf="@id/edtNumero"
         			  android:layout_marginLeft="20dp"
-        			  style="@style/textview_padrao"/>
+        			  style="@style/texto_destaque"/>
 				
 				<TextView android:id="@+id/txtQtd" 
 					  android:text="@string/texto_quantidade"
@@ -72,14 +69,13 @@
 				 	  android:layout_width="fill_parent"
 				 	  android:layout_alignTop="@id/txtPreco"
         			  android:layout_toRightOf="@id/txtPreco"
-        			  android:textColor="@color/titulo_cor_padrao"
-					  style="@style/textview_padrao"/>
+					  style="@style/texto_simples"/>
 				<TextView android:id="@+id/edtQtd"  
 					  android:layout_height="fill_parent" 
 				 	  android:layout_width="fill_parent"
 				 	  android:layout_alignTop="@id/edtPreco"
         			  android:layout_toRightOf="@id/edtPreco"
-				 	  style="@style/textview_padrao"/>
+				 	  style="@style/texto_destaque"/>
 				
 			</RelativeLayout>
 	
