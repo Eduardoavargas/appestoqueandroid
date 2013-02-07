@@ -4,7 +4,8 @@
     
     <TextView android:id="@+id/edtProduto" 
 		   	  android:layout_width="fill_parent"
-			  android:layout_height="fill_parent" 
+			  android:layout_height="fill_parent"
+			  android:textStyle="italic" 
 			  style="@style/textview_padrao"/>
     <TextView android:id="@+id/txtNumero"
               android:text="@string/texto_numero"

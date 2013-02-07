@@ -20,11 +20,118 @@
 				android:layout_width="fill_parent" 
 				android:layout_weight="3">
 
+	    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android" style="@style/layout_padrao">
+	        
+	        <TextView android:id="@+id/txtCnpj"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/cnpj"
+			    	  style="@style/texto_simples"/>
+			<EditText android:id="@+id/edtCnpj" 
+			          android:inputType="number"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="180dip"
+					  android:layout_below="@+id/txtCnpj"/>
+			
+	        <TextView android:id="@+id/txtNome"
+	            	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/nome"
+			    	  style="@style/texto_simples"
+			    	  android:layout_below="@+id/edtCnpj"/>
+	        <EditText android:id="@+id/edtNome" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="280dip" 
+					  android:layout_below="@+id/txtNome"/>
+	        
+	        <TextView android:id="@+id/txtEnd"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/endereco"
+			    	  style="@style/texto_simples"
+			    	  android:layout_below="@+id/edtNome"/>
+			<EditText android:id="@+id/edtEnd" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="280dip"
+					  android:layout_below="@+id/txtEnd"/>
+			
+			<TextView android:id="@+id/txtCompl" 
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/complemento"
+			    	  style="@style/texto_simples"
+			    	  android:layout_below="@+id/edtEnd"/>
+			<EditText android:id="@+id/edtCompl" 
+			          android:inputType="text"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="280dip" 
+					  android:layout_below="@+id/txtCompl"/>
+			
+			<TextView android:id="@+id/txtNum"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/numero"
+			    	  android:layout_width="@dimen/numero_largura_padrao"
+				 	  android:layout_below="@+id/edtCompl"
+				 	  android:layout_marginTop="@dimen/margem_topo_padrao"
+			    	  style="@style/texto_simples"/>
+			<EditText android:id="@+id/edtNum" 
+			          android:inputType="number"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="@dimen/numero_largura_padrao"
+					  android:layout_below="@+id/txtNum"/>
+			
+			<TextView android:id="@+id/txtCep"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/cep"
+			    	  android:layout_alignTop="@+id/txtNum"
+        			  android:layout_toRightOf="@+id/txtNum"
+        			  android:layout_marginLeft="@dimen/margem_equerda_padrao"
+			    	  style="@style/texto_simples"/>
+			<EditText android:id="@+id/edtCep"
+			          android:inputType="number"
+			    	  android:layout_height="wrap_content"
+					  android:layout_width="120dip"
+					  android:layout_alignTop="@+id/edtNum"
+					  android:layout_toRightOf="@+id/edtNum"
+        			  android:layout_marginLeft="@dimen/margem_equerda_padrao"/>
+			
+			<TextView android:id="@+id/txtBairro"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/bairro"
+			    	  style="@style/texto_simples"
+			    	  android:layout_below="@+id/edtNum"
+				 	  android:layout_marginTop="@dimen/margem_topo_padrao"/>
+			<AutoCompleteTextView android:id="@+id/edtBairro"
+		        	  android:layout_height="wrap_content"
+					  android:layout_width="280dip"
+		        	  android:textColor="@color/texto"
+		        	  android:layout_below="@+id/txtBairro"/>
+	        
+			<TextView android:id="@+id/txtCidade"
+			    	  android:layout_width="fill_parent"
+			    	  android:layout_height="wrap_content"
+			    	  android:text="@string/cidade"
+			    	  style="@style/texto_simples"
+			    	  android:layout_below="@+id/edtBairro"/>
+			<AutoCompleteTextView android:id="@+id/edtCidade"
+		        	  android:layout_height="wrap_content"
+					  android:layout_width="280dip"
+		        	  android:textColor="@color/texto"
+		        	  android:layout_below="@+id/txtCidade"/>
+			
+	    </RelativeLayout>
+	    
+	    <!-- 
 		<LinearLayout android:id="@+id/linearLayout1"
 		    		  android:layout_width="fill_parent"
 		    		  android:layout_height="wrap_content"
 		    		  android:background="@color/fundo_branco"
-		    		  android:orientation="vertical" >
+		    		  android:orientation="vertical">
+		    		  
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -34,6 +141,7 @@
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
 					  android:layout_width="280dip" />
+					  
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -43,6 +151,7 @@
 			          android:inputType="number"
 			    	  android:layout_height="wrap_content"
 					  android:layout_width="180dip"/>
+					  
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -51,7 +160,8 @@
 			<EditText android:id="@+id/edtEnd" 
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="280dip" />			
+					  android:layout_width="280dip" />
+					  			
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -60,7 +170,8 @@
 			<EditText android:id="@+id/edtNum" 
 			          android:inputType="number"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="120dip"/>		  
+					  android:layout_width="120dip"/>
+					  		  
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -69,7 +180,8 @@
 			<EditText android:id="@+id/edtCep"
 			          android:inputType="number"
 			    	  android:layout_height="wrap_content"
-					  android:layout_width="120dip"/>		  
+					  android:layout_width="120dip"/>		
+					    
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
@@ -79,43 +191,30 @@
 			          android:inputType="text"
 			    	  android:layout_height="wrap_content"
 					  android:layout_width="280dip" />
+					  
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
 			    	  android:text="@string/bairro"
 			    	  android:textColor="#000000"/>
-			
 			<AutoCompleteTextView android:id="@+id/edtBairro"
 		        	  android:layout_height="wrap_content"
 					  android:layout_width="280dip"
 		        	  android:textColor="@color/texto"/>
-			
-			<!--  
-			<EditText android:id="@+id/edtBairro" 
-			          android:inputType="text"
-			    	  android:layout_height="wrap_content"
-					  android:layout_width="280dip"/>
-			-->		  
-			
+		        	  
 			<TextView style="@style/textView"
 			    	  android:layout_width="fill_parent"
 			    	  android:layout_height="wrap_content"
 			    	  android:text="@string/cidade"
 			    	  android:textColor="#000000"/>
-			
 			<AutoCompleteTextView android:id="@+id/edtCidade"
 		        	  android:layout_height="wrap_content"
 					  android:layout_width="280dip"
 		        	  android:textColor="@color/texto"/>
-			
-			<!--  
-			<EditText android:id="@+id/edtCidade" 
-			          android:inputType="text"
-			    	  android:layout_height="wrap_content"
-					  android:layout_width="280dip" />
-			-->		  
-					  		  
+		        	  
 		</LinearLayout>
+		
+		-->
 
 	</ScrollView>
 
