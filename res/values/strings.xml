@@ -159,6 +159,7 @@
         <string name="msg_validar_bairro">Bairro informado é inválido</string>
         <string name="msg_validar_cidade">Cidade informada é inválida</string>
         <string name="msg_validar_produto_valor_minimo">Este produto não pode ser vendido porque o valor mínimo é</string>
+        <string name="msg_validar_item_duplicado">Este item já foi lançado para este pedido de venda.</string>
         
         <string name="msg_obrigatorio_quantidade_valor">Desculpe, mas é necessário informar a quantidade e o valor do item.</string>
         
