@@ -74,11 +74,14 @@ public class ClienteAdicionarActivity extends BaseAtividade {
 	        if(edtCompl.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_complemento));}
 	        
 	        final EditText edtBairro = (EditText) findViewById(R.id.edtBairro);
-	        if(edtBairro.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_bairro));}
+	        if(edtBairro.getText().toString().equals("")||!clienteDAO.existeBairro(edtBairro.getText().toString())){
+	        	throw new Exception(getString(R.string.msg_validar_bairro));
+	        }
 	        
-	        // TODO validar cidade do cliente
 	        final EditText edtCidade = (EditText) findViewById(R.id.edtCidade);
-	        if(edtCidade.getText().toString().equals("")){throw new Exception(getString(R.string.msg_validar_cidade));}
+	        if(edtCidade.getText().toString().equals("")||!clienteDAO.existeCidade(edtCidade.getText().toString())){
+	        	throw new Exception(getString(R.string.msg_validar_cidade));
+	        }
 	        
 	        idCliente = clienteDAO.contar();
 	        

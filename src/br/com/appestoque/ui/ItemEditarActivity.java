@@ -132,44 +132,50 @@ public class ItemEditarActivity extends BaseAtividade {
 		
 		final EditText obs = (EditText) findViewById(R.id.edtObs);
 		
+		Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_PEDIDO));
 		Produto produto = produtoDAO.consultar(numero.getText().toString());
-		if(produto!=null){
-			if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
-				if ((Util.stringToDouble(valor.getText().toString())==0&&Util.stringToDouble(qtd.getText().toString())==0)||  
-				   (Util.stringToDouble(valor.getText().toString())>=produto.getMinimo())){
-					Item item = new Item();
-					item.setQuantidade(Util.stringToDouble(qtd.getText().toString()));
-					item.setValor(Util.stringToDouble(valor.getText().toString()));
-					item.setObs(obs.getText().toString());
-					item.setProduto(produto);
-					
-					PedidoDAO pedidoDAO = new PedidoDAO(this);
-					pedidoDAO.abrir();
-					Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_PEDIDO));
-					pedidoDAO.fechar();
-					
-					item.setPedido(pedido);
-					
-					if(!extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
-						if(itemDAO.adicionar(item)==0){
-							Util.dialogo(this, getString(R.string.mensagem_atualizar_informacao));
+		
+		if(!itemDAO.existeItem(pedido, produto)){
+			if(produto!=null){
+				if(!qtd.getText().toString().equals("")&&!valor.getText().toString().equals("")){
+					if ((Util.stringToDouble(valor.getText().toString())==0&&Util.stringToDouble(qtd.getText().toString())==0)||  
+					   (Util.stringToDouble(valor.getText().toString())>=produto.getMinimo())){
+						Item item = new Item();
+						item.setQuantidade(Util.stringToDouble(qtd.getText().toString()));
+						item.setValor(Util.stringToDouble(valor.getText().toString()));
+						item.setObs(obs.getText().toString());
+						item.setProduto(produto);
+						
+						PedidoDAO pedidoDAO = new PedidoDAO(this);
+						pedidoDAO.abrir();
+						//Pedido pedido = pedidoDAO.pesquisar(extras.getLong(ItemDAO.ITEM_CHAVE_PEDIDO));
+						pedidoDAO.fechar();
+						
+						item.setPedido(pedido);
+						
+						if(!extras.containsKey(ItemDAO.ITEM_CHAVE_ID)){
+							if(itemDAO.adicionar(item)==0){
+								Util.dialogo(this, getString(R.string.mensagem_atualizar_informacao));
+							}
+						}else{
+							item.setId(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
+							if(itemDAO.atualizar(item)==0){
+								Util.dialogo(this, getString(R.string.mensagem_atualizar_informacao));
+							}
 						}
-					}else{
-						item.setId(extras.getLong(ItemDAO.ITEM_CHAVE_ID));
-						if(itemDAO.atualizar(item)==0){
-							Util.dialogo(this, getString(R.string.mensagem_atualizar_informacao));
-						}
+						finish();
+					}else{					
+						Util.dialogo(this,"Este produto não pode ser vendido porque o valor mínimo é " + 
+								Util.doubleToString(produto.getMinimo(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
 					}
-					finish();
-				}else{					
-					Util.dialogo(this,"Este produto não pode ser vendido porque o valor mínimo é " + 
-							Util.doubleToString(produto.getMinimo(),Constantes.MASCARA_VALOR_TRES_CASAS_DECIMAIS));
+				}else{
+					Util.dialogo(this,getString(R.string.msg_obrigatorio_quantidade_valor));
 				}
 			}else{
-				Util.dialogo(this,getString(R.string.msg_obrigatorio_quantidade_valor));
+				Util.dialogo(this,getString(R.string.mensagem_8));
 			}
 		}else{
-			Util.dialogo(this,getString(R.string.mensagem_8));
+			Util.dialogo(this,getString(R.string.msg_validar_item_duplicado));
 		}
 	}
 	

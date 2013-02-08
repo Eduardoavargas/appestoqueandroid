@@ -141,6 +141,17 @@ public class ClienteDAO implements IDAO<Cliente,Long>{
 		return cursor;
     }
     
+    public boolean existeBairro(String nome) {
+		cursor = null;
+		cursor = db.query(TABELA, new String[] {CLIENTE_CHAVE_ID}, CLIENTE_CHAVE_BAIRRO + " = '" + nome + "'" , null, null, null, null);
+		return (cursor.getCount()>0);
+    }
+    
+    public boolean existeCidade(String nome) {
+		cursor = null;
+		cursor = db.query(TABELA, new String[] {CLIENTE_CHAVE_ID}, CLIENTE_CHAVE_CIDADE + " = '" + nome + "'" , null, null, null, null);
+		return (cursor.getCount()>0);
+    }
     
 	public String[] listarBairros() {
 		cursor = db.query(true, TABELA, new String[] {CLIENTE_CHAVE_BAIRRO}, null, null, null, null, CLIENTE_CHAVE_BAIRRO, null);

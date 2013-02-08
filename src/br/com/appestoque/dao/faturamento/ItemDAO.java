@@ -154,6 +154,12 @@ public class ItemDAO implements IDAO<Item,Long>{
     	return itens;
 	}
 	
+    public boolean existeItem(Pedido pedido,Produto produto) {
+    	Cursor cursor = null;
+		cursor = db.query(TABELA, new String[] {ITEM_CHAVE_ID}, ITEM_CHAVE_PEDIDO + " = " + pedido.getId() + " and " + ITEM_CHAVE_PRODUTO + " = " +  produto.getId() , null, null, null, null);
+		return (cursor.getCount()>0);
+    }
+	
 	public boolean remover(long id){
 		return db.delete(TABELA, ITEM_CHAVE_ID + " = " + id , null) > 0;
 	}
