@@ -123,6 +123,7 @@
         
         <string name="mensagem_remover_sucesso">Informação removida com sucesso.</string>
         <string name="mensagem_pedido_sincronizado">Não será possível a ação porque o pedido de venda já foi sincronizado.</string>
+        <string name="mensagem_pedido_zerado">Não será possível a ação porque o pedido de venda está com o valor total igual a zero.</string>
         
         <!--labels-->
         <string name="nome">Nome</string>
