@@ -268,12 +268,14 @@ public class PedidoActivity extends BaseListaAtividade implements Runnable{
 				this.idPedido = info.id;
 				pedido = pedidoDAO.pesquisar(idPedido);
 				pedido.setCliente(clienteDAO.pesquisar(pedido.getCliente().getId()));
-				if(!pedido.isSincronizado()){
+				if(!pedido.isSincronizado()&&pedido.getTotal()>0){
 					progressDialog = ProgressDialog.show(this, "", getString(R.string.mensagem_1) , true);
 					Thread thread = new Thread(this);
 					thread.start();
-				}else{
+				}else if(pedido.isSincronizado()){
 					Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_pedido_sincronizado));
+				}else if(pedido.getTotal()<=0){
+					Util.dialogo(PedidoActivity.this,getString(R.string.mensagem_pedido_zerado));
 				}
 				return true;
 			case R.id.item_menu_visualizar:
